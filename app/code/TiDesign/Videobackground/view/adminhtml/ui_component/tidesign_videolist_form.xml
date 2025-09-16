@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">tidesign_videolist_form.tidesign_videobackground_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Video Background Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+	
+    <settings>
+        <buttons>
+            <button name="save_and_continue" class="TiDesign\Videobackground\Block\Adminhtml\Videolist\Edit\SaveAndContinueButton"/>
+            <button name="save" class="TiDesign\Videobackground\Block\Adminhtml\Videolist\Edit\SaveButton"/>
+            <button name="reset" class="TiDesign\Videobackground\Block\Adminhtml\Videolist\Edit\ResetButton"/>
+            <button name="delete" class="TiDesign\Videobackground\Block\Adminhtml\Videolist\Edit\DeleteButton"/>
+            <button name="back" class="TiDesign\Videobackground\Block\Adminhtml\Videolist\Edit\BackButton"/>
+        </buttons>
+        <namespace>tidesign_videolist_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>tidesign_videolist_form.tidesign_videobackground_form_data_source</dep>
+        </deps>
+    </settings>
+	
+    <dataSource name="tidesign_videobackground_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings> 
+            <submitUrl path="videobackground/videolist/save"/>
+        </settings>
+        <dataProvider class="TiDesign\Videobackground\Model\Videolist\DataProvider" name="tidesign_videobackground_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label/>
+        </settings>
+        <field name="id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">videolist</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>id</dataScope>
+            </settings>
+        </field>
+        <field name="active">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Active</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="source" xsi:type="string">videolist</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">active</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="number">1</item>
+                        <item name="false" xsi:type="number">0</item>
+                    </item>
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </field>			
+		<field name="store_id">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Magento\Cms\Ui\Component\Listing\Column\Cms\Options</item>
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">int</item>
+					<item name="label" xsi:type="string" translate="true">Store View</item>
+					<item name="formElement" xsi:type="string">multiselect</item>
+					<item name="source" xsi:type="string">videolist</item>
+					<item name="dataScope" xsi:type="string">store_id</item>
+					<item name="default" xsi:type="string">0</item>
+					<item name="validation" xsi:type="array">
+						<item name="required-entry" xsi:type="boolean">true</item>
+					</item>
+				</item>
+			</argument>
+		</field>
+		
+        <field name="show_on_entire">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Show on entire website</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="source" xsi:type="string">videolist</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">show_on_entire</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="number">1</item>
+                        <item name="false" xsi:type="number">0</item>
+                    </item>
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </field>		
+
+		<field name="category_id">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Magento\Catalog\Ui\Component\Product\Form\Categories\Options</item>
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Category</item>
+					<item name="componentType" xsi:type="string">field</item>
+					<item name="formElement" xsi:type="string">select</item>
+					<item name="component" xsi:type="string">Magento_Catalog/js/components/new-category</item>
+					<item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+					<item name="dataScope" xsi:type="string">category_id</item>
+					<item name="filterOptions" xsi:type="boolean">true</item>
+					<item name="showCheckbox" xsi:type="boolean">true</item>
+					<item name="disableLabel" xsi:type="boolean">true</item>
+					<item name="multiple" xsi:type="boolean">true</item>
+					<item name="levelsVisibility" xsi:type="number">1</item>
+					<item name="sortOrder" xsi:type="number">30</item>
+					<item name="required" xsi:type="boolean">true</item>
+					<item name="validation" xsi:type="array">
+						<item name="required-entry" xsi:type="boolean">false</item>
+					</item>
+					<item name="listens" xsi:type="array">
+						<item name="${ $.namespace }.${ $.namespace }:responseData" xsi:type="string">setParsed</item>
+					</item>
+				</item>
+			</argument>
+		</field>
+		
+        <field name="show_on_category_products">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Show on selected category products</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="source" xsi:type="string">videolist</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="dataScope" xsi:type="string">show_on_category_products</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="number">1</item>
+                        <item name="false" xsi:type="number">0</item>
+                    </item>
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </field>		
+		
+		<field name="static_pages">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">TiDesign\Videobackground\Model\Source\Staticpages\Pagelist</item>
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">int</item>
+					<item name="label" translate="true" xsi:type="string">Static Pages</item>
+					<item name="formElement" xsi:type="string">multiselect</item>
+					<item name="sortOrder" xsi:type="number">50</item>
+					<item name="validation" xsi:type="array">
+						 <item name="required-entry" xsi:type="boolean">false</item>
+					</item>
+				 </item>
+			</argument>
+		</field>
+		<field name="page_id">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Magento\Cms\Model\Config\Source\Page</item>
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">int</item>
+					<item name="label" translate="true" xsi:type="string">Cms Pages</item>
+					<item name="formElement" xsi:type="string">multiselect</item>
+					<item name="sortOrder" xsi:type="number">60</item>
+					<item name="dataScope" xsi:type="string">page_id</item>
+				 </item>
+			</argument>
+		</field>
+		
+		
+	
+    </fieldset>
+	
+    <fieldset name="video">
+        <settings>
+           <label translate="true">Video</label>		   			
+        </settings>	
+		
+        <field name="source" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>video_source</dataScope>
+                <label translate="true">Video Source</label>
+				<switcherConfig>
+					<rules>
+						<rule name="0">
+							<value>0</value>
+							<actions>
+								<action name="0">
+									<target>tidesign_videolist_form.tidesign_videolist_form.video.video_url</target>
+									<callback>show</callback>
+								</action>
+								<action name="1">
+									<target>tidesign_videolist_form.tidesign_videolist_form.video.local_mp4</target>
+									<callback>hide</callback>
+								</action>
+							</actions>
+						</rule>
+						<rule name="1">
+							<value>1</value>
+							<actions>
+								<action name="0">
+									<target>tidesign_videolist_form.tidesign_videolist_form.video.video_url</target>
+									<callback>hide</callback>
+								</action>
+								<action name="1">
+									<target>tidesign_videolist_form.tidesign_videolist_form.video.local_mp4</target>
+									<callback>show</callback>
+								</action>
+							</actions>
+						</rule>
+					</rules>
+					<enabled>true</enabled>
+				</switcherConfig>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="TiDesign\Videobackground\Model\Source\Sourcelist"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>		
+		
+        <field name="video_url">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Youtube Video</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">videolist</item>
+					<item name="sortOrder" xsi:type="number">10</item>
+					<item name="validation" xsi:type="array">
+						<item name="required-entry" xsi:type="boolean">true</item>
+					</item>
+                </item>
+            </argument>
+        </field>
+
+		<field name="local_webm">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">string</item>
+					<item name="source" xsi:type="string">videolist	</item>
+					<item name="label" xsi:type="string" translate="true">Webm video</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="formElement" xsi:type="string">fileUploader</item>
+					<item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+					<item name="previewTmpl" xsi:type="string">TiDesign_Videobackground/image-preview</item>
+					<item name="required" xsi:type="boolean">true</item>
+					<item name="sortOrder" xsi:type="number">20</item>
+					<item name="uploaderConfig" xsi:type="array">
+						<item name="url" xsi:type="url" path="videobackground/index/upload"/>
+					</item>
+					<item name="validation" xsi:type="array">
+						<item name="required-entry" xsi:type="boolean">true</item>
+					</item>
+				</item>
+			</argument>
+		</field>			
+		<field name="local_mp4">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">string</item>
+					<item name="source" xsi:type="string">videolist	</item>
+					<item name="label" xsi:type="string" translate="true">Mp4 video</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="formElement" xsi:type="string">fileUploader</item>
+					<item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+					<item name="previewTmpl" xsi:type="string">TiDesign_Videobackground/image-preview</item>
+					<item name="required" xsi:type="boolean">false</item>
+					<item name="sortOrder" xsi:type="number">30</item>
+					<item name="uploaderConfig" xsi:type="array">
+						<item name="url" xsi:type="url" path="videobackground/index/upload"/>
+					</item>
+				</item>
+			</argument>
+		</field>		
+		
+		
+		
+		
+		
+		
+		
+
+        <field name="video_loop">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Video Loop</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="source" xsi:type="string">videolist</item>
+                    <item name="sortOrder" xsi:type="number">120</item>
+                    <item name="dataScope" xsi:type="string">video_loop</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="number">1</item>
+                        <item name="false" xsi:type="number">0</item>
+                    </item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+        </field>			
+    </fieldset>
+
+</form>

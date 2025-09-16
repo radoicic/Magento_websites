@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminProductLabelConfigurationGeneralTabActionGroup">
+        <arguments>
+            <argument name="product_label"/>
+        </arguments>
+        <amOnPage url="{{AdminProductLabelProfilePage.url('new')}}" stepKey="navigateToProductLabelCreationPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad"/>
+        <conditionalClick selector="{{AdminProductLabelProfileSection.OptionsTab('General')}}"
+                          dependentSelector="{{AdminProductLabelProfileSection.NameField}}"
+                          visible="false"
+                          stepKey="clickOnGeneralTab"/>
+        <fillField selector="{{AdminProductLabelProfileSection.NameField}}"
+                   userInput="{{product_label.NameField}}"
+                   stepKey="setProductLabelName"/>
+        <conditionalClick selector="{{AdminProductLabelProfileSection.SettingToggle('status')}}"
+                          dependentSelector="{{AdminProductLabelProfileSection.SettingToggleWithValue('status','1')}}"
+                          visible="false"
+                          stepKey="selectLabelStatus"/>
+        <fillField selector="{{AdminProductLabelProfileSection.PriorityField}}"
+                   userInput="{{product_label.PriorityField}}"
+                   stepKey="setPriority"/>
+        <conditionalClick selector="{{AdminProductLabelProfileSection.SettingToggle('is_single')}}"
+                          dependentSelector="{{AdminProductLabelProfileSection.SettingToggleWithValue('is_single','1')}}"
+                          visible="true"
+                          stepKey="selectHideIfHigherPriorityLabelIsApplied"/>
+        <conditionalClick selector="{{AdminProductLabelProfileSection.SettingToggle('use_for_parent')}}"
+                          dependentSelector="{{AdminProductLabelProfileSection.SettingToggleWithValue('use_for_parent','1')}}"
+                          visible="true"
+                          stepKey="selectUseForParent"/>
+        <selectOption selector="{{AdminProductLabelProfileSection.StoreMultiSelect}}"
+                      userInput="{{product_label.StoreMultiSelect}}"
+                      stepKey="selectStore"/>
+        <click selector="{{AdminNewCatalogPriceRule.saveAndContinue}}" stepKey="clickSave"/>
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+        <grabFromCurrentUrl regex="~/id/(\d+)/~" stepKey="grabFromCurrentUrl"/>
+        <setCookie userInput="setProductLabelIDInCookie" value="{$grabFromCurrentUrl}"
+                   stepKey="setProductLabelIDInCookie"/>
+        <magentoCLI command="indexer:reindex" stepKey="reindex"/>
+        <magentoCLI command="cache:clean" stepKey="cleanCache"/>
+    </actionGroup>
+
+</actionGroups>

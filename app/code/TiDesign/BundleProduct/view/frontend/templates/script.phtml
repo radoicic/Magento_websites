@@ -1,0 +1,48 @@
+<?php
+    $_product 		= $block->getProduct();
+	$custom_bundle 	= $_product->getData('tidesign_custom_bundle') ?? false;
+	
+	$helper 		= $this->helper("TiDesign\BundleProduct\Helper\Data");
+	
+	$default_button 	= $helper->getConfig('custombundledisplay/custombundledisplay_default/remove_button');
+	$default_options 	= $helper->getConfig('custombundledisplay/custombundledisplay_default/remove_options');
+	$default_qty		= $helper->getConfig('custombundledisplay/custombundledisplay_default/remove_qty');
+	$default_price		= $helper->getConfig('custombundledisplay/custombundledisplay_default/remove_price');
+
+	$remove_button 	= $helper->getConfig('custombundledisplay/custombundledisplay_profile/remove_button');
+	$remove_options = $helper->getConfig('custombundledisplay/custombundledisplay_profile/remove_options');
+	$remove_qty		= $helper->getConfig('custombundledisplay/custombundledisplay_profile/remove_qty');
+	$remove_price	= $helper->getConfig('custombundledisplay/custombundledisplay_profile/remove_price');
+?>
+<style>
+
+<?php if(($custom_bundle == true && $remove_button == true) || $default_button == true){ ?>
+	.fieldset-bundle-options > #customizeTitle,
+	.fieldset-bundle-options > .action.back.customization,
+	.page-product-bundle .bundle-actions,
+	.page-product-bundle #bundleSummary > .title{
+		display:none !important;
+	}
+	.page-product-bundle .product-add-form{
+		display: block !important;
+	}
+<?php } ?>
+
+<?php if(($custom_bundle == true && $remove_options == true) || $default_options == true){ ?>
+	.page-product-bundle .bundle-options-wrapper{
+		display:none !important;
+	}
+<?php } ?>
+<?php if(($custom_bundle == true && $remove_qty == true) || $default_qty == true){ ?>
+	.fieldset-bundle-options .nested.options-list .field.qty,
+	.bundle-options-wrapper p.required{
+		display:none !important;
+	}
+<?php } ?>
+<?php if(($custom_bundle == true && $remove_price == true) || $default_price == true){ ?>
+	.fieldset-bundle-options .nested.options-list .price-notice{
+		display:none !important;
+	}
+<?php } ?>
+
+</style>

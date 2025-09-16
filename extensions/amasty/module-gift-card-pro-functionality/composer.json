@@ -1,0 +1,24 @@
+{
+    "name": "amasty/module-gift-card-pro-functionality",
+    "description": "Gift Card Pro by Amasty",
+    "require": {
+        "php": ">=7.3",
+        "amasty/base": ">=1.13.4",
+        "amasty/module-gift-card": ">=2.8.0",
+        "amasty/module-gift-card-account": ">=1.4.0",
+        "picqer/php-barcode-generator": "*"
+    },
+    "type": "magento2-module",
+    "version": "1.1.1",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\GiftCardProFunctionality\\": ""
+        }
+    }
+}

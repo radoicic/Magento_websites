@@ -1,0 +1,47 @@
+<div>
+	<a href="javascript:void(0)" data-display="true">More info</a>
+</div>
+<div data-display-guide="true" style="display:none">
+	<p><strong>DISPLAYING SWITCHER DROPDOWN</strong></p>
+	<p>Tax Switcher dropdown is by default set to render as child block of <strong>header.links</strong> block (from XML layout). There are cases however where certain themes have this block removed or replaced by another block.</p>
+	<p>If you don't see the switcher showing, you can try to update a layout file (<strong>\app\code\Anowave\TaxSwitch\view\frontend\layout\default.xml</strong>) included in our module and replace <strong>header.links</strong> reference with <strong>top.links</strong> reference or the name of the parent block where you want your switcher rendered.</p>
+	<p><br />Alternatively, you can also insert the switcher using static blocks with the following code: <strong>{{block class="Anowave\TaxSwitch\Block\Switcher" template="Anowave_TaxSwitch::switcher.phtml"}}</strong></p>
+	<br />
+	<p><strong>CHANGING PRICE TYPE TEXT</strong></p>
+	<p>Depending on your locale, you may want to change Incl. Tax to Incl. VAT or Excl. Tax to Excl. VAT. This can be done by using the Translation dictionary provided by Magento. </p>
+	<p>A translation dictionary is a comma-separated value (.csv) file with at least two columns: the original phrase in the en_US locale and a translation of that phrase in an another locale.</p>
+	<p>We have included such dictionary in the module, it is located <strong>\app\code\Anowave\TaxSwitch\i18n\en_US.csv</strong>. In there you can translate Incl. Tax to Incl. VAT for example by adding a new line as follows: Incl. Tax, Incl. VAT</p>
+	<br />
+	<p><strong>SHIFTING PRICE TYPE TEXT BEFORE OR AFTER THE PRICE</strong></p>
+	<p>If you want to move price display type before or after the price you can use a pseudo selectors (::before or ::after) located in <strong>\app\code\Anowave\TaxSwitch\view\frontend\web\css\tax.css</strong></p>
+	<p>These selectors are designed to render the data-label attribute as visible text in browser and can be used to render that value before the price or after the price. </p>
+</div>
+<script>
+	require(['jquery','Magento_Ui/js/modal/modal'],function($,modal)
+	{
+		$('a[data-display]').on('click', function()
+		{
+			var content = $('[data-display-guide]').html();
+
+			$('<div />').html(content).modal(
+			{
+	            title: 'Tax Switcher Display information',
+	            autoOpen: true,
+	            closed: function () {},
+	            buttons: 
+		        [
+			        {
+		                text: 'I understand',
+		                attr: 
+			            {
+		                    'data-action': 'confirm'
+		                },
+		                'class': 'action-primary'
+		            }
+		         ]
+	         });
+
+			return false;
+		});
+	});
+</script>

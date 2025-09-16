@@ -1,0 +1,28 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 4.0.0 --------------------------------------
+	+ compatible with Magento 2.4.0
+	
+-------------------------------- Version 3.0.1 --------------------------------------
+	+ support special price import to facebook shop
+	
+-------------------------------- Version 3.0.0 --------------------------------------
+	+ Compatible with Magento 2.3.x
+	+ Integrates store products with the Facebook shop
+	+ Feature  Mass Update facebook shop attributes
+	+ Redirects customers directly to checkout
+	+ Flexibly import jobs scheduling with CRON job
+	+ Manual feed generation also available
+	+ Offers CSV based mapping
+
+-------------------------------- Version 2.0.0 --------------------------------------
+	+ Compatible with Magento 2.2.x
+	+ Integrates store products with the Facebook shop
+	+ Feature  Mass Update facebook shop attributes
+	+ Redirects customers directly to checkout
+	+ Flexibly import jobs scheduling with CRON job
+	+ Manual feed generation also available
+	+ Offers CSV based mapping

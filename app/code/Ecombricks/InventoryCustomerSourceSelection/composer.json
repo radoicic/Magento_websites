@@ -1,0 +1,55 @@
+{
+    "name": "ecombricks/module-inventory-customer-source-selection",
+    "description": "N/A",
+    "require": {
+        "magento/framework": "",
+        "ecombricks/module-common": "102.4.*",
+        "ecombricks/module-inventory-common": "102.4.*",
+        "magento/module-backend": "",
+        "magento/module-bundle": "",
+        "magento/module-catalog": "",
+        "magento/module-catalog-inventory": "",
+        "magento/module-checkout": "",
+        "magento/module-config": "",
+        "magento/module-configurable-product": "",
+        "magento/module-grouped-product": "",
+        "magento/module-instant-purchase": "",
+        "magento/module-inventory": "",
+        "magento/module-inventory-distance-based-source-selection": "",
+        "magento/module-inventory-import-export": "",
+        "magento/module-inventory-reservations": "",
+        "magento/module-inventory-reservations-api": "",
+        "magento/module-inventory-sales": "",
+        "magento/module-inventory-sales-admin-ui": "",
+        "magento/module-inventory-sales-api": "",
+        "magento/module-inventory-sales-frontend-ui": "",
+        "magento/module-inventory-shipping": "",
+        "magento/module-inventory-shipping-admin-ui": "",
+        "magento/module-inventory-source-selection": "",
+        "magento/module-inventory-source-selection-api": "",
+        "magento/module-multishipping": "",
+        "magento/module-offline-shipping": "",
+        "magento/module-paypal": "",
+        "magento/module-quote": "",
+        "magento/module-sales": "",
+        "magento/module-sales-inventory": "",
+        "magento/module-sales-rule": "",
+        "magento/module-shipping": "",
+        "magento/module-store": "",
+        "magento/module-tax": "",
+        "magento/module-ui": ""
+    },
+    "type": "magento2-module",
+    "version": "102.4.2-p2",
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ecombricks\\InventoryCustomerSourceSelection\\": ""
+        }
+    }
+}

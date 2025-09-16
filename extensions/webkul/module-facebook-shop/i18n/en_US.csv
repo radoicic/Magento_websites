@@ -1,0 +1,107 @@
+"Product Id","Product Id"
+"Product Name","Product Name"
+Sku,Sku
+"Is Facebook Product","Is Facebook Product"
+"Google Product category","Google Product category"
+"Google Taxonomy With Id(s)","Google Taxonomy With Id(s)"
+"Generate Csv Manually","Generate Csv Manually"
+"Catalog Feed Csv Logs","Catalog Feed Csv Logs"
+"Feed Log(s) deleted succesfully","Feed Log(s) deleted succesfully"
+"Mass Assign Google Product Categories","Mass Assign Google Product Categories"
+"Something went wrong","Something went wrong"
+"Google Product Category cannot be empty","Google Product Category cannot be empty"
+"Invalid Data Provided","Invalid Data Provided"
+"Please select at least one product to assign to category","Please select at least one product to assign to category"
+"Category has been successfully assigned to the products","Category has been successfully assigned to the products"
+"Manage Facebook Attribute Mapping","Manage Facebook Attribute Mapping"
+"Mapping(s) deleted succesfully","Mapping(s) deleted succesfully"
+"row data no longer exist.","row data no longer exist."
+"Edit Mapping","Edit Mapping"
+"Add Mapping","Add Mapping"
+"Invalid Data provided","Invalid Data provided"
+"Mapping exist for facebook attribute %1 with product attribute %2","Mapping exist for facebook attribute %1 with product attribute %2"
+"Mapping Successfully Created","Mapping Successfully Created"
+"Product(s) ' . . ' for Facebook","Product(s) ' . . ' for Facebook"
+"Product(s) Page Redirect ' . . ' for Facebook Products","Product(s) Page Redirect ' . . ' for Facebook Products"
+"Critical Errors: ","Critical Errors: "
+"No Products Added, Csv Restored","No Products Added, Csv Restored"
+"Warnings for generated feed :","Warnings for generated feed :"
+"Facebook feed Csv generated Successfully ","Facebook feed Csv generated Successfully "
+Success,Success
+"No Available Products found to Update on Facebook","No Available Products found to Update on Facebook"
+"Missing field values for column %1.","Missing field values for column %1."
+msg,msg
+"Max character limit for column %1 is %2.","Max character limit for column %1 is %2."
+"Property %1 is incorrectly formatted.","Property %1 is incorrectly formatted."
+"Missing field values for column %1. 
+                This is a required field for variants of products","Missing field values for column %1. 
+                This is a required field for variants of products"
+"Only Alphabets values allowed for column %1.","Only Alphabets values allowed for column %1."
+"Invalid column value %1 for %2","Invalid column value %1 for %2"
+"Missing or invalid URL links","Missing or invalid URL links"
+"We can't save the cron expression.","We can't save the cron expression."
+Weekly,Weekly
+Monthly,Monthly
+Daily,Daily
+New,New
+Refurbished,Refurbished
+Used,Used
+"Used Fair","Used Fair"
+"Used Good","Used Good"
+"Used Like New","Used Like New"
+Female,Female
+Male,Male
+Unisex,Unisex
+"Allow On Facebook Shop","Allow On Facebook Shop"
+"Redirect to Product Page","Redirect to Product Page"
+"Product Condition","Product Condition"
+Gender,Gender
+"Google Product Category","Google Product Category"
+Brand,Brand
+View,View
+Attention,Attention
+Webkul,Webkul
+"Facebook Shop","Facebook Shop"
+"Facebook Shop Configurations","Facebook Shop Configurations"
+"Allow Periodic CSV Generation","Allow Periodic CSV Generation"
+"Cron Frequency","Cron Frequency"
+"Opening Time","Opening Time"
+"Products Configurations","Products Configurations"
+"Prefix for Fb Products","Prefix for Fb Products"
+"For e.g youshopname_ (On facebook shop the products will appear with id xyz_1)","For e.g youshopname_ (On facebook shop the products will appear with id xyz_1)"
+"Allow Out of Stock products to appear on Facebook Shop","Allow Out of Stock products to appear on Facebook Shop"
+"Default Google Product Category for products","Default Google Product Category for products"
+"For e.g ""Apparel and Accessories"" or numeric value like ""166"". For more details please visit
+                        below link","For e.g ""Apparel and Accessories"" or numeric value like ""166"". For more details please visit
+                        below link"
+"Default Google Product brand for products","Default Google Product brand for products"
+"For e.g ""Mark and Spencer"".","For e.g ""Mark and Spencer""."
+"Click here to see the google taxonomy sheet","Click here to see the google taxonomy sheet"
+Delete,Delete
+"Are you sure you want to Delete selected log(s)?","Are you sure you want to Delete selected log(s)?"
+ID,ID
+"Triggered By","Triggered By"
+"Added Products Id(s)","Added Products Id(s)"
+"Csv Path","Csv Path"
+"Log Message","Log Message"
+Status,Status
+"Created At","Created At"
+"Are you sure you want to Delete selected mappings?","Are you sure you want to Delete selected mappings?"
+"Facebook Attribute","Facebook Attribute"
+"Product Attribute","Product Attribute"
+Created,Created
+Modified,Modified
+"Mapping Information","Mapping Information"
+Save,Save
+"Facebook Attributes","Facebook Attributes"
+"Product Attribute List","Product Attribute List"
+"Google Product Taxonomy Info","Google Product Taxonomy Info"
+"Assign Category","Assign Category"
+"Please Visit Link","Please Visit Link"
+Products,Products
+"Change Facebook status","Change Facebook status"
+Enable,Enable
+Disable,Disable
+Assign Google Product Category,Assign Google Product Category
+Manage Attributes Mapping,Manage Attributes Mapping
+Feed Csv Logs Details,Feed Csv Logs Details

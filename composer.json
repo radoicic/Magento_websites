@@ -1,0 +1,214 @@
+{
+    "name": "magento/project-community-edition",
+    "description": "eCommerce Platform for Growth (Community Edition)",
+    "type": "project",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "magento/magento-composer-installer": true,
+            "magento/inventory-composer-installer": true,
+            "laminas/laminas-dependency-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "magento/composer-root-update-plugin": true,
+            "php-http/discovery": true,
+            "magento/composer-dependency-version-audit-plugin": true
+        }
+    },
+    "version": "2.4.7-p4",
+    "require": {
+        "afterpay-global/module-afterpay": "^5.4",
+        "amanweb/custcomment": "^1.0",
+        "amasty/amcart": "^1.19",
+        "amasty/aminvisiblecaptcha": "^2.5",
+        "amasty/cron-schedule-list": "^1.0",
+        "amasty/geoip": "^1.7",
+        "amasty/image-optimizer-speed-size": "^2.0",
+        "amasty/label": "^2.2",
+        "amasty/module-advanced-conditions": "^1.5",
+        "amasty/module-banners-lite": "^1.2",
+        "amasty/module-gift-card": "^2.8",
+        "amasty/module-gift-card-graph-ql": "^1.0",
+        "amasty/module-gift-card-pro-functionality": "^1.1",
+        "amasty/module-image-optimizer": "^2.0",
+        "amasty/module-image-optimizer-ui": "^2.0",
+        "amasty/module-label-mftf-3": "^1.0",
+        "amasty/module-lazy-load": "^2.0",
+        "amasty/module-lazy-load-ui": "^1.0",
+        "amasty/module-optimizer-pro": "^3.1",
+        "amasty/module-page-speed-optimizer": "^2.2",
+        "amasty/module-page-speed-tools": "^2.0",
+        "amasty/module-salesrulewizard": "^1.0",
+        "amasty/module-special-promo-pro": "^2.8",
+        "amasty/pgrid": "^1.10",
+        "amasty/product-labels-graphql": "^1.0",
+        "amasty/promo": "^2.16",
+        "amasty/rgrid": "^1.0",
+        "anowave/taxswitch": "^100.2",
+        "arsit/customerpassword": "^1.0",
+        "baldwin/magento2-module-url-data-integrity-checker": "^1.5",
+        "bsscommerce/payment-shipping": "^1.2",
+        "bsscommerce/popup": "^1.2",
+        "bsscommerce/product-stock-alert": "^1.4",
+        "bsscommerce/product-stock-alert-api": "^1.0",
+        "bsscommerce/product-stock-alert-graph-ql": "^1.0",
+        "croapp/integration": "^1.0",
+        "elgentos/regenerate-catalog-urls": "^0.3.5",
+        "ewave/extendedbundleproduct": "^2.4",
+        "experius/module-wysiwygdownloads": "^1.2",
+        "iksanika/ordermanage": "^2.0",
+        "itonomy/productvisibilitygrid": "^2.1",
+        "limesharp/stockists": "*",
+        "magefan/module-community": "^2.2",
+        "magefan/module-wysiwyg-advanced": "^2.0",
+        "magento/composer-root-update-plugin": "^2.0",
+        "magento/ece-tools": "^2002.2",
+        "magento/product-community-edition": "2.4.7-p4",
+        "magento/quality-patches": "^1.1",
+        "mageplaza/module-ajax-layered-navigation": "^4.1",
+        "mageplaza/module-backend-reindex": "^4.0",
+        "mageplaza/module-delete-orders": "^4.0",
+        "mageplaza/module-login-as-customer": "^4.0",
+        "mageplaza/module-quick-flush-cache": "^4.0",
+        "mageplaza/module-search": "^2.0",
+        "mageplaza/module-smtp": "^4.7",
+        "mageplaza/module-store-credit": "^4.0",
+        "mageside/shipping-matrix-rates": "^1.2",
+        "magestyapps/module-web-images": "^1.1",
+        "magezon/module-builder": "^1.1",
+        "magezon/module-core": "^1.0",
+        "magezon/module-product-page-builder": "^1.0",
+        "magictoolbox/magic360": "^1.7",
+        "magictoolbox/magiczoom": "^1.7",
+        "meetanshi/magento2-call-for-price": "^1.1",
+        "meetanshi/magento2-minimum-order-amount-for-customer-group": "^1.0",
+        "mirasvit/module-sales-rule": "^1.3",
+        "moses/magento-log": "^3.0",
+        "msp/recaptcha": "^2.2",
+        "olegkoval/magento2-regenerate-url-rewrites": "^1.6",
+        "phpoffice/phpspreadsheet": "^1.27",
+        "px/payments": "^1.1",
+        "samcleathero/module-configurable-wizard": "^1.0",
+        "snmportal/module-syntaxhighlighter": "^2.4",
+        "sparsh/custom-order-number-magento-2-extension": "^1.3",
+        "swissup/module-address-autocomplete": "^1.6",
+        "swissup/module-address-field-manager": "^1.6",
+        "swissup/module-checkout": "^1.5",
+        "swissup/module-checkout-cart": "^1.5",
+        "swissup/module-checkout-fields": "^1.5",
+        "swissup/module-checkout-registration": "^1.1",
+        "swissup/module-checkout-success": "^1.4",
+        "swissup/module-codemirror": "^1.1",
+        "swissup/module-core": "^1.12",
+        "swissup/module-customer-field-manager": "^1.2",
+        "swissup/module-delivery-date": "^1.7",
+        "swissup/module-field-manager": "^1.2",
+        "swissup/module-firecheckout": "^1.28",
+        "swissup/module-firecheckout-integrations": "^1.4",
+        "swissup/module-geoip": "^1.5",
+        "swissup/module-orderattachment": "^1.4",
+        "swissup/module-recaptcha": "^1.4",
+        "swissup/module-rtl": "^1.3",
+        "swissup/module-stickyfill": "^1.2",
+        "swissup/module-subscribe-at-checkout": "^1.3",
+        "swissup/module-taxvat": "^1.4",
+        "swissup/module-tippyjs": "^6.0",
+        "tawk/widget": "^1.6",
+        "webkul/module-facebook-shop": "^4.0",
+        "weltpixel/m2-weltpixel-quickview": "^1.0",
+        "xtento/module-customordernumber": "^2.1",
+        "zip/magento2": "^1.2"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "**/dev/**",
+            "**/update/**",
+            "**/Test/**"
+        ],
+        "files": [
+            "app/etc/NonComposerComponentRegistration.php"
+        ],
+        "psr-0": {
+            "": [
+                "app/code/",
+                "generated/code/"
+            ]
+        },
+        "psr-4": {
+            "Magento\\": "app/code/Magento/",
+            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
+            "Magento\\Setup\\": "setup/src/Magento/Setup/"
+        }
+    },
+    "require-dev": {
+        "allure-framework/allure-phpunit": "^2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7 || ^1.0",
+        "dg/bypass-finals": "^1.4",
+        "friendsofphp/php-cs-fixer": "^3.22",
+        "lusitanian/oauth": "^0.8",
+        "magento/magento-coding-standard": "*",
+        "magento/magento2-functional-testing-framework": "^4.7",
+        "pdepend/pdepend": "^2.10",
+        "phpmd/phpmd": "^2.12",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5",
+        "sebastian/phpcpd": "^6.0",
+        "symfony/finder": "^6.4"
+    },
+    "conflict": {
+        "gene/bluefoot": "*"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Magento\\PhpStan\\": "dev/tests/static/framework/Magento/PhpStan/",
+            "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
+            "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
+            "Magento\\Tools\\": "dev/tools/Magento/Tools/",
+            "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": {
+        "xtento": {
+            "type": "composer",
+            "url": "https://repo.xtento.com"
+        },
+        "mirasvit-ecr2": {
+            "type": "composer",
+            "url": "https://45378:KSPH0Q7LZB@packages.mirasvit.com/45378:KSPH0Q7LZB/"
+        },
+        "mageplaza": {
+            "type": "composer",
+            "url": "https://repo.mageplaza.com"
+        },
+        "amasty": {
+            "type": "composer",
+            "url": "https://composer.amasty.com/community/"
+        },
+        "extensions": {
+            "type": "path",
+            "url": "extensions/*/*"
+        },
+        "tawk": {
+            "type": "vcs",
+            "url": "https://github.com/tawk/tawk-magento-2.git"
+        },
+        "packagist": {
+            "type": "composer",
+            "url": "https://repo.packagist.org"
+        },
+        "repo": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    },
+    "extra": {
+        "magento-force": "override"
+    }
+}

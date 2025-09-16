@@ -1,0 +1,18 @@
+{
+    "name": "sparsh/magento-2-search-autocomplete-extension",
+    "description": "Sparsh Ajax Search Autocomplete Tracking Extension for Magento 2",
+    "type": "magento2-module",
+    "version": "1.0.1",
+    "license": "OSL-3.0",
+    "require": {
+        "php": "*"
+    },
+    "autoload": {
+        "files": [
+        	"registration.php"
+        ],
+        "psr-4": {
+            "Sparsh\\SearchAutoComplete\\": ""
+        }
+    }
+}

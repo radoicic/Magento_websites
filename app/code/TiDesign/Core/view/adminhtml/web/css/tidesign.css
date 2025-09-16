@@ -1,0 +1,6 @@
+#menu-tidesign-core-tidesigncore > a:before {
+    content: '' !important;
+    background: url(../images/td.svg) no-repeat center center;
+    background-size: 36px auto;
+	height: 36px;
+}

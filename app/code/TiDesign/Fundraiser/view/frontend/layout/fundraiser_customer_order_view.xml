@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="sales_order_view"/>
+    <referenceContainer name="order.actions.container" remove="true"/>
+    <referenceBlock name="order.comments" class="TiDesign\Fundraiser\Block\Customer\Order\View"/>
+    <referenceBlock name="sales.order.view" class="TiDesign\Fundraiser\Block\Customer\Order\View"/>
+</page>

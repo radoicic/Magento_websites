@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<section id="consignment" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Consignment Manager</label>
+			<tab>tidesign</tab>
+			<resource>TiDesign_Consignment::configuration</resource>
+			<group id="consignment_status" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Module Settings</label>
+				<field id="enable_frontend" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="default_stock" translate="label comment" type="select" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Default Stock</label>
+					<source_model>TiDesign\Consignment\Model\Config\Stocklist</source_model>
+				</field>																																		 
+				<field id="default_source" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Default Inventory Source</label>
+					<source_model>TiDesign\Consignment\Model\Config\Sourcelist</source_model>
+				</field>
+				<field id="container_category_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Container Category Id</label>
+					 <validate>integer no-whitespace</validate>
+					 <comment>Category Id. No space, only numbers</comment>
+				</field>
+				
+				<field id="customer_group" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Main Customer Group</label>
+					<source_model>TiDesign\Consignment\Model\Config\Customergroup</source_model>
+					<comment>Customer group for Consignment</comment>
+				</field>
+
+				<field id="customer_groups" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Accepted Customer Groups</label>
+					<source_model>TiDesign\Consignment\Block\Adminhtml\System\Config\Field\Customergroups</source_model>
+				</field>
+				
+				<field id="show_description" translate="label comment" type="select" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Show Description</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="list_count" translate="label comment" type="select" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Products per Page on List</label>
+					<source_model>TiDesign\Consignment\Model\Config\Listcount</source_model>
+				</field>
+			</group>
+			<group id="consignment_cron" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Cron Setting</label>
+				<field id="frequency" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Cron Frequency</label>
+					<source_model>TiDesign\Consignment\Model\Config\Frequency</source_model>
+					<backend_model>TiDesign\Consignment\Model\Config\CronConfig</backend_model>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

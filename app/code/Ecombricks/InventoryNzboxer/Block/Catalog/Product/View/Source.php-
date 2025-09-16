@@ -1,0 +1,47 @@
+<?php
+declare(strict_types=1);
+
+namespace Ecombricks\InventoryNzboxer\Block\Catalog\Product\View;
+
+class Source extends \Magento\Catalog\Block\Product\View
+{
+	private 	$_consignmentHelper;
+	protected 	$_registry;
+	
+
+    public function __construct(
+        \Magento\Catalog\Block\Product\Context $context,
+		\Magento\Framework\Registry $registry,
+		\TiDesign\Consignment\Helper\Consignment $consignmentHelper,
+        array $data = []
+    ){
+		$this->_registry = $registry;
+		$this->_consignmentHelper = $consignmentHelper;
+        parent::__construct($context,$data);
+    }
+/*	
+	public function isConsCat()
+	{
+		$categoryId = $this->_registry->registry('current_category')->getId();
+		$concat =  $this->_consignmentHelper->isConsignmentCategory($categoryId);
+		return $concat;
+	
+	}
+
+	public function getConsSource(){
+
+		$categoryId = $this->_registry->registry('current_category')->getId();
+		$consource = $this->_consignmentHelper->getConsSource($categoryId);
+		return $consource;
+	}
+	public function getDefSource(){
+		$defsource = $this->_consignmentHelper->getDefaultSource();
+		return $defsource;
+	}
+	
+	public function getConStock($product,$source){
+		$stock = $this->_consignmentHelper->getConsStock($product,$source);
+		return $stock;
+	}
+	*/
+}

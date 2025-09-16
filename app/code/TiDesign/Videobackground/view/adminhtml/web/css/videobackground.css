@@ -1,0 +1,8 @@
+.videobackground-preview {
+  width: 350px;
+  height: auto;
+  padding-bottom: 40px;
+}
+.videobackground-name{
+	max-width: 350px !important;
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+  * Copyright © eComBricks. All rights reserved.
+  * See LICENSE.txt for license details.
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Ecombricks_InventoryNzboxer" setup_version="2.4.3">
+        <sequence>
+            <module name="Ecombricks_InventoryCustomerSourceSelection"/>
+            <module name="Swissup_DeliveryDate"/>
+            <module name="Swissup_Firecheckout"/>
+            <module name="Mageside_ShippingMatrixRates"/>
+            <module name="Zip_ZipPayment"/>
+            <module name="Afterpay_Afterpay"/>
+        </sequence>
+    </module>
+</config>

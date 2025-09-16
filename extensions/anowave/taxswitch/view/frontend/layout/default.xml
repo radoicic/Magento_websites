@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+    	<referenceContainer name="root">
+			<block class="Anowave\TaxSwitch\Block\Css" name="tax.switcher.css"></block>
+		</referenceContainer>
+        <referenceBlock name="header.links">
+        	<block class="Anowave\TaxSwitch\Block\Switcher" name="tax.switcher" as="tax.switcher" template="Anowave_TaxSwitch::switcher.phtml" before="-" />
+        </referenceBlock>
+        <referenceContainer name="before.body.end">
+        	<block class="Anowave\TaxSwitch\Block\Switcher" name="tax.switcher.footer" as="tax.switcher.footer" template="Anowave_TaxSwitch::footer.phtml" />
+        	<block class="Anowave\TaxSwitch\Block\Debug" name="tax.switcher.debug" as="tax.switcher.debug" template="Anowave_TaxSwitch::debug.phtml" />
+        </referenceContainer>
+    </body>
+</page>

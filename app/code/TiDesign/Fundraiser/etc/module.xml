@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="TiDesign_Fundraiser">
+        <sequence>
+            <module name="TiDesign_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Ui"/>
+            <module name="PhpOffice_PhpWord"/>
+            <module name="Dompdf_Dompdf"/>
+
+        </sequence>
+    </module>
+</config>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/config.xsd">
+    <default>
+        <callforprice>
+            <general>
+                <active>0</active>
+                <displayed_text>Call For Price</displayed_text>
+                <displayed_text_label>Contact Us For Price Inquiry:</displayed_text_label>
+                <privacy_text>I Accept Privacy Policy</privacy_text>
+                <allow_customer_group>0</allow_customer_group>
+                <allow_categories>0</allow_categories>
+                <label_color>#FF5544</label_color>
+                <header_text>Quote Inquiry Form</header_text>
+            </general>
+            <privacy_setting>
+                <privacy_text>I agree with the</privacy_text>
+                <show_privacy_policy>privacy-policy-cookie-restriction-mode</show_privacy_policy>
+            </privacy_setting>
+            <adminemail>
+                <adminemail>email@exapmle.com</adminemail>
+                <emailtemplate>callforprice_adminemail_emailtemplate</emailtemplate>
+            </adminemail>
+            <customeremail>
+                <emailtemplate>callforprice_customeremail_emailtemplate</emailtemplate>
+            </customeremail>
+            <admin_sms>
+                <admin_mobile_number>+911234567890</admin_mobile_number>
+                <sms_format><![CDATA[ Hi Admin,
+
+You have received a new call for price inquiry at {{store_name}} with the following details:
+
+Customer Name : {{customer_name}}
+Product : {{product_name}}
+Email ID: {{customer_mail}}
+Country  : {{customer_country}}
+Phone Number : {{customer_number}}
+Inquiry Details : {{inquiry_details}}
+]]></sms_format>
+            </admin_sms>
+            <customer_sms>
+                <auto_reply>0</auto_reply>
+                <sms_format><![CDATA[ Hi {{customer_name}},
+
+Thank you for your interest in our {{product_name}}. Your inquiry has been submitted successfully. We are looking into it and will contact you soon.
+]]></sms_format>
+            </customer_sms>
+        </callforprice>
+    </default>
+</config>

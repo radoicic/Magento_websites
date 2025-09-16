@@ -1,0 +1,95 @@
+{{template config_path="design/email/header_template"}}
+<!--@subject New Inquiry for {{var pname|raw }}  @-->
+<!--@vars @-->
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+        <td align="center" valign="top" style="padding:20px 0 20px 0">
+            <table style="border:1px solid #E0E0E0;
+                   background-color: #FFFFFF;
+                   border-spacing: 0;
+                   border-collapse: separate;
+                   width: 650px;
+                   ">
+                <tr>
+                    <td style="vertical-align: top;padding: 10px">
+                        {{trans "Hi Admin"}},
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top;padding: 10px">{{trans "You have received a new call for price inquiry at"}} {{var storename }}
+                        {{trans "with the following details:"}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">
+                        <table style="  border: 0;
+                                        background-color: #FFFFFF;
+                                        border-spacing: 0;
+                                        width: 650px;
+                                        border-collapse: collapse;
+                        ">
+                            <tbody>
+                            <tr>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{trans "Name"}}
+                                </td>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{var cname}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{trans "Product"}}
+                                </td>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{var pname}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{trans "Email ID"}}
+                                </td>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{var email}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{trans "Country"}}
+                                </td>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{var country }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{trans "Phone Number"}}
+                                </td>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{var phonenumber}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{trans "Inquiry Details"}}
+                                </td>
+                                <td style="font-size:12px;padding:7px 9px 9px 9px;border:1px solid #EAEAEA;vertical-align: top;">
+                                    {{var message}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background:#EAEAEA;text-align:center;">
+                        <p style="font-size:12px;margin:0;padding: 10px">
+                            <strong>{{trans "Thank you"}}</strong>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,53 @@
+& when (@media-common = true) {
+    .fundraiser-container {
+        .content__container {
+            color: #206dab;
+        }
+
+        .content__top {
+            background-color: #206dab;
+            height: 400px;
+            background-image: url('@{baseDir}TiDesign_Fundraiser/images/common/top-bottom.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position-y: bottom;
+            position: relative;
+            margin-bottom: 40px;
+
+            .title {
+                position: absolute;
+                left: -20px;
+                width: 700px;
+                bottom: 0;
+
+                .text {
+                    position: absolute;
+                    top: 10%;
+                    left: 15%;
+                    width: 90%;
+                    transform: rotate(-7deg);
+                    font-size: 70px;
+                    line-height: 70px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    color: #fff;
+                    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+
+                    span:first-child {
+                        font-size: 50px;
+                        line-height: 90px;
+                        margin-left: 12%;
+                    }
+                }
+            }
+        }
+    }
+
+    .page-footer {
+        background-color: #206dab;
+
+        .footer-middle {
+            background-color: #206dab;
+        }
+    }
+}

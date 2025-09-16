@@ -1,0 +1,27 @@
+<!--@subject {{trans "Please confirm your contract" }} @-->
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+{{template config_path="design/email/header_template"}}
+<table>
+
+    <p class="greeting">Dear {{trans "%name," name=$customer_name}}</p>
+	
+	<p>{{var email_text|raw}}</p>
+	
+	<table class="button" width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td>
+				<table class="inner-wrapper" border="0" cellspacing="0" cellpadding="0" align="center">
+					<tr>
+						<td align="center">
+							<a href="{{var this.getUrl($store,'termsandconditions/confirm/',[_query:[id:$customer_id,key:$customer_confirmation,back_url:$back_url],_nosid:1])}}" target="_blank">{{trans "Confirm Your Contract"}}</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+
+{{template config_path="design/email/footer_template"}}

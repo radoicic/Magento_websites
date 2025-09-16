@@ -1,0 +1,70 @@
+<?php
+	
+	$contentHeight 	= $block->getContentHeight() ?? "100";
+	$buttonText 	= $block->getButtonText() ?? "Read More";
+?>
+<style id="readmore_iframe_style">
+.read-more {
+  display: block;
+  padding: 0 0 30px 0;
+  position: relative;
+}
+.read-more-remove{
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  right: -5px;
+  top: -5px;
+  display: inline-block !important;
+  background: red;
+  color: white;
+  border-radius: 100%;
+  padding: 0;
+  margin: 0;
+  line-height: 13px;
+  font-size: 10px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 1px 2px rgba(0,0,0,0.3);
+  cursor: pointer;
+  
+}
+.read-more-content {
+  display: block;
+  border: 1px solid #ccc;
+  max-height: <?php echo $contentHeight;?>px;
+  overflow: hidden;
+}
+.read-more.open .read-more-content {
+  max-height: 100%;
+}
+
+.read-more-button {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border: 1px solid rgb(0, 102, 204);
+  background: #fff;
+  color: rgb(0, 102, 204);
+  padding: 4px 9px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: -13px;
+  outline: none !important;
+  font-size: 10px;
+  display: block !important;
+}
+.read-more-title {
+  visibility: hidden;
+  position: relative;
+}
+.read-more-title:after {
+  content: "<?php echo $buttonText;?>";
+  visibility: visible;
+}
+.read-more.open .read-more-title:after {
+  content: "Close";
+  visibility: visible;
+}
+</style>

@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="anowave" translate="label" sortOrder="1" class="anowave">
+			<label>Anowave Extensions</label>
+		</tab>
+		<section id="taxswitch" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Tax Switcher</label>
+			<tab>anowave</tab>
+			<resource>Anowave_TaxSwitch::anowave</resource>
+			<group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General Options</label>
+				<field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="license" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>License</label>
+                    <comment>Anowave\Package\Model\License</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="visible" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display switcher dropdown</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="template" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display as</label>
+                    <source_model>Anowave\TaxSwitch\Model\System\Config\Source\Template</source_model>
+                    <depends>
+                        <field id="taxswitch/general/visible">1</field>
+                    </depends>
+                </field>
+                <field id="toggle_background" translate="label" type="textarea" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Toggle background</label>
+                    <frontend_model>Anowave\TaxSwitch\Block\Color</frontend_model>
+                    <depends>
+                    	<field id="taxswitch/general/template">3</field>
+                    </depends>
+                    <comment>Choose background color. Default: rgb(255,255,255) e.g. White</comment>
+                </field>
+                <field id="about" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Help</label>
+                    <frontend_model>Anowave\TaxSwitch\Block\Field\Display</frontend_model>
+                    <depends>
+                    	<field id="taxswitch/general/visible">1</field>
+                    </depends>
+                </field>
+                
+            </group>
+            <group id="advanced" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Advanced Options</label>
+                <field id="add_incl_option" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add Incl. Tax/VAT dropdown option</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="add_excl_option" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add Excl. Tax/VAT dropdown option</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="add_both_option" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add BOTH dropdown option</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_prices_text" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show prices text</label>
+                    <comment>A text that appears in front of dropdown. Default: Show prices</comment>
+                </field>
+                <field id="private_content" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Private content</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabed, the system will prevent Block HTML output from caching to ensure that different customers see different price display preferences. We recommend leaving that option off.</comment>
+                </field>
+            </group>
+            <group id="maxmind" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>MaxMind GeoIP 2 Precision services</label>
+				<field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Requires an active MaxMind account and can be used to set price display type automatically based on visitor's country.</comment>               
+                </field>
+				<field id="username" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                    <comment>The username is your MaxMind user ID</comment>
+                    <depends>
+                        <field id="taxswitch/maxmind/active">1</field>
+                    </depends>
+                </field>
+                <field id="password" translate="label" type="password" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                    <comment>The password is your MaxMind license key.</comment>
+                    <depends>
+                        <field id="taxswitch/maxmind/active">1</field>
+                    </depends>
+                </field>
+                <field id="debug" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable debug mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>In debug mode, the detected country will be displayed on frontend plus additional developer information</comment>
+                </field>
+            </group>
+            <group id="analytics" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Usage tracking</label>
+				<field id="track" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="type" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Type</label>
+                    <source_model>Anowave\TaxSwitch\Model\Track\Type</source_model>
+                    <depends>
+                        <field id="taxswitch/analytics/track">1</field>
+                    </depends>
+                </field>
+            </group>
+		</section>
+	</system>
+</config>

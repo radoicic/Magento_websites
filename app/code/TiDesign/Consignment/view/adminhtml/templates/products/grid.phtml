@@ -1,0 +1,46 @@
+<style>
+.section-config > .admin__collapsible-block.active > a::before{
+    content: '\e615';
+} 
+.admin__collapsible-block {
+  padding: 0 !important;
+}
+.acc-content {
+    padding: 15px;
+    border: 1px solid #ccc;
+}
+.acc-header a {
+    border: 1px solid #ccc;
+    padding-left: 25px !important;
+}
+.section-config > .admin__collapsible-block.active >a{
+     border-bottom-width: 0; 
+}
+</style>
+
+<div id="accordion" data-mage-init='{
+        "accordion":{
+            "collapsible": true,
+            "openedState": "active",
+            "multipleCollapsible": true
+        }}'>
+	<div class="section-config">
+		<div class="acc-header admin__collapsible-block" data-role="collapsible">
+				<a  data-role="trigger">Consignment Products</a>
+		</div>
+		<div class="acc-content" data-role="content">
+			<?php echo $block->getGridHtml(); ?>
+		</div>
+
+		<div class="acc-header admin__collapsible-block" data-role="collapsible">
+				<a  data-role="trigger">Disabled Products (<?php echo $block->getDisabledCount();?>)</a>
+		</div>
+		<div class="acc-content" data-role="content">
+			<?php echo $block->getGridDisabledHtml(); ?>
+		</div>
+		
+	</div>
+</div>
+
+
+	

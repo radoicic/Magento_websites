@@ -1,0 +1,22 @@
+<div class="file-uploader-summary">
+    <div class="file-uploader-preview videobackground-preview">
+        <a attr="href: $parent.getFilePreview($file)" target="_blank">
+		    <video controls autoplay muted loop id="videomp4_$file.name" style="object-fit: fill;width: 100%;height: 100%;">
+				<source attr="src: $parent.getFilePreview($file)"  />
+			</video>
+        </a>
+
+        <div class="actions">
+            <button
+                type="button"
+                class="action-remove"
+                data-role="delete-button"
+                attr="title: $t('Delete video')"
+                click="$parent.removeFile.bind($parent, $file)">
+                <span translate="'Delete video'"/>
+            </button>
+        </div>
+    </div>
+
+    <div class="file-uploader-filename videobackground-name" text="$file.name"/>
+</div>

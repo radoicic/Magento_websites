@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminProductLabelConfigurationProdCatTabTextOnlyActionGroup">
+        <arguments>
+            <argument name="product_label2"/>
+            <argument name="product_label3"/>
+            <argument name="tab_name" type="string" defaultValue="Product Page"/>
+        </arguments>
+        <conditionalClick selector="{{AdminProductLabelProfileSection.OptionsTab(tab_name)}}"
+                          dependentSelector="{{AdminProductLabelProfileSection.LabelTypeSelect(product_label3.TabIdentifier,product_label2.LabelTypeSelect)}}"
+                          visible="false"
+                          stepKey="clickOnRequiredTab"/>
+        <click selector="{{AdminProductLabelProfileSection.LabelTypeSelect(product_label3.TabIdentifier,product_label2.LabelTypeSelect)}}"
+               stepKey="clickOnLabelType"/>
+        <click selector="{{AdminProductLabelProfileSection.LabelPositionSelect(product_label3.TabIdentifier,product_label2.LabelPositionHorSelect,product_label2.LabelPositionVerSelect)}}"
+               stepKey="clickOnLabelPosition"/>
+        <fillField selector="{{AdminProductLabelProfileSection.LabelTextField(product_label3.TabIdentifier)}}"
+                   userInput="{{product_label2.LabelTextField}}"
+                   stepKey="setLabelText"/>
+        <fillField selector="{{AdminProductLabelProfileSection.TextColorField(product_label3.TabIdentifier)}}"
+                   userInput="{{product_label2.TextColorField}}"
+                   stepKey="setTextColor"/>
+        <fillField selector="{{AdminProductLabelProfileSection.TextSizeField(product_label3.TabIdentifier)}}"
+                   userInput="{{product_label2.TextSizeField}}"
+                   stepKey="setTextSize"/>
+        <fillField selector="{{AdminProductLabelProfileSection.AdvancedSettingsCSSField(product_label3.TabIdentifier)}}"
+                   userInput="{{product_label2.AdvancedSettingsCSSField}}"
+                   stepKey="setAdvancedSettingsCSSField"/>
+        <click selector="{{AdminNewCatalogPriceRule.saveAndContinue}}" stepKey="clickSave2"/>
+        <magentoCLI command="indexer:reindex" stepKey="reindex2"/>
+        <magentoCLI command="cache:clean" stepKey="cleanCache2"/>
+    </actionGroup>
+
+</actionGroups>

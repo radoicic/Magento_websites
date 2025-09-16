@@ -1,0 +1,77 @@
+<?php
+$productsSkus = $this->helper('TiDesign\Bulksourceassign\Helper\Data')->getProductsSkus();
+if(count($productsSkus)==1){
+	
+	$stocks = $this->helper('TiDesign\Consignment\Helper\Consignment')->getAllStock($productsSkus[0]);
+	$jsStocks = json_encode($stocks);
+
+
+	$status = $this->helper('TiDesign\Bulksourceassign\Helper\Data')->getData($productsSkus[0]);
+	$jsStatus = json_encode($status);
+
+		
+}
+?>
+<script type="text/javascript">
+
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert', 
+	'Magento_Ui/js/modal/modal', 
+	'jquery/ui', 
+	'select2',
+	'loader'
+	], function ($, alert, modal) {
+	'use strict';
+
+	$(document).ready(function() {
+		$('form#bulk-operation-form .admin__legend:eq( 1 )').after('<div id="selectors-container"></div>');
+		$('#selectors-container').append('<button id="s-all" class="selectors"><i class="fa fa-list" aria-hidden="true"></i> Select All</button>');
+		$('#selectors-container').append('<button id="s-none" class="selectors"><i class="fa fa-window-close-o" aria-hidden="true"></i> Select None</button>');
+		$('#selectors-container').append('<button id="s-rev" class="selectors"><i class="fa fa-repeat" aria-hidden="true"></i> Select Reverse</button>');
+		
+		<?php if(count($productsSkus)==1): ?>
+			$('form#bulk-operation-form #base_fieldset .admin__field label').addClass('sourceRed');
+			
+			let stocks = <?= $jsStocks;?>;
+			Object.entries(stocks).forEach(([key, value]) => {
+				let clss ="";
+				if(value>0){ clss="bold";}
+			  $('#source-selection-'+key).next().html("&nbsp;&nbsp;" +key + " - " + value).addClass(clss);
+			});
+			
+			let status = <?= $jsStatus;?>;
+			Object.entries(status).forEach(([key, value]) => {
+				$('#source-selection-'+value['source_code']).next().addClass('sourceGreen').removeClass('sourceRed');
+			});
+			
+			
+			$('#selectors-container').append('<button id="s-un" class="selectors"><i class="fa fa-circle-o" aria-hidden="true"></i> Select Unassigned</button>');
+			$(document).on('click','#s-un',function(e){
+				e.preventDefault();
+				$('form#bulk-operation-form ').find('label.sourceRed').prev().prop('checked',true);
+			});
+			
+			
+		<?php endif; ?>
+		
+		
+		$(document).on('click','#s-all',function(e){
+			e.preventDefault();
+			$('form#bulk-operation-form ').find('input:checkbox').prop('checked',true);
+		});
+		$(document).on('click','#s-none',function(e){
+			e.preventDefault();
+			$('form#bulk-operation-form ').find('input:checkbox').prop('checked',false);
+		});
+		
+		$(document).on('click','#s-rev',function(e){
+			e.preventDefault();
+			$('form#bulk-operation-form ').find('input:checkbox').each(function(){$(this).prop('checked',!$(this)[0].checked);});
+		});
+		
+
+	});
+});
+
+</script>	

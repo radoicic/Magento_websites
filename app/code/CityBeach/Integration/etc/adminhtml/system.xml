@@ -1,0 +1,47 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!-- Payment Method -->
+        <section id="payment">
+            <group id="citybeachpayment" translate="label" type="text" sortOrder="100" showInDefault="0" showInWebsite="1" showInStore="0">
+                <label>CityBeach Payment</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="omnivorepayment" translate="label" type="text" sortOrder="101" showInDefault="0" showInWebsite="1" showInStore="0">
+                <label>Omnivore Payment</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="traderunnerpayment" translate="label" type="text" sortOrder="101" showInDefault="0" showInWebsite="1" showInStore="0">
+                <label>Trade Runner Payment</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="catchfeederpayment" translate="label" type="text" sortOrder="101" showInDefault="0" showInWebsite="1" showInStore="0">
+                <label>Catch Feeder Payment</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+
+        <!-- Shipping Method -->
+        <section id="carriers">
+            <group id="citybeachshipping" translate="label" type="text" sortOrder="100" showInDefault="0" showInWebsite="0" showInStore="0">
+                <label>CityBeach Shipping</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+
+    </system>
+</config>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+  * Copyright © eComBricks. All rights reserved.
+  * See LICENSE.txt for license details.
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Ecombricks_InventoryCommon" setup_version="2.4.2-p1">
+        <sequence>
+            <module name="Ecombricks_Common"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Inventory"/>
+            <module name="Magento_InventoryApi"/>
+            <module name="Magento_InventoryCatalogApi"/>
+            <module name="Magento_InventoryImportExport"/>
+        </sequence>
+    </module>
+</config>

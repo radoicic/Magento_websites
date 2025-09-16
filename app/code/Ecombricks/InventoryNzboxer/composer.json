@@ -1,0 +1,26 @@
+{
+    "name": "ecombricks/module-inventory-nzboxer",
+    "description": "N/A",
+    "require": {
+        "magento/framework": "",
+        "ecombricks/module-inventory-customer-source-selection": "102.4.*",
+        "swissup/module-delivery-date": "",
+        "swissup/module-firecheckout": "",
+        "mageside/module-shipping-matrix-rates": "",
+        "zip/module-zip-payment": "",
+        "afterpay/module-afterpay": ""
+    },
+    "type": "magento2-module",
+    "version": "102.4.3",
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ecombricks\\InventoryNzboxer\\": ""
+        }
+    }
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget class="Anowave\TaxSwitch\Block\Widget\Display" id="anowave_taxswitch_display">
+		<label>Tax Display Text</label>
+		<description>Automatically display tax display settings</description>
+	</widget>
+	<widget class="Anowave\TaxSwitch\Block\Widget\Text" id="anowave_taxswitch_text">
+		<label>Display tax based text</label>
+		<description>Display test message based on current tax display</description>
+		<parameters>
+            <parameter name="text_incl_tax" xsi:type="text" visible="true" sort_order="1">
+                <label>Text (if incl. tax)</label>
+            </parameter>
+            <parameter name="text_excl_tax" xsi:type="text" visible="true" sort_order="2">
+                <label>Text (if excl. tax)</label>
+            </parameter>
+            <parameter name="text_both_tax" xsi:type="text" visible="true" sort_order="3">
+                <label>Text (if both. tax)</label>
+            </parameter>
+        </parameters>
+	</widget>
+</widgets>

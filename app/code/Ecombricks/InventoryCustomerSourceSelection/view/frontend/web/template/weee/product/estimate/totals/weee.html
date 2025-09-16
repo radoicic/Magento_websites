@@ -1,0 +1,14 @@
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<!-- ko if: isDisplayed(quote.source_code) -->
+<tr class="totals">
+    <th data-bind="text: title" class="mark" scope="row"></th>
+    <td class="amount" data-bind="attr: {'data-th': title}">
+        <span class="price" data-bind="text: getValue(quote.source_code)"></span>
+    </td>
+</tr>
+<!-- /ko -->

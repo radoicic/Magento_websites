@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+
+	
+		<add 
+			id="TiDesign_Videobackground::mainmenu" 
+			title="Video Background" 
+			module="TiDesign_Videobackground" 
+			sortOrder="10" 
+			resource="TiDesign_Videobackground::videobackground" 
+			parent="TiDesign_Core::tidesigncore"/>
+			
+			<add 
+				id="TiDesign_Videobackground::videolist" 
+				title="Video List" 
+				module="TiDesign_Videobackground" 
+				sortOrder="10" 
+				parent="TiDesign_Videobackground::mainmenu" 
+				action="videobackground/videolist" 
+				resource="TiDesign_Videobackground::videobackground"/>
+				
+			<add 
+				id="TiDesign_Videobackground::settings" 
+				title="Settings" 
+				module="TiDesign_Videobackground" 
+				sortOrder="20" 
+				parent="TiDesign_Videobackground::mainmenu" 
+				action="adminhtml/system_config/edit/section/videobackground" 
+				resource="TiDesign_Videobackground::videobackground"/>
+
+	
+
+    </menu>
+</config>

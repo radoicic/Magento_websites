@@ -1,0 +1,114 @@
+<style>
+.sub-category-main {
+  border-bottom: 1px solid #eaeaea;
+}
+.subcategories a {
+  color: #333 !important;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 10px 10px 30px;
+  display: block;
+  border-bottom: 1px solid #f1f1f1;
+}
+.subcategories a:hover {
+  background:#f1f1f1;
+}
+.subcategories {
+  list-style: none;
+  padding: 0;
+  display: block;
+}
+
+.page-wrapper  .breadcrumbs{background-color:#FFFFFF}
+.page-wrapper  .breadcrumbs{color:#3D3D3D}
+.page-wrapper  .breadcrumbs a, 
+.page-wrapper  .breadcrumbs a:focus{color:#161616}
+.page-wrapper  .breadcrumbs a:hover{color:fff}
+.page-wrapper  .breadcrumbs {
+  padding: 0;
+  font-size: .75rem;
+  margin-bottom: 0;
+}
+.page-wrapper  .breadcrumbs .items {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1em;
+  color: inherit;
+}
+.page-wrapper  .breadcrumbs .items > li {
+  text-shadow: none;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.page-wrapper  .breadcrumbs .items > li.home a {
+  position: relative;
+  width: 14px;
+  text-indent: -9999px;
+}
+.page-wrapper  .breadcrumbs .items > li.home a:after {
+  font-family: porto-icons;
+  content: "\e883";
+  float: left;
+  text-indent: 0;
+}
+.page-wrapper  .breadcrumbs .items > li a {
+  display: inline-block;
+  border-color: transparent;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+.page-wrapper  .breadcrumbs .items > li:not(:last-child)::after {
+  position: relative;
+  content: "\e81a";
+  font-family: porto-icons;
+  right: -1px;
+  display: block;
+  float: right;
+  margin: 0 4px;
+  width: 20px;
+  text-align: center;
+  font-style: normal;
+  font-size: 12px;
+  line-height: inherit;
+}
+.page-wrapper  .breadcrumbs .items > li strong {
+  font-weight: inherit;
+}
+.page-wrapper  .breadcrumbs a,
+.page-wrapper  .breadcrumbs a:hover,
+.page-wrapper  .breadcrumbs a:focus {
+  color: #ffffff;
+}
+.page-wrapper  .breadcrumbs .item:not(:last-child):after {
+  line-height: 15px;
+}
+</style>
+<?php
+
+$container = $block->getContainer();
+$categoryObj = $block->getCategoryObject($container);
+$subcategories = $categoryObj->getChildrenCategories();
+?>
+
+<ul class="subcategories">
+	<li class="sub-category-main">
+	    <a href="<?php echo $categoryObj->getUrl(); ?>"><?php echo $categoryObj->getName(); ?></a>
+	</li>
+
+<?php 
+
+foreach($subcategories as $subcat) {
+
+?>
+	
+    <li class="sub-category">
+        <a href="<?php echo $subcat->getUrl(); ?>"><?php echo $subcat->getName(); ?></a>
+    </li>
+    
+<?php } ?>
+
+</ul>

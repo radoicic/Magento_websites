@@ -1,0 +1,945 @@
+<?php
+set_time_limit(0);
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+
+$data 		= $block->getFormData();
+$websites	= $block->getWebsites();
+$subcat 	= $block->getCategories();
+$sources 	= $block->getSources();
+$countries  = $block->getCountries();
+
+
+foreach($websites as $website){
+	$catlist[$website->getId()] = "";
+	foreach($subcat[$website->getId()]  as $subcategory){
+		$catlist[$website->getId()] .= "<option value='".$subcategory->getId()."'". (($subcategory->getId() == $data->getTdCategory())? " selected ":""). ">".$subcategory->getName()."</option>";			
+	}
+}
+?>
+
+
+<div class="page-main-actions">
+	<div class="page-actions-placeholder"></div>
+	<div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+		<div class="page-actions-inner" data-title="Manage Consignment">
+			<div class="page-actions-buttons">
+				<div title="Save" class="actions save primary">
+					<button id="save-button" title="Save" class="action-default primary" data-ui-id="save-button">
+						<span>Save</span>
+					</button>
+				</div>
+
+				<button id="back" title="Back" type="button" class="action- scalable back" onclick="javascript:location.href='<?php echo $block->escapeUrl($block->getUrl('consignment/consignmentlist/index', ['_current' => true, '_use_rewrite' => true]));?>'">
+					<span>Back</span>
+				</button>
+				<?php if($data->getTdId()): ?>
+				
+				<button id="login_as_customer" title="Login as Customer" type="button" class="action- scalable login-as-customer delete " onclick="javascript:window.open('<?php echo $block->escapeUrl($block->getUrl('mploginascustomer/login/index', ['id' => $data->getTdCustomer()]));?>', '_blank')">
+					<span>Login as Customer</span>
+				</button>
+				
+				
+				<button id="assingproducts" title="Assign Products" type="button" class="action- scalable delete assing_button" >
+					<span>Assign Products to This Consignment</span>
+				</button>
+				<button id="assingallproducts" title="Assign Products" type="button" class="action- scalable delete assing_button" >
+					<span>Assign Products to All Consignments</span>
+				</button>
+				<button id="deleteall" title="Delete" type="button" class="action- scalable delete deleteall_button" >
+					<span>Delete Consignment, Unlink Product & Customer Associations</span>
+				</button>
+<!--				
+				<button id="deleteall" title="Delete" type="button" class="action- scalable delete deleteall_button" >
+					<span>Delete All</span>
+				</button>
+-->
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="page:main-container" class="page-columns">
+	<div class="admin__old">
+		<div id="container" class="main-col">
+			<div>
+				<div data-role="spinner" class="admin__form-loading-mask">
+					<div class="spinner">
+						<span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+					</div>
+				</div>
+				
+				<form id="forms" autocomplete="off">
+				<input name="form_key" type="hidden" value="<?php echo $block->escapeHtml($block->getFormKey()) ?>" />
+				<input type="hidden" name="td_id" value="<?php echo $data->getTdId()?>"/>
+				
+				<fieldset class="admin__fieldset">
+				
+					<div class="admin__field">
+						<div class="admin__field-label">
+							<label for="td_status">
+								<span>Active</span>
+							</label>
+						</div>
+						<div class="admin__field-control" >
+							<div class="admin__actions-switch">
+								<input type="checkbox" class="admin__actions-switch-checkbox" id="td_status" name="td_status" value="1" >
+								<label class="admin__actions-switch-label"for="td_status">
+									<span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+					
+					<div id="name_container" class="admin__field _required" >
+						<div class="admin__field-label" >
+							<label for="td_name">
+								<span>Name</span>
+							</label>
+						</div>
+						<div class="admin__field-control ">
+							<input class="admin__control-text mr15 mw250" type="text" id="td_name" name="td_name" maxlength="255" value="<?php echo $data->getTdName();?>">
+							<button id="name_check" type="button" class="action_button"><i class="search-global-label"></i><span>Check Name</span></button>
+						</div>
+					</div>			
+
+					<div id="website_container" class="admin__field _required" >
+						<div class="admin__field-label" >
+							<label for="td_website">
+								<span>Website</span>
+							</label>
+						</div>
+						<div class="admin__field-control ">
+							<select id="website" name="td_website" class="select2 select2website">
+								<option></option>
+								<?php
+									foreach($websites as $website){
+										echo "<option value='".$website->getId()."'";
+										echo ($website->getId() == $data->getTdWebsite())? " selected ":"";
+										echo ">".$website->getName()."</option>";
+									}
+								?>
+								
+							</select>
+						</div>
+					</div>
+
+
+
+
+					
+					<div id="category_container" class="admin__field _required" >
+						<div class="admin__field-label" >
+							<label for="td_category">
+								<span>Category</span>
+							</label>
+						</div>
+						<div class="admin__field-control">
+							<div  class="type-selector <?php echo $data->getTdCategory()? "" : "active";?>">
+								<input name="category_type_selector" id="cat_select1" type="radio" value="category_add_option" checked>
+								<label for="cat_select1">Add new category</label>
+							</div>
+							<div  class="type-selector <?php echo $data->getTdCategory()? "active" : "";?>">
+								<input name="category_type_selector" id="cat_select2" type="radio" value="category_select_option" <?php echo $data->getTdCategory()? "checked" : "";?>>
+								<label for="cat_select2">Select existing category</label>
+							</div>
+							<div id="category_add_option" class="category_type_selector option_type_selector <?php echo $data->getTdCategory()? "hide" : "";?>">
+								<input class="admin__control-text mr15 mw250" type="text" id="new_category" name="new_category" maxlength="255" value="">
+								<button id="category_check" type="button" class="action_button"><i class="search-global-label"></i><span>Check Category</span></button>
+							</div>
+							<div id="category_select_option" class="category_type_selector option_type_selector <?php echo $data->getTdCategory()? "" : "hide";?> field_flex ">
+								<select id="existing_category" name="td_category" class="select2 select2category">
+									<option></option>
+									<?php
+									
+										if($data->getTdWebsite()){
+											echo $catlist[$data->getTdWebsite()];
+										}
+									?>
+									
+								</select>					
+							</div>
+
+						</div>
+					</div>	
+					
+					<div id="source_container" class="admin__field _required" >
+						<div class="admin__field-label">
+							<label for="td_source">
+								<span>Source</span>
+							</label>							
+						</div>
+						<div class="admin__field-control">
+							<div  class="type-selector <?php echo $data->getTdSource()? "" : "active";?>">
+								<input name="source_type_selector" id="source_select1" type="radio" value="source_add_option" checked>
+								<label for="source_select1">Add new source</label>
+							</div>
+							<div  class="type-selector <?php echo $data->getTdSource()? "active" : "";?>">
+								<input name="source_type_selector" id="source_select2" type="radio" value="source_select_option" <?php echo $data->getTdSource()? "checked" : "";?>>
+								<label for="source_select2">Select existing source</label>
+							</div>
+							<div id="source_add_option" class="source_type_selector option_type_selector <?php echo $data->getTdSource()? "hide" : "";?>">
+								<div class="source-add-form">
+									<div class="form_container">
+										<label for="source_name">Name</label>
+										<input class="admin__control-text mr15 mw250" type="text" id="source_name" name="source_name" maxlength="255" value="">
+									</div>
+									<div class="form_container">
+										<label for="source_code">Code</label>
+										<input class="admin__control-text mr15 mw250" type="text" id="source_code" name="source_code" maxlength="255" value="">
+										<button id="source_check" type="button" class="action_button"><i class="search-global-label"></i><span>Check</span></button>
+									</div>
+									<div class="form_container">
+										<label for="source_city">Country</label>
+										<select id="source_city" name="source_city" class="select2 select2country">
+											<option></option>
+											<?php
+												foreach($countries as $country){
+													echo "<option value='".$country->getCountryId()."'";
+													echo ($country->getCountryId() == "NZ")? " selected ":"";
+													echo ">".$country->getName()."</option>";
+												}
+											?>
+											
+										</select>	
+									</div>
+									<div class="form_container">
+										<label for="source_postcode">Postcode</label>
+										<input class="admin__control-text mr15 mw250" type="text" id="source_postcode" name="source_postcode" maxlength="255" value="">
+									</div>
+								</div>
+							</div>
+							<div id="source_select_option" class="source_type_selector option_type_selector <?php echo $data->getTdSource()? "" : "hide";?> field_flex ">
+								<select id="existing_source" name="td_source" class="select2 select2source">
+									<option></option>
+									<?php
+										foreach($sources as $source){
+											echo "<option value='".$source["value"]."'";
+											echo ($source["value"] == $data->getTdSource())? " selected ":"";
+											echo ">".$source["label"]."</option>";
+										}
+									?>
+									
+								</select>					
+							</div>
+						</div>
+					</div>
+					
+					<div id="customer_container" class="admin__field _required" >
+						<div class="admin__field-label" >
+							<label for="td_customer">
+								<span>Customer</span>
+							</label>
+						</div>
+						<div class="admin__field-control">
+							<div  class="type-selector <?php echo $data["customer-extra"]? "" : "active";?>">
+								<input name="customer_type_selector" id="customer_select1" type="radio" value="customer_add_option" checked>
+								<label for="customer_select1">Add new customer</label>
+							</div>
+							<div  class="type-selector  <?php echo $data["customer-extra"]? "active" : "";?>">
+								<input name="customer_type_selector" id="customer_select2" type="radio" value="customer_select_option" <?php echo $data["customer-extra"]? "checked" : "";?>>
+								<label for="customer_select2">Select existing customer</label>
+							</div>
+							<div id="customer_add_option" class="customer_type_selector option_type_selector <?php echo $data["customer-extra"]? "hide" : "";?>">
+								<div class="customer-add-form">
+									<div class="form_container">
+										<label for="new_customer_email">Email</label>
+										<input class="admin__control-text mr15 mw250" name="new_customer_email" id="new_customer_email" type="text">
+										<button id="email_check" type="button" class="action_button"><i class="search-global-label"></i><span>Check</span></button>										
+									</div>								
+									<div class="form_container">
+										<label for="new_customer_name">First Name</label>
+										<input class="admin__control-text mr15 mw250" name="new_customer_name" id="new_customer_name" type="text">										
+									</div>
+									<div class="form_container">
+										<label for="new_customer_surname">Last Name</label>
+										<input class="admin__control-text mr15 mw250" name="new_customer_surname" id="new_customer_surname" type="text">										
+									</div>
+
+									<div class="form_container">
+										<label for="new_customer_password">Password</label>
+										<input class="admin__control-text mr15 mw250 pr-password" name="new_customer_password" id="new_customer_password" type="text">										
+									</div>
+									<div class="form_container">
+										<label></label>
+										<input name="send_password_mail" id="send_password_mail" type="checkbox" class="">
+										<label for="send_password_mail">Send the customer a welcome email with the password.</label>
+									</div>
+								</div>
+							</div>
+							<div id="customer_select_option" class="customer_type_selector option_type_selector <?php echo $data["customer-extra"]? "" : "hide";?>">
+								<?php echo $data["customer-extra"];?>
+								<input class="admin__control-text mr15 mw250" type="text" id="search_customer" name="search_customer" maxlength="255" value="">
+								<button id="customer_check" type="button" class="action_button"><i class="search-global-label"></i><span>Search Customer</span></button>
+								
+							</div>
+
+						</div>
+					</div>	
+					<div class="hide">
+						<div id="savepopup">
+							<h3><?php echo $data->getTdId()? "Update" : "Save"; ?> Progress</h3>
+							<div class="savecontent">
+							<ul><li><i id="savechecking" class="fa fa-circle-o-notch fa-spin txt-red" aria-hidden="true"></i> Checking Name</li></ul>
+							</div>
+						</div>
+						<div id="saveformcontainer">
+						
+						</div>
+					</div>
+
+
+				
+				</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert', 
+	'Magento_Ui/js/modal/modal', 
+	'jquery/ui', 
+	'select2',
+	'passwordRequirements',
+	'loader'
+	], function ($, alert, modal) {
+	'use strict';
+
+	$(document).ready(function() {
+		function show_loader(){$("body").loader("show");}
+		function hide_loader(){$("body").loader("hide");}
+
+		
+		<?php if($data->getTdStatus()==1):?>
+		$('#td_status').prop('checked', true);
+		<?php endif ?>
+		
+
+
+
+		$('select.select2source').select2({ placeholder: 'Select source', allowClear: true, width: '250px'});
+		$('select.select2website').select2({ placeholder: 'Select Website', allowClear: true, width: '250px'});
+		$('select.select2category').select2({ placeholder: 'Select Category', allowClear: true, width: '250px' });
+		$('select.select2country').select2({ placeholder: 'Select Country', allowClear: true, width: '250px' });
+
+
+		let catlist = [];	
+		<?php 
+			foreach($websites as $website){
+		?>
+			catlist[<?=$website->getId();?>] = "<option></option><?=$catlist[$website->getId()];?>";
+		<?php
+			}	  
+		?>
+		
+		$('#website').on('change', function(){
+			$('#existing_category').empty().append(catlist[$('#website').val()]);
+			$('select.select2category').select2({ placeholder: 'Select Category', allowClear: true, width: '250px' });
+		});	
+
+		
+		$("#new_customer_password").passwordRequirements({
+			numCharacters: 8,
+			useLowercase: true,
+			useUppercase: true,
+			useNumbers: true,
+			useSpecial: true
+		});
+		
+		setTimeout(function(){
+				$('select.select2').each(function(){
+				  $(this).trigger('change');
+				});	
+		}, 3000);	
+		
+		function isEmail(email) {
+			var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			return regex.test(email);
+		}	
+		function refreshGrid(){
+					enabledGridJsObject.resetFilter();
+					disabledGridJsObject.resetFilter();
+		}
+		var ajaxUrl = "<?php echo $this->getUrl('consignment/ajax');?>"; 
+		var checkicon	='<i id="savechecking" class="fa fa-circle-o-notch fa-spin txt-red" aria-hidden="true"></i>';
+		var passicon 	= '<i aria-hidden="true" class="fa fa-check-circle-o txt-green"></i>';
+		var erroricon 	= '<i aria-hidden="true" class="fa fa-times txt-red"></i>';
+			
+		$(".admin__form-loading-mask").hide();
+
+
+/*	********************* name_check *******************************/
+		$('#td_name').keydown(function (event) {
+			let keyPressed = event.keyCode || event.which;
+			if (keyPressed === 13) {
+				$("#name_check").trigger("click");
+			}
+		});
+		$("#name_check").click(function(){
+			$("#name_check_message").remove();
+			$("#name_container").removeClass("_error");
+			if($("#td_name").val().length == ''){$("#name_check").after('<span id="name_check_message" class="admin__field-error">This field is required</span>');$("#name_container").addClass("_error");return false;}
+			if($("#td_name").val().length <3){$("#name_check").after('<span id="name_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#name_container").addClass("_error");return false;}
+			show_loader();
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					bak:'name',
+					name: $("#td_name").val(),
+					id: <?php echo $data->getTdId() ?? 0 ;?>
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					if(result.status != 1){
+						$("#name_container").addClass("_error");
+					}
+					$("#name_check").after(result.message);
+					$("#name_check_message").delay(5000).slideUp();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+		});
+/*	**********************************************************/		
+
+
+/*	********************* category_check *******************************/
+		$('#new_category').keydown(function (event) {
+			let keyPressed = event.keyCode || event.which;
+			if (keyPressed === 13) {
+				$("#category_check").trigger("click");
+			}
+		});
+		$("#category_check").click(function(){
+			$("#category_check_message").remove();
+			$("#category_container").removeClass("_error");
+			if($("#new_category").val().length == ''){$("#category_check").after('<span id="category_check_message" class="admin__field-error">This field is required</span>');$("#category_container").addClass("_error");return false;}
+			if($("#new_category").val().length <3){$("#category_check").after('<span id="category_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#category_container").addClass("_error");return false;}
+			show_loader();
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					bak:'category',
+					category: $("#new_category").val(),
+					website: $("#website").val(),
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					if(result.status != 1){
+						$("#category_container").addClass("_error");
+					}
+					$("#category_check").after(result.message);
+					$("#category_check_message").delay(5000).slideUp();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+		});
+/*	**********************************************************/	
+
+	
+
+/*	********************* source_check *******************************/
+		$('#source_code').keydown(function (event) {
+			let keyPressed = event.keyCode || event.which;
+			if (keyPressed === 13) {
+				$("#source_check").trigger("click");
+			}
+		});
+		$("#source_check").click(function(){
+			$("#source_check_message").remove();
+			$("#source_check").parent().removeClass("_error");
+			if($("#source_code").val().length == ''){$("#source_check").after('<span id="source_check_message" class="admin__field-error">This field is required</span>');$("#source_check").parent().addClass("_error");return false;}
+			if($("#source_code").val().length <3){$("#source_check").after('<span id="source_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#source_check").parent().addClass("_error");return false;}
+			show_loader();
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					bak:'source',
+					source: $("#source_code").val(),
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					if(result.status != 1){
+						$("#source_check").parent().addClass("_error");
+					}
+					$("#source_check").after(result.message);
+					$("#source_check_message").delay(5000).slideUp();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+		});
+/*	**********************************************************/	
+
+/*	********************* email_check *******************************/
+		$('#new_customer_email').keydown(function (event) {
+			let keyPressed = event.keyCode || event.which;
+			if (keyPressed === 13) {
+				$("#email_check").trigger("click");
+			}
+		});
+		$("#email_check").click(function(){
+			$("#email_check_message").remove();
+			$("#email_check").parent().removeClass("_error");
+			if(isEmail($("#new_customer_email").val()) != true){
+				$(this).after('<span id="email_check_message" class="admin__field-error">Please enter valid email</span>');
+				$(this).parent().addClass("_error");
+				return false;
+			}
+
+			show_loader();
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					bak:'email',
+					email: $("#new_customer_email").val(),
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					if(result.status != 1){
+						$("#email_check").parent().addClass("_error");
+					}
+					$("#email_check").after(result.message);
+					$("#email_check_message").delay(5000).slideUp();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+		});
+/*	**********************************************************/
+
+/*	********************* customer_check *******************************/
+		$('#search_customer').keydown(function (event) {
+			let keyPressed = event.keyCode || event.which;
+			if (keyPressed === 13) {
+				$("#customer_check").trigger("click");
+			}
+		});
+		$("#customer_check").click(function(){
+			$("#customer_check_message").remove();
+			$("#customer_container").removeClass("_error");
+			if($("#search_customer").val().length == ''){$("#customer_check").after('<span id="customer_check_message" class="admin__field-error">This field is required</span>');$("#customer_container").addClass("_error");return false;}
+			if($("#search_customer").val().length <3){$("#customer_check").after('<span id="customer_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#customer_container").addClass("_error");return false;}
+			$(".s-container:not(.preselected)").remove();
+			$(".s-container.preselected").find("input").trigger("click");
+			show_loader();
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					bak:'customer',
+					customer_txt: $("#search_customer").val(),
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					if(result.status != 1){
+						$("#customer_container").addClass("_error");
+					}
+					$("#customer_select_option").append(result.text);
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+		});
+/*	**********************************************************/	
+
+
+/**************************************************************************************************/
+/***********************************        TABS     **********************************************/
+/**************************************************************************************************/
+
+
+/*	********************* category depend *******************************/
+		$("input[name='category_type_selector']").on("change", function(){
+			$(".category_type_selector").hide(),
+			$("#"+$(this).val()).show();
+			$('#category_container').find('.active').removeClass('active');
+			$(this).closest('.type-selector').addClass('active');
+		});
+
+/*	**********************************************************/				
+
+/*	********************* source depend *******************************/
+		$("input[name='source_type_selector']").on("change", function(){
+			$(".source_type_selector").hide(),
+			$("#"+$(this).val()).show();
+			$('#source_container').find('.active').removeClass('active');
+			$(this).closest('.type-selector').addClass('active');
+		});
+
+/*	**********************************************************/		
+
+/*	********************* customer depend *******************************/
+		$("input[name='customer_type_selector']").on("change", function(){
+			$(".customer_type_selector").hide(),
+			$("#"+$(this).val()).show();
+			$('#customer_container').find('.active').removeClass('active');
+			$(this).closest('.type-selector').addClass('active');
+		});
+		$('body').on('click', '.c-cell, .c-cell span',function(e){
+			e.stopPropagation();
+			if ( e.target === this ) {
+				var el=$(this).closest('.c-cell');
+				el.find('input').trigger("click");
+			}
+		});
+		$('body').on('click', '.customer-selector',function(e){
+			e.stopPropagation();
+			if ( e.target === this ) {
+				$(".s-container").find(".active").removeClass("active");
+				var el=$(this).closest('.c-cell');
+				el.addClass("active");
+			}
+		});
+		
+/*	**********************************************************/
+
+
+
+/**************************************************************************************************/
+/***********************************      HEADER     **********************************************/
+/**************************************************************************************************/
+
+
+
+/*	********************* Assign Button*******************************/
+		$("button#assingproducts").click(function(){
+			show_loader();
+			var catid	= <?php echo $data->getTdCategory()? $data->getTdCategory() : "''";?>;
+			var sc		= '<?php echo ($data->getTdSource()) ? $data->getTdSource() : "" ;?>';
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					assign:'category',
+					code: sc,
+					id: catid
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					alert({content: result.message});
+					enabledGridJsObject.resetFilter();
+					disabledGridJsObject.resetFilter();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});			
+		});	
+/*	**********************************************************/	
+
+/*	********************* Assign Button*******************************/
+		$("button#assingallproducts").click(function(){
+			show_loader();
+
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					assign:'all'
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					alert({content: result.message});
+					enabledGridJsObject.resetFilter();
+					disabledGridJsObject.resetFilter();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});			
+		});	
+/*	**********************************************************/	
+
+
+
+
+/*	********************* Delete All Button*******************************/
+		$("button#deleteall").click(function(){
+			let del_cut = false;
+			let del_cus = false;
+			let del_sou = false;
+			alert({
+				content: $.mage.__('Are you sure you want to delete record?<br><br><ul><li><strong>Consignment will be deleted</strong></li><li><input name="del_cut" id="del_cut" type="checkbox"> <label for="del_cut">Delete Category</label></li><li><input name="del_cus" id="del_cus" type="checkbox"> <label for="del_cus">Delete Customer</label></li><li><input name="del_sou" id="del_sou" type="checkbox"> <label for="del_sou">Delete Source</label></li></ul>'),
+				buttons: [{
+					text: $.mage.__('Cancel'),
+					class: 'action-secondary action-dismiss',
+					click: function (event) {
+						this.closeModal(event);
+					}
+				}, {
+					text: $.mage.__('Delete'),
+					class: 'action-primary action-accept',
+					click: function (event) {
+						//window.location.href="<?php echo $this->getUrl('*/*/delete',['_current' => true, '_use_rewrite' => true, 'deleteall' => true, 'id' => $data->getTdId(),'cat' => $data->getTdCategory(),'cus' => $data->getTdCustomer()]);?>";
+						del_cut = Number($("#del_cut").is(":checked"));
+						del_cus = Number($("#del_cus").is(":checked"));
+						del_sou = Number($("#del_sou").is(":checked"));
+						let ekle = "dcut/"+del_cut+"/dcus/"+del_cus+"/dsou/"+del_sou+"/";
+						let url ="<?php echo $this->getUrl('*/*/delete',['_current' => true, '_use_rewrite' => true, 'id' => $data->getTdId(),'cat' => $data->getTdCategory(),'cus' => $data->getTdCustomer(),'sou' =>$data->getTdSource()]);?>" + ekle;
+						window.location.href = url;
+					}
+				}]
+			});
+			
+		});	
+/*	**********************************************************/	
+
+/*	********************* Save Button*******************************/
+
+		$("button#save-button").click(function(){
+			//$('#events_popup').modal('closeModal');
+			var options = {	type: 'popup',modalClass: 'savemask',innerScroll: true,title: false,buttons: [{	text: $.mage.__('Close'),class: '',click: function () {this.closeModal();}}],
+				opened: function($Event) {
+					$('.modal-header button.action-close', $Event.srcElement).hide();
+					$('.modal-footer button', $Event.srcElement).hide();
+					//nameCheck();
+					setTimeout(nameCheck, 1000);
+				},
+				closed: function (){
+					$(".savecontent ul").html('<li><i id="savechecking" class="fa fa-circle-o-notch fa-spin txt-red" aria-hidden="true"></i> Checking Name</li>');
+				},
+				keyEventHandlers: {
+					escapeKey: function () { return; }
+				}
+			};
+			
+			
+			var savepopup = modal(options, $('#savepopup'));
+			$('#savepopup').modal('openModal');
+			
+
+		});
+		
+		/* name */
+		function nameCheck(){
+				$("#name_check_message").remove();
+				$("#name_container").removeClass("_error");
+				if($("#td_name").val().length == ''){
+					$("#name_check").after('<span id="name_check_message" class="admin__field-error">This field is required</span>');
+					$("#name_container").addClass("_error");
+					$('i#savechecking').replaceWith(erroricon);
+					$('.savemask .modal-footer button').show();
+					return false;
+				};
+				if($("#td_name").val().length <3){$("#name_check").after('<span id="name_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#name_container").addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;};
+				$.ajax({
+					url:ajaxUrl,type:'POST',dataType: 'json',async: false,
+					data: {bak:'name',name: $("#td_name").val(),id: <?php echo $data->getTdId() ?? 0 ;?>},
+					success: function(result){
+						if(result.status != 1){
+							$("#name_container").addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();$("#name_check").after(result.message);	return false;
+						}
+						$('i#savechecking').replaceWith(passicon);
+						setTimeout(websiteCheck, 500);
+					},
+					error: function (xhr, status, errorThrown) {return false;}
+				});	
+		};
+		/* website */
+		function websiteCheck(){
+			$(".savecontent ul").append('<li>'+checkicon+' Checking Website</li>');
+			$("#website_check_message").remove();
+			$("#website_container").removeClass("_error");
+			if($('#website').val()== ""){
+				$('#website_container').addClass("_error");
+				$("#website").after('<span id="website_check_message" class="admin__field-error">This field is required</span>');
+				$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();	return false;
+			}else{
+				$('i#savechecking').replaceWith(passicon);
+				setTimeout(categoryCheck, 500);
+			}			
+		}
+		
+		
+		/* category */
+		function categoryCheck(){
+			$(".savecontent ul").append('<li>'+checkicon+' Checking Category</li>');
+			var selected = $('input[name="category_type_selector"]:checked').val();
+
+			$("#category_check_message").remove();
+			$("#excategory_check_message").remove();
+			$("#category_container").removeClass("_error");
+			$('#existing_category').parent().removeClass("_error");
+			
+			if(selected == "category_add_option"){
+				if($("#new_category").val().length == ''){$("#category_check").after('<span id="category_check_message" class="admin__field-error">This field is required</span>');$("#category_container").addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();	return false;}
+				if($("#new_category").val().length <3){$("#category_check").after('<span id="category_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#category_container").addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();	return false;}
+				$.ajax({
+					url:ajaxUrl,type:'POST',dataType:'json',async: false,
+					data: {bak:'category',website: $("#website").val(),category: $("#new_category").val()},
+					success: function(result){
+						if(result.status != 1){
+							$("#category_container").addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();$("#category_check").after(result.message);	return false;
+						}
+						$('i#savechecking').replaceWith(passicon);
+						setTimeout(souceCheck, 500);
+					},
+					error: function (xhr, status, errorThrown) {return false;}
+				});				
+			}else{
+				if($('#existing_category').val()== ""){
+					$('#existing_category').parent().addClass("_error");
+					$("#existing_category").after('<span id="excategory_check_message" class="admin__field-error">This field is required</span>');
+					$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();	return false;
+				}else{
+					$('i#savechecking').replaceWith(passicon);
+					setTimeout(souceCheck, 500);
+				}
+			}
+		}
+		
+		/* source */
+		function souceCheck(){
+			$(".savecontent ul").append('<li>'+checkicon+' Checking Source</li>');
+			var selected = $('input[name="source_type_selector"]:checked').val();	
+			
+			$("#source_check_message").remove();
+			$("#exsource_check_message").remove();
+			$("#source_container").find("._error").removeClass("_error");
+			
+			if(selected == "source_add_option"){		
+
+				if($("#source_name").val().length == ''){$("#source_name").after('<span id="source_check_message" class="admin__field-error">This field is required</span>');$("#source_name").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				if($("#source_name").val().length <3){$("#source_name").after('<span id="source_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#source_name").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				
+				if($("#source_code").val().length == ''){$("#source_check").after('<span id="source_check_message" class="admin__field-error">This field is required</span>');$("#source_code").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				if($("#source_code").val().length <3){$("#source_check").after('<span id="source_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#source_code").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				if($("#source_code").val().indexOf(' ')>=0){$("#source_code").after('<span id="source_check_message" class="admin__field-error">Space is not allowed!!</span>');$("#source_code").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+
+				if($('#source_city').val()== ""){$('#source_city').parent().addClass("_error");$("#source_city").next().after('<span id="source_check_message" class="admin__field-error">This field is required</span>');$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;
+				}
+				
+				if($("#source_postcode").val().length == ''){$("#source_postcode").after('<span id="source_check_message" class="admin__field-error">This field is required</span>');$("#source_postcode").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				if($("#source_postcode").val().length <3){$("#source_postcode").after('<span id="source_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#source_postcode").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				$.ajax({
+					url: ajaxUrl,type: 'POST',dataType: 'json',async: false,
+					data: {	bak:'source',source: $("#source_code").val()},
+					success: function(result){
+						if(result.status != 1){
+							$("#source_check").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();$("#source_check").after(result.message);	return false;
+						}
+						$('i#savechecking').replaceWith(passicon);
+						setTimeout(customerCheck, 500);
+					},
+					error: function (xhr, status, errorThrown) {return false;}
+				});
+			}else{
+				if($('#existing_source').val()== ""){
+					$('#existing_source').parent().addClass("_error");
+					$("#existing_source").after('<span id="exsource_check_message" class="admin__field-error">This field is required</span>');
+					$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();	return false;
+				}else{
+					$('i#savechecking').replaceWith(passicon);
+					setTimeout(customerCheck, 500);
+				}
+			}
+		}
+		/* customer */
+		function customerCheck(){		
+			$(".savecontent ul").append('<li>'+checkicon+' Checking Customer</li>');
+			var selected = $('input[name="customer_type_selector"]:checked').val();
+			
+			$("#email_check_message").remove();
+			$("#customer_check_message").remove();
+			$("#customer_container").find("._error").removeClass("_error");
+			
+			if(selected == "customer_add_option"){
+				if(isEmail($("#new_customer_email").val()) != true){
+					$("#email_check").after('<span id="email_check_message" class="admin__field-error">Please enter valid email</span>');
+					$("#email_check").parent().addClass("_error");
+					$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;
+				}
+				if($("#new_customer_name").val().length == ''){$("#new_customer_name").after('<span id="customer_check_message" class="admin__field-error">This field is required</span>');$("#new_customer_name").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				if($("#new_customer_name").val().length <3){$("#new_customer_name").after('<span id="customer_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#new_customer_name").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}	
+				
+				if($("#new_customer_surname").val().length == ''){$("#new_customer_surname").after('<span id="customer_check_message" class="admin__field-error">This field is required</span>');$("#new_customer_surname").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}
+				if($("#new_customer_surname").val().length <3){$("#new_customer_surname").after('<span id="customer_check_message" class="admin__field-error">Minimum 3 letters</span>');$("#new_customer_surname").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;}				
+				
+				$("#new_customer_password").trigger("blur");if($("#new_customer_password").parent().hasClass("_error")){
+					$("#new_customer_password").after('<span id="customer_check_message" class="admin__field-error">Please enter valid password</span>');$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();return false;
+				}
+				$.ajax({
+					url: ajaxUrl,type: 'POST',dataType:'json',async: false,
+					data: {bak:'email',email: $("#new_customer_email").val()},
+					success: function(result){
+						if(result.status != 1){
+							$("#email_check").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();$("#email_check").after(result.message);	return false;
+						}
+						$('i#savechecking').replaceWith(passicon);
+						setTimeout(prepareForm, 500);
+					},
+					error: function (xhr, status, errorThrown) {return false;}
+				});
+				
+			}else{
+				if(!$(".customer-selector:checked").length){
+					$("#customer_check").parent().addClass("_error");$('i#savechecking').replaceWith(erroricon);$('.savemask .modal-footer button').show();$("#customer_check").after('<span id="customer_check_message" class="admin__field-error">Please select customer account</span>');	return false;
+				}else{
+					$('i#savechecking').replaceWith(passicon);
+					setTimeout(prepareForm, 500);
+				}
+				
+			}
+		}
+		
+		function prepareForm(){
+			$(".savecontent ul").append('<hr/>');
+			$(".savecontent ul").append('<li>'+checkicon+' Preparing Data to save...</li>');
+			$("#forms").attr("method","POST").attr('action','<?php echo $this->getUrl("consignment/consignmentlist/save");?>').submit();
+		}
+		
+/*	**********************************************************/	
+		
+
+/*	********************* header sticky *******************************/
+		var elementTop = $(".page-main-actions").offset().top;
+		var viewportTop = $(document).scrollTop();
+		$(window).on('resize scroll', function() {
+			//console.log($(".page-main-actions").offset().top + "<--" + $(document).scrollTop())
+			if($(document).scrollTop() >  $(".page-main-actions").offset().top){
+				$(".page-actions").addClass("_fixed");
+			}else{
+				$(".page-actions").removeClass("_fixed");
+			}
+		});
+	});
+/*	**********************************************************/	
+	
+});
+</script>		

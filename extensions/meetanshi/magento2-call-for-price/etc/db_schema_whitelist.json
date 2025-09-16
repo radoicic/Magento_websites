@@ -1,0 +1,19 @@
+{
+    "meetanshi_callforprice": {
+        "column": {
+            "id": true,
+            "cname": true,
+            "email": true,
+            "country": true,
+            "phone_number": true,
+            "comment": true,
+            "productid": true
+        },
+        "index": {
+            "MEETANSHI_CALLFORPRICE_CNAME_EMAIL_COMMENT_PHONE_NUMBER": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

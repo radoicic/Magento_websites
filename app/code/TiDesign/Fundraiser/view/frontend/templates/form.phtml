@@ -1,0 +1,379 @@
+<?php
+/**
+ * @var \TiDesign\Fundraiser\Block\Form\Form $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+?>
+<style>
+    .loading-mask {
+        background: rgba(0, 0, 0, .7) !important;
+    }
+
+    #theme_selector > div {
+        text-align: center;
+        padding: 7px;
+        box-sizing: border-box;
+    }
+
+    #theme_selector > div .box {
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+
+    #theme_selector > div .box span {
+        display: block;
+        margin: 10px;
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+    }
+
+    #theme_selector > div .box button {
+        margin: 10px 0 0 0;
+        width: 100%;
+    }
+
+    .page {
+        background: white;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+    }
+
+    div[size=A0] > * {
+        width: 84.1cm;
+        height: 118.9cm;
+        font-size: 56.047138px;
+    }
+
+    div[size=A1] > * {
+        width: 59.4cm;
+        height: 84.1cm;
+        font-size: 39.6px;
+    }
+
+    div[size=A2] > * {
+        width: 42cm;
+        height: 59.4cm;
+        font-size: 28px;
+    }
+
+    div[size=A4] > div {
+        width: 21cm;
+        height: 29.7cm;
+        font-size: 14px;
+    }
+
+    .main_title {
+        text-align: center;
+        font-size: 35px;
+        line-height: 45px;
+        background: #f5f5f5;
+        border-radius: 40px;
+        padding: 0 40px;
+        margin: 20px auto;
+        max-width: fit-content;
+        font-weight: bold;
+        color: #206dab;
+    }
+
+    #page_theme {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #page_theme:not(.masked) {
+        overflow: hidden;
+    }
+
+    .form_main {
+        display: flex;
+    }
+
+    .form_left {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        color: #206dab;
+        box-sizing: border-box;
+        padding-right: 15px;
+    }
+
+    .form_left span {
+        text-align: center;
+        border-radius: 25px;
+        line-height: 40px;
+        font-weight: bold;
+        padding: 0 !important;
+    }
+
+    .form_left .form_button_container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .form_left .form_button_container > span {
+        border-radius: 0 25px 25px 0;
+        width: calc(100% / 2 - 3px);
+    }
+
+    .form_left .form_button_container > span:first-child {
+        flex: 1;
+        border-radius: 25px 0 0 25px;
+        margin-right: 6px;
+    }
+
+    .form_title {
+        background-color: #f2fadb;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .form_button {
+        background-color: #f5f5f5;
+        margin-bottom: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .form_button:hover {
+        box-shadow: 0 0 0.2cm rgba(0, 0, 0, 0.2);
+        background-color: #FADF8FFF;
+        color: #0c0c0c;
+    }
+
+    .textEditorPlaceholder input {
+        margin-bottom: 10px;
+    }
+
+    #fileUpload-form > div {
+        display: flex;
+    }
+
+    .uploadPreview {
+        width: 200px;
+        height: auto;
+        box-sizing: border-box;
+        border: 1px solid #666;
+        padding: 2px;
+        margin-left: 10px;
+    }
+
+    #formAjax {
+        min-width: 300px;
+    }
+
+    #upload_error {
+        color: red;
+        display: block;
+        margin-top: 5px;
+        font-size: 13px;
+        line-height: 14px;
+    }
+
+    .masked::before {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        content: "";
+        background: #1e1b1b;
+        z-index: 900;
+        opacity: 0.7;
+        transition: all 0.2s ease-in-out;
+        display: block;
+    }
+
+    .masked-top {
+        z-index: 1500;
+        transition: all 0.2s ease-in-out;
+    }
+</style>
+
+<div id="theme_selector" class="row">
+    <?php
+    $themes = $block->getAllThemes(); ?>
+    <?php
+    foreach ($themes as $name) : ?>
+        <div class='col-md-3'>
+            <div class='box'>
+                <span><?= $escaper->escapeHtml($name) ?></span>
+                <img src='<?= $block->getViewFileUrl("TiDesign_Fundraiser::images/themes/$name/thumbnail.png") ?>'/>
+                <button class='selectTheme'><?= $escaper->escapeHtml(__('Select theme')) ?></button>
+            </div>
+        </div>
+    <?php
+    endforeach; ?>
+</div>
+<div id="theme_customise" style="display: none">
+    <div class="main_title"><?= $escaper->escapeHtml(__('Customise and Start your Campaign now!!')) ?></div>
+    <div class="form_main">
+        <div class="form_left">
+            <span class="form_title">><?= $escaper->escapeHtml(__('MAKE IT UNIQUE!')) ?></span>
+<!--            <div class="form_button_container">-->
+<!--                <span class="form_button" id="load-saved-theme">-->
+<!--                    --><?php //= $escaper->escapeHtml(__('Load Your Theme')) ?>
+<!--                </span>-->
+<!--                <span class="form_button" id="save-theme">--><?php //= $escaper->escapeHtml(__('Save Your Theme')) ?><!--</span>-->
+<!--            </div>-->
+            <span class="form_button" id="load-saved-theme"><?= $escaper->escapeHtml(__('Load Your Saved Campaign')) ?></span>
+            <span class="form_button" id="btn-1"><?= $escaper->escapeHtml(__('Choose Background Color')) ?></span>
+            <span class="form_button" id="btn-2"><?= $escaper->escapeHtml(__('Add your school or club logo')) ?></span>
+            <span class="form_button" id="btn-3">Choose name panel background colour</span>
+            <span class="form_button" id="btn-3-1">Choose name panel text colour</span>
+            <span class="form_button" id="btn-4">Choose a campaign Name</span>
+            <span class="form_button" id="btn-5">Choose or add a Campaign image</span>
+            <span class="form_button" id="btn-6">Enter the purpose of your Campaign</span>
+            <span class="form_button" id="btn-7">Enter why purchase help!</span>
+            <span class="form_button" id="btn-8">Enter where samples are available</span>
+            <span class="form_button" id="btn-9">Enter your contact details</span>
+            <span class="form_button" id="btn-10">Add the dates for you campaign</span>
+            <span class="form_button" id="btn-11">Enter payment methods</span>
+
+            <span class="form_title">Lets get marketing!</span>
+            <span class="form_button" id="btn-download-to-email">Download to email your campaign flyer</span>
+            <span class="form_button" id="btn-download-to-social">Download and post social media</span>
+            <span class="form_button" id="btn-download-to-print">Download to print campaign poster</span>
+            <span class="form_button" id="btn-marketing-tips">Marketing tips!</span>
+        </div>
+        <div class="form_right">
+            <div id="page_theme" class="page" size="A4">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    require([
+        'jquery',
+        'TiDesign_Fundraiser/js/model/theme-storage',
+        'TiDesign_Fundraiser/js/action/load-theme-action',
+        'TiDesign_Fundraiser/js/action/save-theme-action',
+        'domtoimage',
+        'waitforimages',
+        'jquery/ui',
+        'rotatable',
+    ], function ($, themeStorage, loadThemeAction, saveThemeAction) {
+        'use strict';
+
+
+        function showLoader(show) {
+            const event = show ? 'processStart' : 'processStop';
+            $('body').trigger(event);
+        }
+
+        async function downloadWithSizes(sizes) {
+            const downloadSize = sizes.shift();
+            if (!downloadSize) {
+                return;
+            }
+            showLoader(true);
+            const element = document.getElementById('page_theme');
+            await printHtmlWithSize([element.innerHTML], downloadSize);
+            await downloadWithSizes(sizes);
+            showLoader(false);
+        }
+
+        function downloadSubPages(page_type, downloadSize) {
+            downloadSize = downloadSize || 'A4';
+            return $.ajax({
+                url: "<?= $block->getUrl('fundraiser/form/print') ?>",
+                data: {
+                    theme_id: themeStorage.FUNDRAISER_THEME_ID,
+                    page_type
+                },
+                showLoader: true,
+                success: (response) => {
+                    const {html} = response;
+                    const printHtml = Array.isArray(html) ? html : [html];
+                    printHtmlWithSize(printHtml, downloadSize);
+                },
+                error: error => {
+                    console.log(error);
+                }
+            });
+        }
+
+        async function printHtmlWithSize(printHtml, size) {
+            const html = printHtml.shift();
+            if (!html) {
+                return;
+            }
+            showLoader(true);
+            const printElement = document.getElementById('theme-printable');
+            printElement.setAttribute('size', size);
+            printElement.innerHTML = html;
+            await $(printElement).waitForImages();
+            const imageUrl = await domtoimage.toJpeg(printElement, {quality: 1});
+            const link = document.createElement("a");
+            link.download = `file_${size}.jpeg`;
+            link.href = imageUrl;
+            link.click();
+            printElement.innerHTML = '';
+            await printHtmlWithSize(printHtml, size);
+            showLoader(false);
+        }
+
+        $(document).ready(function () {
+            $('.selectTheme').on("click", function () {
+                let themeId = $(this).parent().find("span").text();
+                loadThemeAction(themeId);
+            });
+            $('#load-saved-theme').on("click", () => loadThemeAction(null, true));
+            $("#save-theme").on("click", () => saveThemeAction(true));
+
+            /* **************************************************************************************************************** */
+            $(document).on("click", '#btn-download-to-email', async function (event) {
+                event.preventDefault();
+                await saveThemeAction();
+                await downloadWithSizes(['A4']);
+                await downloadSubPages('products-page');
+            });
+            $(document).on("click", '#btn-download-to-social', async function (event) {
+                event.preventDefault();
+                await saveThemeAction();
+                await downloadWithSizes(['A4']);
+            });
+            $(document).on("click", '#btn-download-to-print', async function (event) {
+                event.preventDefault();
+                await saveThemeAction();
+                await downloadWithSizes(['A1', 'A2']);
+            });
+        });
+    });
+</script>
+<div style="display: none;">
+    <div id="colorPickerContainer"></div>
+    <div id="textEditorContainer">
+        <div class="textEditorPlaceholder"></div>
+        <button id="changeTextButton"><?= $escaper->escapeHtml('Change Text') ?></button>
+    </div>
+    <div id="fileUpload-form">
+        <div>
+            <form id="formAjax" action="" method="POST">
+                <input type="file" id="fileAjax" name="fileAjax" accept=".png, .jpg, .jpeg"/>
+                <br/>
+                <span class="instruction-file-size"></span>
+                <br/>
+                <span class="instruction-file-type"></span>
+                <br/>
+                <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
+                <br/>
+                <input id="upload_file_button" type="button" name="submit" value="Upload" class="hide"/>
+                <span id="upload_error"></span>
+            </form>
+            <div class="uploadPreview">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- This is printable section, don't remove this element -->
+<div id="theme-printable" size="AA"></div>
+
+<div id="sub-pages-printable"></div>

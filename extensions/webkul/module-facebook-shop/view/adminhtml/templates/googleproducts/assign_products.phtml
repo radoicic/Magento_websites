@@ -1,0 +1,37 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_FacebookShop
+ * @author    Webkul
+ * @copyright Copyright (c)Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?= /* @noEscape */ $block->getGridHtml(); ?>
+<input type="hidden" name="gpc_products" id="gpc_products" data-form-part="google_product_category_form" value="" />
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/confirm',
+        'underscore',
+        'mage/adminhtml/grid',
+        'prototype'
+    ], function($, confirm, _) {
+        var ProductIdArray = [];
+        $(document).on('click',"#facebookshop_products_grid input[type='checkbox']",function(){
+            if(this.checked) {
+                ProductIdArray.push($(this).val());
+            } else {
+                if ((index = ProductIdArray.indexOf($(this).val())) !== -1) {
+                    ProductIdArray.splice(index, 1);
+                }
+            }
+             $('#gpc_products').val(ProductIdArray);
+        });
+
+});
+</script>
+
+

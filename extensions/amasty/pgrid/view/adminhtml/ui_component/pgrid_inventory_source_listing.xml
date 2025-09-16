@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">pgrid_inventory_source_listing.pgrid_inventory_source_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>pgrid_inventory_source_listing_columns</spinner>
+        <deps>
+            <dep>pgrid_inventory_source_listing.pgrid_inventory_source_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="pgrid_inventory_source_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">source_code</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Amasty\Pgrid\Ui\DataProvider\Product\Listing\SourceDataProvider" name="pgrid_inventory_source_listing_data_source">
+            <settings>
+                <requestFieldName>source_code</requestFieldName>
+                <primaryFieldName>source_code</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <columns name="pgrid_inventory_source_listing_columns">
+        <settings>
+            <editorConfig>
+                <param name="clientConfig" xsi:type="array">
+                    <item name="saveUrl" xsi:type="url" path="amasty_pgrid/source/inlineEdit"/>
+                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                </param>
+                <param name="indexField" xsi:type="string">source_code</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="component" xsi:type="string">Amasty_Pgrid/js/grid/modal/editor</param>
+                <param name="selectProvider" xsi:type="string">pgrid_inventory_source_listing.pgrid_inventory_source_listing.pgrid_inventory_source_listing_columns.ids</param>
+            </editorConfig>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">pgrid_inventory_source_listing.pgrid_inventory_source_listing.pgrid_inventory_source_listing_columns_editor</item>
+                    <item name="target" xsi:type="string">startEdit</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        <item name="1" xsi:type="boolean">true</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <selectionsColumn name="ids" sortOrder="10">
+            <settings>
+                <indexField>source_code</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="name" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+            </settings>
+        </column>
+        <column name="source_item_status" component="Magento_Ui/js/grid/columns/select" sortOrder="30">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <sortable>false</sortable>
+                <label translate="true">Source Item Status</label>
+                <options class="Amasty\Pgrid\Model\Inventory\OptionSource\SourceItemStatus"/>
+                <editor>
+                    <editorType>select</editorType>
+                </editor>
+            </settings>
+        </column>
+        <column name="quantity" class="Amasty\Pgrid\Ui\Component\Listing\Column\SourceQuantity" sortOrder="40">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Quantity</label>
+                <sortable>false</sortable>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="validate-number" xsi:type="boolean">true</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+        <column name="sku" sortOrder="50">
+            <settings>
+                <label translate="true">Sku</label>
+                <visible>false</visible>
+                <editor>
+                    <editorType>text</editorType>
+                </editor>
+            </settings>
+        </column>
+        <column name="product_id" sortOrder="60">
+            <settings>
+                <visible>false</visible>
+                <label translate="true">Product ID</label>
+                <editor>
+                    <editorType>text</editorType>
+                </editor>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Amasty\Base\Ui\Component\Listing\Column\ViewAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">source_code</item>
+                    <item name="urlEntityParamName" xsi:type="string">source_code</item>
+                    <item name="buttons" xsi:type="array">
+                        <item name="edit" xsi:type="array">
+                            <item name="urlPath" xsi:type="string">inventory/source/edit</item>
+                            <item name="itemLabel" xsi:type="string" translate="true">Edit</item>
+                        </item>
+                    </item>
+                    <item name="sortOrder" xsi:type="number">70</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

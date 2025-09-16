@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminDeleteProductLabelActionGroup">
+        <grabCookie userInput="setProductLabelIDInCookie" stepKey="grabCookie"/>
+        <amOnPage url="{{AdminProductLabelProfilePage.url(edit/id/{$grabCookie})}}"
+                  stepKey="navigateToProductLabelProfilePage2"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElement selector="{{AdminCustomerAddressesSection.deleteButton}}" stepKey="waitForElement3"/>
+        <click selector="{{AdminCustomerAddressesSection.deleteButton}}" stepKey="clickOnDeleteButton"/>
+        <waitForElement selector="{{AdminProductLabelProfileSection.OkButton('4')}}" stepKey="waitForElement4"/>
+        <wait time="3" stepKey="wait"/>
+        <pressKey selector="{{AdminProductLabelProfileSection.OkButton('4')}}"
+                  parameterArray="[\Facebook\WebDriver\WebDriverKeys::ENTER]"
+                  stepKey="pressEnter"/>
+        <waitForPageLoad time="25" stepKey="waitForPageLoad"/>
+        <see userInput="You deleted the label." selector="{{AdminOrderDetailsMessagesSection.successMessage}}"
+             stepKey="seeSuccessMessage"/>
+    </actionGroup>
+
+</actionGroups>

@@ -1,0 +1,40 @@
+{{template config_path="design/email/header_template"}}
+<!--@subject Thank You For Your Inquiry @-->
+<!--@vars @-->
+<table style="  border-collapse: separate;
+                border-spacing: 10px;
+                border: 0;
+                width: 100%;
+">
+    <tr>
+        <td style="padding:20px 0 20px 0;vertical-align: top">
+            <table style="border:1px solid #E0E0E0;
+                   background-color: #FFFFFF;
+                   border-spacing: 0;
+                   border-collapse: separate;
+                   width: 650px;
+                   ">
+                <tr>
+                    <td style="vertical-align: top;padding: 10px">
+                        <h1 style="font-size:22px;font-weight:normal;line-height:22px;margin:0 0 11px 0;">{{trans "Hi"}} {{var cname}},</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"
+                        style="font-size:12px;padding:7px 9px 9px 9px;
+                        border:1px solid #EAEAEA;
+                        vertical-align: top;">{{trans "Thank you for your interest in our"}} {{var productname}}. {{trans "Your inquiry has been submitted successfully. We are looking into it and will contact you soon."}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background:#EAEAEA;text-align:center;">
+                            <p style="font-size:12px;margin:0;padding: 10px">
+                                <strong>{{trans "Thank you"}}</strong>
+                            </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

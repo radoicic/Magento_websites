@@ -1,0 +1,47 @@
+<?php
+/**
+ * @var \TiDesign\Fundraiser\Block\Form\Landing $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+?>
+<div class="header">
+    <div class="menu">
+        <div class="item">
+            <span><?= $escaper->escapeHtml(__('Broad Appeal')) ?></span>
+        </div>
+        <div class="item">
+            <span><?= $escaper->escapeHtml(__('Fast & Efficient')) ?></span>
+        </div>
+        <div class="item">
+            <span><?= $escaper->escapeHtml(__('Healthy Profit Margins')) ?></span>
+        </div>
+    </div>
+</div>
+<div class="content__items">
+    <div class="header"><?= $escaper->escapeHtml(__('Get Started!')) ?></div>
+    <div class="items">
+        <div class="item discover">
+            <span><?= __('Discover the range') ?></span>
+        </div>
+        <div class="item q-and-a">
+            <span><?= __('Questions answered! It’s simple quick and easy') ?></span>
+        </div>
+        <div class="item create-account">
+            <a href="<?= $block->getUrl('customer/account/create'); ?>">
+                <span><?= __('Create Fundraiser account') ?></span>
+            </a>
+        </div>
+        <div class="item create-account">
+            <a href="<?= $block->getUrl('*/*/form'); ?>">
+                <span><?= __('Choose editable marketing template. Download ready to be shared with parents or club members') ?></span>
+            </a>
+        </div>
+        <div class="item process-order">
+            <span><?= __('Fundraiser processes order through our website') ?></span>
+        </div>
+        <div class="item delivery">
+            <span><?= __('Packed. Sent. Delivered. Sorted!') ?></span>
+        </div>
+    </div>
+</div>

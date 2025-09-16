@@ -1,0 +1,27 @@
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+// Common
+& when (@media-common = true) {
+    .source-switcher {
+        &:extend(.store-switcher);
+        margin-right: @indent__s;
+    }
+    .source-info {
+        font-size: 1.6rem;
+        font-weight: @font-weight__semibold;
+    }
+    .source-shipping-methods {
+        padding-top: @indent__s + @indent__xs;
+    }
+    .admin__control-table .admin__field-status select {
+        width: 140px;
+    }
+    .admin__control-table td.admin__field-container_price {
+        width: 125px;
+    }
+    .admin__control-table .admin__field-tax_class_id select {
+        width: 140px;
+    }
+}

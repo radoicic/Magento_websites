@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="backend_block_widget_grid_prepare_grid_before">
+        <observer name="35251469ed8845c08d9219de93f56130" instance="Ecombricks\InventoryCustomerSourceSelection\Observer\Backend\Block\Widget\Grid\BeforePrepare" />
+    </event>
+    <event name="controller_action_catalog_product_save_entity_after">
+        <observer name="4f1d4d7fd5fca90ceeb3267461712573" instance="Ecombricks\InventoryCustomerSourceSelection\Observer\Inventory\Model\SourceItem\Option\Price\Process" />
+        <observer name="170831a629ae48eb16f81677b6d8a92b" instance="Ecombricks\InventoryCustomerSourceSelection\Observer\Inventory\Model\SourceItem\Option\TaxClass\Process" />
+    </event>
+</config>

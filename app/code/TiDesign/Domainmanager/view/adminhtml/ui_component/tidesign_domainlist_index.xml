@@ -1,0 +1,169 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">tidesign_domainlist_index.tidesign_domainmanager_grid_data_source</item>
+			<item name="deps" xsi:type="string">tidesign_domainlist_index.tidesign_domainmanager_grid_data_source</item>
+		</item>
+		<item name="spinner" xsi:type="string">tidesign_domainlist_columns</item>
+		<item name="buttons" xsi:type="array">
+			<item name="add" xsi:type="array">
+				<item name="name" xsi:type="string">add</item>
+				<item name="label" translate="true" xsi:type="string">Add New</item>
+				<item name="class" xsi:type="string">primary</item>
+				<item name="url" xsi:type="string">*/*/new</item>
+			</item>
+		</item>
+	</argument>
+	<dataSource name="tidesign_domainmanager_grid_data_source">
+		<argument name="dataProvider" xsi:type="configurableObject">
+			<argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+			<argument name="name" xsi:type="string">tidesign_domainmanager_grid_data_source</argument>
+			<argument name="primaryFieldName" xsi:type="string">td_id</argument>
+			<argument name="requestFieldName" xsi:type="string">td_id</argument>
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="update_url" path="mui/index/render" xsi:type="url"/>
+					<item name="storageConfig" xsi:type="array">
+						<item name="indexField" xsi:type="string">td_id</item>
+					</item>
+				</item>
+			</argument>
+		</argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+	</dataSource>
+	
+	<listingToolbar name="listing_top">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="sticky" xsi:type="boolean">false</item>
+			</item>
+		</argument>
+		<massaction name="listing_massaction">
+		    <argument name="data" xsi:type="array">
+		        <item name="config" xsi:type="array">
+		            <item name="selectProvider" xsi:type="string">tidesign_domainlist_index.tidesign_domainlist_index.tidesign_domainlist_columns.ids</item>
+		            <item name="indexField" xsi:type="string">td_id</item>
+		        </item>
+		    </argument>
+		    <action name="delete">
+		        <argument name="data" xsi:type="array">
+		            <item name="config" xsi:type="array">
+		                <item name="type" xsi:type="string">delete</item>
+		                <item name="label" xsi:type="string" translate="true">Delete</item>
+		                <item name="url" xsi:type="url" path="domainmanager/domainlist/massDelete"/>
+		                <item name="confirm" xsi:type="array">
+		                    <item name="title" xsi:type="string" translate="true">Delete</item>
+		                    <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete selected record(s)?</item>
+		                </item>
+		            </item>
+		        </argument>
+		    </action>
+		</massaction>
+		<paging name="listing_paging"/>
+	</listingToolbar>
+	
+	<columns name="tidesign_domainlist_columns">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="resizeConfig" xsi:type="array">
+					<item name="enabled" xsi:type="boolean">true</item>
+                </item>
+            </item>
+        </argument>
+		<selectionsColumn name="ids">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="indexField" xsi:type="string">td_id</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">45</item>
+				</item>
+			</argument>
+		</selectionsColumn>
+		<column name="td_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">45</item>
+					<item name="label" xsi:type="string" translate="true">ID</item>
+                </item>
+            </argument>
+		</column>
+		<column name="td_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">false</item>
+					<item name="filter" xsi:type="string">false</item>
+					<item name="label" xsi:type="string" translate="true">Name</item>
+                </item>
+            </argument>
+		</column>
+		<column name="md_status" class="TiDesign\Domainmanager\Ui\Component\Listing\Column\TdStatus">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">false</item>
+					<item name="filter" xsi:type="string">false</item>
+					<item name="label" translate="false" xsi:type="string">Status</item>
+					<item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">150</item>
+				</item>
+			</argument>
+		</column>
+		<column name="td_url" class="TiDesign\Domainmanager\Ui\Component\Listing\Column\TdUrl">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">false</item>
+					<item name="filter" xsi:type="string">false</item>
+					<item name="label" xsi:type="string" translate="true">Web Url</item>
+				</item>
+			</argument>
+		</column>		
+        <column name="td_store" class="TiDesign\Domainmanager\Ui\Component\Listing\Column\TdStore">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">false</item>
+					<item name="filter" xsi:type="string">false</item>
+					<item name="label" xsi:type="string" translate="true">Store View</item>
+				</item>
+			</argument>
+        </column>
+		<column name="td_date" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">false</item>
+					<item name="filter" xsi:type="string">false</item>
+					<item name="label" xsi:type="string" translate="true">Created</item>
+				</item>
+			</argument>
+        </column>
+        <column name="td_customers" class="TiDesign\Domainmanager\Ui\Component\Listing\Column\TdCustomers">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">false</item>
+					<item name="filter" xsi:type="string">false</item>
+					<item name="label" xsi:type="string" translate="true">Customers</item>
+				</item>
+			</argument>
+        </column>
+		<actionsColumn name="actions" class="TiDesign\Domainmanager\Ui\Component\Listing\Column\GridActions">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="sortOrder" xsi:type="number">50</item>
+					<item name="indexField" xsi:type="string">td_id</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">100</item>
+				</item>
+			</argument>
+		</actionsColumn>
+	</columns>
+</listing>

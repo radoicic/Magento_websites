@@ -1,0 +1,20 @@
+{
+    "name": "arsit/customerpassword",
+    "description": "A Magento 2 module that makes posible to change customer password via admin panel",
+    "type": "magento2-module",
+    "version": "1.0.1",
+    "license": [
+        "commercial",
+        "http://arsit.ru/license-agreement/"
+    ],
+    "require": {
+        "php": "*",
+        "magento/framework": "*"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {
+            "Arsit\\CustomerPassword\\": ""
+        }
+    }
+}

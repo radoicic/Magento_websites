@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Iksanika. All rights reserved.
+ * See IKS-LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <iksanika_ordermanage>
+            <columns>
+                <showcolumns>increment_id,store_id,created_at,billing_name,shipping_name,base_grand_total,grand_total,status</showcolumns>
+                <limit>50</limit>
+                <page>1</page>
+                <sort>increment_id</sort>
+                <dir>asc</dir>
+            </columns>
+            <products>
+                <showattr>small_image,title,sku,qty_ordered,product_id</showattr>
+                <includeproducts>1</includeproducts>
+                <showproducts>1</showproducts>
+            </products>
+            <images>
+                <showurl>0</showurl>
+                <width>75</width>
+                <height>75</height>
+            </images>
+            <invoice>
+                <notify>1</notify>
+                <status>default</status>
+            </invoice>
+            <capture>
+                <case>online</case>
+                <captureInMassAction>1</captureInMassAction>
+                <notify>1</notify>
+                <status>default</status>
+            </capture>
+            <ship>
+                <notify>1</notify>
+                <status>default</status>
+                <carrier_code>custom</carrier_code>
+                <carrier_title>My Flat Rate</carrier_title>
+            </ship>
+            <complete>
+                <!--
+                <case>online</case>
+                -->
+                <status>default</status>
+            </complete>
+            <!--
+            -->
+        </iksanika_ordermanage>
+    </default>
+</config>

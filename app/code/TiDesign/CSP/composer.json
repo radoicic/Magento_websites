@@ -1,0 +1,22 @@
+{
+    "name": "tidesign/module-csp",
+    "description": "Content Security Policies Whitelist Module for Magento 2.3.5 and above",
+	"version": "1.0.0",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "TiDesign"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "TiDesign\\Csp\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

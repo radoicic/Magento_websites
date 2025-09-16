@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Amasty\LabelGraphQl\Model\Resolver\LabelProvider">
+        <arguments>
+            <argument name="getLabelCustomerGroupIds" xsi:type="object">Amasty\Label\Model\ResourceModel\Label\GetLabelCustomerGroupsIds</argument>
+        </arguments>
+    </type>
+</config>

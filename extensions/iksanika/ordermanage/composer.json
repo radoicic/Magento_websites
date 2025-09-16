@@ -1,0 +1,24 @@
+{
+    "name": "iksanika/ordermanage",
+    "description": "Advanced Orders Manager module",
+    "require": {
+        "php": "*",
+        "magento/module-store": "*",
+        "magento/module-backend": "*",
+        "magento/module-sales": "*",
+        "magento/framework": "*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.3",
+    "license": [
+        "IKS-LICENSE"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Iksanika\\Ordermanage\\": ""
+        }
+    }
+}

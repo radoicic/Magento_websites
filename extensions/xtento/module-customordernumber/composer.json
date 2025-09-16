@@ -1,0 +1,35 @@
+{
+    "name": "xtento/module-customordernumber",
+    "description": "XTENTO Order Number Customizer",
+    "require": {
+        "php": "*",
+        "xtento/module-xtcore": "*",
+        "magento/framework": "*",
+        "magento/module-backend": "*",
+        "magento/module-sales": "*"
+    },
+    "type": "magento2-module",
+    "version": "2.1.7",
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Xtento\\CustomOrderNumber\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "XTENTO GmbH & Co. KG",
+            "email": "info@xtento.com",
+            "homepage": "http://www.xtento.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "info@xtento.com"
+    }
+}

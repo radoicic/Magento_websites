@@ -1,0 +1,221 @@
+type Query {
+    amGiftCardAccount(input: AmGiftCardAccountInput!): AmGiftCardAccount
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\GiftCardAccount")
+        @doc(description: "Get gift card account information by code"),
+    amGiftCardSetting: AmGiftCardSettings
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Setting")
+        @doc(description: "Get gift card module settings"),
+    amGiftCardPreview(input: AmGiftCardPreviewInput): AmGiftCardPreview
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\PreviewGiftCard")
+        @doc(description: "Get rendered email template for preview."),
+    amUserGiftCardAccount: [AmGiftCardAccount]
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\GetUserAccounts")
+        @doc(description: "Get current user's gift card accounts."),
+}
+
+input AmGiftCardPreviewInput {
+    am_giftcard_amount: Float @doc(description: "Predefined price of gift card"),
+    am_giftcard_amount_custom: Float @doc(description: "Custom price of gift card"),
+    am_giftcard_sender_name: String @doc(description: "Name of person who bought the gift card"),
+    am_giftcard_recipient_name: String @doc(description: "Name of person who will recieve gift card"),
+    am_giftcard_message: String @doc(description: "Message from person who bought gift card that will come with product"),
+    am_giftcard_image: Int @doc(description: "Image of gift card"),
+    am_giftcard_custom_image: String @doc(description: "Custom Image name with extension received from image upload API endpoint.")
+}
+
+type AmGiftCardPreview {
+    content: String @doc(description: "Rendered preview of Gift Card.")
+}
+
+#Gift Card Settings
+type AmGiftCardSettings {
+    isEnabled: Boolean @doc(description: "Is module enabled flag."),
+    allowedProductTypes: [String] @doc(description: "Allowed product types array."),
+    isSippingPaidAllowed: Boolean @doc(description: "Is allowed to pay shipping via Gift Card."),
+    isTaxPaidAllowed: Boolean @doc(description: "Is allowed to pay tax via Gift Card."),
+    isExtraFeePaidAllowed: Boolean @doc(description: "Is allowed to pay extra fee via Gift Card."),
+    giftCardFields: [String] @doc(description: "Gift Card fields array."),
+    isShowOnCartAndCheckout: Boolean @doc(description: "Is show on checkout and cart pages flag."),
+    giftCardTimezones: [AmGiftCardTimezone] @doc(description: "Gift Card timezones array."),
+    isAllowUserImages: Boolean @doc(description: "Is allowed to upload images by customers."),
+    imageUploadTooltip: String @doc(description: "Image uploading tooltip."),
+    giftCardLifetime: Int @doc(description: "Gift Card Lifetime."),
+    isAllowUseThemselves: Boolean @doc(description: "Is allowed to use Gift Card by user who bought it.")
+}
+
+type Mutation {
+    applyAmGiftCardToCart(input: ApplyAmGiftCardToCartInput): ApplyAmGiftCardToCartOutput
+        @resolver(class: "\\Amasty\\GiftCardGraphQl\\Model\\Resolver\\ApplyGiftCardToCart")
+        @doc(description: "Apply a gift card code to the specified cart")
+    removeAmGiftCardFromCart(input: RemoveAmGiftCardFromCartInput): RemoveAmGiftCardFromCartOutput
+        @resolver(class: "\\Amasty\\GiftCardGraphQl\\Model\\Resolver\\RemoveGiftCardFromCart")
+        @doc(description: "Remove a gift card code from the specified cart")
+    addAmGiftCardProductsToCart(input: AddAmGiftCardProductsToCartInput): AddAmGiftCardProductsToCartOutput
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\AddAmGiftCardProductsToCart")
+        @doc(description: "Add gift card product to specified cart")
+    addAmGiftCardCodeToAccount(input: AmGiftCardCodeInAccountInput): AmGiftCardMutationCommonOutput
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Customer\\AddGiftCardCode")
+        @doc(description: "Add gift card account to customer's account")
+    removeAmGiftCardCodeToAccount(input: AmGiftCardCodeInAccountInput): AmGiftCardMutationCommonOutput
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Customer\\RemoveGiftCardCode")
+        @doc(description: "Remove gift card account from customer's account")
+}
+
+input AmGiftCardCodeInAccountInput {
+    am_giftcard_code: String! @doc(description: "Gift card code.")
+}
+
+type AmGiftCardMutationCommonOutput {
+    error: Boolean @doc(description: "Is mutation was failed.")
+    message: String @doc(description: "Result message.")
+}
+
+type AmGiftCardTimezone {
+    label: String @doc(description: "Timezone label")
+    value: String @doc(description: "Timezone unique value")
+}
+
+#Gift Card Product
+input AddAmGiftCardProductsToCartInput {
+    cart_id: String! @doc(description: "The unique ID that identifies the customer's cart")
+    cart_items: [AmGiftCardProductCartItemInput!]!
+}
+
+input AmGiftCardProductCartItemInput {
+    data: CartItemInput!
+    gift_card_options: AmGiftCardOptionsInput! @doc(description: "Defines input with gift card product options")
+}
+
+input AmGiftCardOptionsInput {
+    am_giftcard_amount: Float @doc(description: "Predefined price of gift card")
+    am_giftcard_amount_custom: Float @doc(description: "Custom price of gift card")
+    am_giftcard_type: Int @doc(description: "Card type for combined gift cards. Can be either printed virtual or combined")
+    am_giftcard_sender_name: String @doc(description: "Name of person who bought the gift card")
+    am_giftcard_recipient_name: String @doc(description: "Name of person who will recieve gift card")
+    am_giftcard_recipient_email: String @doc(description: "Email of person who will recieve virtual gift card")
+    is_date_delivery: Boolean @doc(description: "Flag to mark if gift card should be delivired to specified date")
+    am_giftcard_date_delivery: String @doc(description: "Delivery date of gift card")
+    am_giftcard_date_delivery_timezone: String @doc(description: "Timezone of gift card delivery date")
+    am_giftcard_message: String @doc(description: "Message from person who bought gift card that will come with product")
+    am_giftcard_custom_image: String @doc(description: "Custom image of gift card")
+    am_giftcard_image: Int @doc(description: "Image of gift card")
+}
+
+type AddAmGiftCardProductsToCartOutput {
+    cart: Cart! @doc(description: "Describes the content of the specified shopping cart")
+}
+
+type AmGiftCardCartItem implements CartItemInterface {
+    am_giftcard_options: [AmGiftCardOption!]!
+        @doc(description: "Options of the gift card product")
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\GiftCardCartOption")
+    am_giftcard_image: String
+        @doc(description: "Image of the gift card product")
+        @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\GiftCardCartImage")
+}
+
+type AmGiftCardOption {
+    code: String @doc(description: "Code of gift card option")
+    label: String @doc(description: "Label of gift card option")
+    value: String @doc(description: "Value of gift card option")
+}
+
+type AmGiftCardProduct implements ProductInterface, PhysicalProductInterface, CustomizableProductInterface, RoutableInterface
+@doc(description: "AmGiftCardProduct defines properties of a gift card, including arrays of availiable values and images of the specific gift card") {
+    am_giftcard_prices: [AmGiftCardPrice] @doc(description: "An array that contains information about the values of gift card")
+    am_allow_open_amount: Boolean @doc(description: "Indicates whether customers have the ability to set the value of the gift card")
+    am_open_amount_min: GiftCardPriceValue @doc(description: "The minimum acceptable value of an open amount gift card")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\PriceValue")
+    am_open_amount_max: GiftCardPriceValue @doc(description: "The maximum acceptable value of an open amount gift card")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\PriceValue")
+    am_giftcard_fee_enable: Boolean @doc(description: "Indicates whether gift card have additional fee for purchase")
+    am_giftcard_fee_type: AmGiftCardFeeTypeEnum @doc(description: "Either PERCENT or FIXED")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\GiftCardFeeType")
+    am_giftcard_fee_value: Float @doc(description: "Value of fee")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\GiftCardFeeValue")
+    am_giftcard_type: AmGiftCardTypeEnum @doc(description: "Either VIRTUAL PRINTED OR COMBINED")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\GiftCardType")
+    am_giftcard_lifetime: Int @doc(description: "The number of days after purchase until the gift card expires")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\ConfigAttributes")
+    am_email_template: String  @doc(description: "Email template unique ID which will be send to the virtual or combined cart receiver")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\ConfigAttributes")
+    am_images: [AmGiftCardImage] @doc(description: "An array that contains information about associated images to Gift Card")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\GiftCardImages")
+}
+
+type AmGiftCardImage @doc(description: "AmGiftCardImage contains image data of gift card") {
+    uid: ID @doc(description: "The unique ID for a Image object")
+    image_id: Int @doc(description: "Unique ID of gift card image")
+    title: String @doc(description: "Gift Card image title")
+    status: Int @doc(description: "Either Enabled or Disabled")
+    image_path: String @doc(description: "The path of Gift Card Image")
+    user_upload: Boolean @doc(description: "Is user uploaded flag")
+}
+
+type AmGiftCardPrice @doc(description: "AmGiftCardPrice contains data of defined value of gift card") {
+    price_id: Int @doc(description: "Unique ID of gift card price")
+    website_id: Int @doc(description: "ID of the website price is assigned to")
+    attribute_id: Int @doc(description: "An internal attribute ID")
+    value: GiftCardPriceValue @doc(description: "The value of the price")
+    @resolver(class: "Amasty\\GiftCardGraphQl\\Model\\Resolver\\Product\\PriceValue")
+}
+
+type GiftCardPriceValue {
+    value: Float
+    currency: CurrencyEnum,
+    default: Float
+}
+
+enum AmGiftCardTypeEnum @doc(description: "This enumeration defines the types of gift cards") {
+    VIRTUAL
+    PRINTED
+    COMBINED
+}
+
+enum AmGiftCardFeeTypeEnum @doc(description: "This enumeration defines the type of fee that can be applied to gift card") {
+    FIXED
+    PERCENT
+}
+
+#Gift Card Account
+input AmGiftCardAccountInput {
+    am_gift_card_code: String! @doc(description: "Defines the input required to identify the gift card account")
+}
+
+input ApplyAmGiftCardToCartInput @doc(description: "Defines the input required to run the applyAmGiftCardToCart mutation") {
+    cart_id: String! @doc(description: "The unique ID that identifies the customer's cart")
+    am_gift_card_code: String! @doc(description: "The gift card code to be applied to the cart")
+}
+
+input RemoveAmGiftCardFromCartInput @doc(description: "Defines the input required to run the removeAmGiftCardFromCart mutation") {
+    cart_id: String! @doc(description: "The unique ID that identifies the customer's cart")
+    am_gift_card_code: String! @doc(description: "The gift card code to be removed to the cart")
+}
+
+type ApplyAmGiftCardToCartOutput @doc(description: "Defines the possible output for the applyAmGiftCardToCart mutation") {
+    cart: Cart! @doc(description: "Describes the contents of the specified shopping cart")
+}
+
+type RemoveAmGiftCardFromCartOutput @doc(description: "Defines the possible output for the removeGiftCardFromCart mutation") {
+    cart: Cart! @doc(description: "Describes the contents of the specified shopping cart")
+}
+
+type Cart {
+    applied_am_gift_cards: [AppliedAmGiftCard]
+    @resolver(class: "\\Amasty\\GiftCardGraphQl\\Model\\Resolver\\GetAppliedGiftCardsFromCart")
+    @doc(description: "Contains the code attribute, which specifies the applied gift card codes")
+}
+
+type AppliedAmGiftCard @doc(description: "Contains the applied gift card with applied and remaining balance") {
+    code: String @doc(description: "Gift card account code")
+    expiration_date: String @doc(description: "Gift card expiration date")
+    current_balance: Money @doc(description: "Current balance remaining on gift card")
+    applied_balance: Money @doc(description: "Applied balance to the current cart")
+}
+
+type AmGiftCardAccount @doc(description: "Contains details about the gift card account") {
+    code: String @doc(description: "Gift card account code")
+    expiration_date: String @doc(description: "Gift card expiration date")
+    status: String @doc(description: "Gift card status")
+    current_balance: Money @doc(description: "Current balance of gift card")
+}

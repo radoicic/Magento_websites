@@ -1,0 +1,290 @@
+<?php
+namespace TiDesign\CheckoutAgreements\Block\Widget;
+
+use Magento\Framework\View\Element\Template;
+use Magento\Widget\Block\BlockInterface; 
+use TiDesign\CheckoutAgreements\Model\DataFactory;
+
+class Formelement   extends Template implements BlockInterface 
+{
+    protected $_customerSession;
+    protected $_dataFactory;
+
+	public function __construct(
+		\Magento\Framework\View\Element\Template\Context $context,
+		\Magento\Customer\Model\Session $customerSession,
+		DataFactory $dataFactory,
+		array $data = []
+	) {
+		$this->_customerSession 	= $customerSession;
+		$this->_dataFactory 		= $dataFactory;
+		parent::__construct($context, $data);
+	}
+	
+	public function _toHtml()
+    {
+        $this->setTemplate('widget/formelement.phtml');
+        return parent::_toHtml();
+    }
+	public function getTitle()
+    {
+        return $this->getData('title');
+    }
+	public function getInputType()
+    {
+        return $this->getData('input_type');
+    }
+	public function getRowCount()
+    {
+		$size = $this->getData('number_of_row');
+        if (!$size) {
+			$size =3;
+		}
+        return $size;
+    }
+	
+	public function getPlaceholder()
+    {
+         $ph1 = $this->getData('placeholder_text');
+		 $ph2 = str_replace('\n', "&#10;", $ph1);
+		 return $ph2;
+    }
+	public function getInputData()
+    {
+        return $this->getData('input_data');
+    }	
+	public function getFormElement(){
+		$html 			= "";
+		$el 			= $this->getInputType();
+		$id 			= $this->getInputData();
+		$placeholder 	= $this->getPlaceholder();
+		$formName		= $this->generateRandomString();
+		$data 			= $this->getDefinitions();
+		$formData 		= json_decode($data->getFormData(), true);
+		
+		$edit			= ($data->getEdit()) ?? 1;
+		
+		
+		if($el == 'date'){
+			if($edit == 0){
+				$html = " ".date_format(new \DateTime($data['date']),"F d, Y");
+			}else{
+				$html = " This field will be filled in automatically when the form is saved.";
+			}
+		}
+		if($el == 'time'){
+			if($edit == 0){
+				$html = " ".date_format(new \DateTime($data['date']),"H:i");
+			}else{
+				$html = " This field will be filled in automatically when the form is saved.";
+			}
+		}
+		if($el == 'creation_ip'){
+			if($edit == 0){
+				$html = " ".$data['creation_ip'];
+			}else{
+				$html = " This field will be filled in automatically when the form is saved.";
+			}
+		}
+		if($el == 'text'){
+			if($edit == 0){
+				$html = "<p>".(($formData[$id])?? "")."</p>";
+			}else{
+				$html ='<input class="form_input_field" type="text" value="';
+				$html .= ($formData[$id])?? "";
+				$html .= '" id="'.$id.'" name="'.$id.'" >';
+			}
+		}
+		
+		if($el == 'textarea'){
+			if($edit == 0){
+				$html = "<p>".(($formData[$id])?? "")."</p>";
+			}else{			
+				$html ='<textarea class="form_input_field" id="'.$id.'" name="'.$id.'" rows="'.$this->getRowCount().'" placeholder="'.$placeholder.'">';
+				$html .=($formData[$id])?? "";
+				$html .='</textarea>';
+			}
+		}
+		if($el == 'signature'){
+			if($edit == 0){
+				if($data['signature']){
+					$html = "<p><img src='".$data['signature']."' style='max-width: 300px;'></p>";
+				}
+			}else{			
+
+					
+					$html ='<div id="'.$formName.'signature-pad" class="signature-pad form_input_field">';
+					$html .='	<div class="signature-pad--body">';
+					$html .='		<canvas id="'.$formName.'signature-pad-canvas" style="touch-action: none;" width="673" height="158"></canvas>';
+					$html .='</div>
+								<div class="signature-pad--footer">
+									<button type="button" class="button clear" data-action="clear">Clear</button>
+								</div>
+							</div>
+							<input type="hidden" name="signature"  	id="'.$formName.'"  value="" class="validate-hidden">
+							<script>
+								require(["TiDesign_CheckoutAgreements/js/signature_pad","jquery"], function (SignaturePad,$) {
+								   function Signature(options, node) {
+										var o = {
+											fieldId: ""
+										};
+										for (var k in options) {
+											if (options.hasOwnProperty(k)) o[k] = options[k];
+										}
+
+										var clearButton = node.querySelector("[data-action=clear]"),
+											canvas = node.querySelector("canvas"),
+											signaturePad = new SignaturePad(canvas, {backgroundColor: "rgba(0,0,0,0)"});
+
+										function resizeCanvas() {
+											if (canvas.offsetWidth === 0 || canvas.offsetHeight === 0) return;
+											var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+											canvas.width = canvas.offsetWidth * ratio;
+											canvas.height = canvas.offsetHeight * ratio;
+											canvas.getContext("2d").scale(ratio, ratio);
+											signaturePad.clear();
+										}
+
+										function isCanvasBlank() {
+											return !canvas.getContext("2d")
+												.getImageData(0, 0, canvas.width, canvas.height).data
+												.some(channel => channel !== 0);
+										}
+										resizeCanvas();
+
+										function download(dataURL, filename) {
+											if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+												window.open(dataURL);
+											} else {
+												var blob = dataURLToBlob(dataURL);
+												var url = window.URL.createObjectURL(blob);
+
+												var a = document.createElement("a");
+												a.style = "display: none";
+												a.href = url;
+												a.download = filename;
+
+												document.body.appendChild(a);
+												a.click();
+
+												window.URL.revokeObjectURL(url);
+											}
+										}
+										function dataURLToBlob(dataURL) {
+											var parts = dataURL.split(";base64,");
+											var contentType = parts[0].split(":")[1];
+											var raw = window.atob(parts[1]);
+											var rawLength = raw.length;
+											var uInt8Array = new Uint8Array(rawLength);
+
+											for (var i = 0; i < rawLength; ++i) {
+												uInt8Array[i] = raw.charCodeAt(i);
+											}
+
+											return new Blob([uInt8Array], { type: contentType });
+										}
+
+										clearButton.onclick = function (event) {
+											signaturePad.clear();
+											$(o.fieldId).val(null);
+										};
+
+										$(o.fieldId + "signature-pad-canvas").mouseout(function (event) {
+											var input = $(o.fieldId);
+											isCanvasBlank() ?
+												input.val(null) :
+												input.val(signaturePad.toDataURL());
+										});
+
+									}
+
+									Signature({fieldId : "#'.$formName.'"}, document.getElementById("'.$formName.'signature-pad"));
+								
+							';	
+							if (!empty($data['signature'])) {
+							$html .='	var canvas = document.getElementById("'.$formName.'signature-pad-canvas");
+										var ctx = canvas.getContext("2d");
+
+										var image = new Image();
+										image.onload = function() {
+											ctx.drawImage(image, 0, 0);
+										};
+										image.src = "'.$data['signature'].'";
+										$("#'.$formName.'").val("'.$data['signature'].'");';
+							}						
+							$html .='}); </script>';
+			}
+		}
+		if($el == 'upload'){
+			if($edit == 0){
+				if($data['photo']){
+					$html = "<p><div class='signature-pad--body' style='height: 300px;'><img id='output' src='".$data['photo']."' style=''></div></p>";
+				}
+			}else{		
+				
+				$html ='<div id="'.$formName.'photo" class="signature-pad">
+							<div class="signature-pad--body">
+								<img id="output"/>
+							</div>
+							<div class="signature-pad--footer">
+								<button type="button" class="button upload" data-action="upload">Upload</button>
+								<input id="inputFileToLoad" type="file" capture="user" accept="image/*" >
+								<button type="button" class="button clear" data-action="clearphoto">Clear</button>
+							</div>
+						</div>
+						<input type="hidden" name="photo"  		id="photo"  			value=""	class="validate-hidden" >
+						<script>
+						require(["jquery"], function ($) {
+							
+							var uploadButton = document.querySelector("[data-action=upload]");
+							var clearButton	 = document.querySelector("[data-action=clearphoto]");
+							var uploadFile	= $("#inputFileToLoad");
+
+							function ImageToBase64(image) {
+								var img = image.files[0];
+								var reader = new FileReader();
+								reader.onloadend = function(){
+									$("#photo").val(reader.result);
+									$("#output").attr("src", reader.result);
+								}
+								reader.readAsDataURL(img);
+							}
+							
+							uploadButton.onclick = function (event) {
+								$("#inputFileToLoad").trigger("click");
+							};
+							uploadFile.on("change",function(event){
+								ImageToBase64(this);
+							});
+							clearButton.onclick = function (event) {
+								$("#photo").val("");
+								$("#output").attr("src", "");
+							};';
+							if (!empty($data['photo'])) {
+							$html .='	$("#photo").val("'.$data["photo"].'");
+										$("#output").attr("src", "'.$data["photo"].'");';
+							}						
+							$html .='}); </script>';
+			}
+		}		
+		return $html;
+	}
+	public function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+	public function getDefinitions()
+	{
+		$data = null; //  need to return at-least null
+		if($this->_customerSession->isLoggedIn()) {
+			$customerId	= $this->_customerSession->getCustomerId();
+			$data 		= $this->_dataFactory->create()->getCollection()->addFieldToFilter('customer_id',array('eq' => $customerId))->getFirstItem();
+		}
+		return $data;
+	}
+}

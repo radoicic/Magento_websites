@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="fundraiser_theme" resource="default" engine="innodb" comment="Fundraiser Theme">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="varchar" name="theme_id" nullable="false" length="255" comment="Theme ID"/>
+        <column xsi:type="varchar" name="theme_name" nullable="false" length="255" comment="Category Name"/>
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="true" comment="Category ID"/>
+        <column xsi:type="text" name="config_data" comment="Config Data"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FUNDRAISER_THEME_CATEGORY_ID_CATALOG_CATEGORY_ENTITY_ENTITY_ID"
+                    table="fundraiser_theme" column="category_id"
+                    referenceTable="catalog_category_entity" referenceColumn="entity_id"
+                    onDelete="SET NULL"/>
+    </table>
+    <table name="fundraiser_theme_customer" resource="default" engine="innodb" comment="Fundraiser Theme Customer">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="varchar" name="theme_id" nullable="false" length="255" comment="Theme ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" comment="Customer ID"/>
+        <column xsi:type="varchar" name="category_id" nullable="true" comment="Category ID"/>
+        <column xsi:type="varchar" name="tracking_code" nullable="false" length="255" comment="Tracking Code"/>
+        <column xsi:type="varchar" name="status" nullable="false" comment="Status"/>
+        <column xsi:type="text" name="config_data" comment="Config Data"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="FUNDRAISER_THEME_CUSTOMER_TRACKING_CODE">
+            <column name="tracking_code"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FUNDRAISER_THEME_CUSTOMER_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID"
+                    table="fundraiser_theme_customer" column="customer_id"
+                    referenceTable="customer_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <table name="fundraiser_order" resource="default" engine="innodb" comment="Fundraiser Order">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" comment="Customer ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="fundraiser_theme_customer_id" unsigned="true" nullable="false"
+                comment="Fundraiser Theme Customer ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="fundraiser_order_item" resource="default" engine="innodb" comment="Fundraiser Order">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" comment="Customer ID"/>
+        <column xsi:type="int" name="order_item_id" unsigned="true" nullable="false" comment="Order Item ID"/>
+        <column xsi:type="int" name="fundraiser_theme_customer_id" unsigned="true" nullable="false"
+                comment="Fundraiser Theme Customer ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+
+    <table name="quote">
+        <column xsi:type="varchar" name="fundraiser_tracking_code" nullable="true" length="255"
+                comment="Fundraiser Tracking Code"/>
+    </table>
+</schema>

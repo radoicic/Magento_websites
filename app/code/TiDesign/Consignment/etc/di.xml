@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+	<preference for="TiDesign\Consignment\Api\Data\ConsignmentlistInterface" type="TiDesign\Consignment\Model\Consignmentlist" />
+	<preference for="TiDesign\Consignment\Api\ConsignmentlistRepositoryInterface" type="TiDesign\Consignment\Model\ConsignmentlistRepository" />
+
+	<virtualType name="ConsignmentlistGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TiDesign\Consignment\Model\ResourceModel\Consignmentlist\Collection</argument>
+        </arguments>
+    </virtualType>
+
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="tidesign_consignment_grid_data_source" xsi:type="string">TiDesign\Consignment\Model\ResourceModel\Consignmentlist\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>	
+	<virtualType name="TiDesign\Consignment\Model\ResourceModel\Consignmentlist\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">tidesign_consignment</argument>
+			<argument name="resourceModel" xsi:type="string">TiDesign\Consignment\Model\ResourceModel\Consignmentlist</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="TiDesign\Consignment\Api\Data\ConsignmentlistInterface" xsi:type="string">TiDesign\Consignment\Api\ConsignmentlistRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>	
+	<type name="TiDesign\Consignment\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="TiDesign\Consignment\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">tidesignLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">TiDesign\Consignment\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

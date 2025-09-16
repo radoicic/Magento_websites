@@ -1,0 +1,17 @@
+{
+  "name": "citybeach/traderunner",
+  "description": "TradeRunner plugin",
+  "type": "magento2-module",
+  "version": "2.3.3",
+  "license": "proprietary",
+  "require": {
+    "php": "~7.0|~8.1",
+    "citybeach/integration": ">=1.0.8"
+  },
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "CityBeach\\TradeRunner\\": ""
+    }
+  }
+}

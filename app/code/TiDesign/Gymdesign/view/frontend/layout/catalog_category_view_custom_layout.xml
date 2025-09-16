@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	  
+    <referenceContainer name="columns">
+        <container name="div.sidebar.main" htmlTag="div" htmlClass="sidebar sidebar-main mobile-sidebar" after="main">
+          <container name="div.sidebar.content" htmlTag="div" htmlClass="sidebar-content">
+            <container name="sidebar.main" as="sidebar_main" label="Sidebar Main"/>
+            <container name="div.sidebar.additional" htmlTag="div" htmlClass="sidebar sidebar-additional" after="-">
+                <container name="sidebar.additional" as="sidebar_additional" label="Sidebar Additional"/>
+            </container>
+          </container>
+        </container> 
+    </referenceContainer>  
+
+    <body>
+        <attribute name="class" value="category-custom-layout" />
+		<move element="breadcrumbs" destination="main" before="-"/>
+		<referenceBlock name="catalog.leftnav" remove="true"/>
+		<referenceBlock name="sidebar_second_block" remove="true" />
+		<referenceBlock name="category_view_custom_block" remove="true" />
+		<referenceContainer name="sidebar.main">
+			<block class="TiDesign\Gymdesign\Block\Subcategories" name="subcats" template="TiDesign_Gymdesign::subcategories.phtml" before="-"/>
+		</referenceContainer>
+		<referenceBlock name="category.products.list">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">TiDesign_Gymdesign::product/list.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

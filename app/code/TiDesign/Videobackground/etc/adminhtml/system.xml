@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<section id="videobackground" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Video Background</label>
+			<tab>tidesign</tab>
+			<resource>TiDesign_Videobackground::configuration</resource>
+			<group id="general_status" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Module Enable</label>
+				<field id="enable_frontend" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<comment><![CDATA[Enable frontend]]></comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+			<group id="debug_status" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Debug Mode</label>
+				<field id="enable_frontend" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<comment><![CDATA[Enable debug mode will show video details on bottom footer]]></comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="disable_for" translate="label" type="textarea"  sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Disable For</label>
+					<comment><![CDATA[Disable video for quickview or popup modules. Enable Debug mode and take Controller Module Name to disable it.]]></comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<section id="domainmanager" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Domain Manager</label>
+			<tab>tidesign</tab>
+			<resource>TiDesign_Domainmanager::configuration</resource>
+			<group id="domainmanager_status" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Module Enable</label>
+				<field id="enable_frontend" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="default_store" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Default Store</label>
+					<source_model>Magento\Store\Model\System\Store</source_model>
+					<comment><![CDATA[If requested store disabled or deleted, customer will redirect to selected default store url]]></comment>
+				</field>
+				<field id="default_source" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Default Inventory Source</label>
+					<source_model>TiDesign\Domainmanager\Model\Config\Sourcelist</source_model>
+					<comment></comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $blockWrapper = $block->getWrapper(); ?>
+<?php $blockWrapper->setObject($block); ?>
+
+<?php $productMetadataHelper = $this->helper(\Ecombricks\Common\Helper\ProductMetadata::class); ?>
+<?php $shippingAddress = $block->getShippingAddress(); ?>
+<div id="shipping-method-container">
+    <?php if ($block->getCanEditShippingMethod()) : ?>
+    
+    <?php $groupedShippingRates = $shippingAddress->getGroupedAllShippingRates(); ?>
+    <?php if (!empty($groupedShippingRates)) : ?>
+    <?php foreach ($blockWrapper->getSourceCodes($shippingAddress) as $sourceCode) : ?>
+    <?php $sourceShippingRates = !empty($groupedShippingRates[$sourceCode]) ? $groupedShippingRates[$sourceCode] : []; ?>
+    <?php $sourceShippingMethod = $blockWrapper->getShippingMethod($shippingAddress, (string) $sourceCode); ?>
+    <dl class="source">
+        <dt class="source-info">
+            <span class="source-name"><?= $block->escapeHtml($blockWrapper->getSourceName((string) $sourceCode)) ?></span>
+        </dt>
+        <dd class="source-shipping-method">
+            <select name="shipping_method[<?= $sourceCode ?>]" id="shipping_method_<?= $sourceCode ?>" data-source="true" data-source-code="<?= $sourceCode ?>" class="shipping-method required-entry">
+                <?php if (!$sourceShippingMethod) : ?>
+                <option value=""><?= $block->escapeHtml(__('Please select a shipping method...')) ?></option>
+                <?php endif; ?>
+                <?php foreach ($sourceShippingRates as $carrierCode => $carrierShippingRates) : ?>
+                
+                <?php if (version_compare($productMetadataHelper->getVersion(), '2.4.0', '>=')) : ?>
+                <optgroup id="group_<?= $carrierCode ?>" label="<?= $block->escapeHtml($blockWrapper->getSourceCarrierName((string) $sourceCode, $carrierCode)) ?>">
+                <?php else : ?>
+                <optgroup label="<?= $block->escapeHtml($blockWrapper->getSourceCarrierName((string) $sourceCode, $carrierCode)) ?>" style="font-style: normal;">
+                <?php endif; ?>
+                
+                    <?php foreach ($carrierShippingRates as $shippingRate) : ?>
+                    <?php $selectedAttribute = ($sourceShippingMethod === $shippingRate->getCode()) ? ' selected="selected"' : '' ?>
+                    <option value="<?= $block->escapeHtml($block->renderShippingRateValue($shippingRate)) ?>"<?= $selectedAttribute ?>>
+                    <?= $block->renderShippingRateOption($shippingRate) ?>
+                    </option>
+                    <?php endforeach; ?>
+                </optgroup>
+                
+                <?php if (version_compare($productMetadataHelper->getVersion(), '2.4.0', '>=')) : ?>
+                <?= $secureRenderer->renderStyleAsTag('font-style:normal;', 'optgroup#group_'.$carrierCode) ?>
+                <?php endif; ?>
+                
+                <?php endforeach; ?>
+            </select>
+        </dd>
+    </dl>
+    <?php endforeach; ?>
+    <?php else : ?>
+    <p><strong><?= $block->escapeHtml(__('Sorry, no quotes are available for this order right now.')) ?></strong></p>
+    <?php endif; ?>
+    
+    <?php else : ?>
+    
+    <?php foreach ($blockWrapper->getSourceCodes($shippingAddress) as $sourceCode) : ?>
+    <?php $sourceShippingMethod = $blockWrapper->getShippingMethod($shippingAddress, (string) $sourceCode); ?>
+    <?php $currentSourceShippingRate = $blockWrapper->getShippingRateByCode($shippingAddress, (string) $sourceCode, $sourceShippingMethod) ?>
+    <dl class="source">
+        <dt class="source-info">
+            <span class="source-name"><?= $block->escapeHtml($blockWrapper->getSourceName((string) $sourceCode)) ?></span>
+        </dt>
+        <dd class="source-shipping-method">
+            <strong><?= $block->renderShippingRateOption($currentSourceShippingRate) ?></strong>
+        </dd>
+    </dl>
+    <?php endforeach; ?>
+    
+    <?php endif; ?>
+</div>
+
+<?php if (version_compare($productMetadataHelper->getVersion(), '2.4.0', '>=')) : ?>
+<div id="shipping_method_update" class="shipping-method_update">
+    <p><?= $block->escapeHtml(__('Please update order data to get shipping methods and rates')) ?></p>
+</div>
+<?= $secureRenderer->renderStyleAsTag('display:none', 'div#shipping_method_update') ?>
+<?php else : ?>
+<div style="display: none" id="shipping_method_update" class="shipping-method_update">
+    <p><?= $block->escapeHtml(__('Please update order data to get shipping methods and rates')) ?></p>
+</div>
+<?php endif; ?>

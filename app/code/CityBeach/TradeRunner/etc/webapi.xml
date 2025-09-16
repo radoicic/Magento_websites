@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/traderunner/info" method="GET">
+        <service class="CityBeach\Integration\Api\CityBeachInterface" method="execute"/>
+        <resources>
+            <resource ref="CityBeach_Integration::API"></resource>
+        </resources>
+    </route>
+    <route url="/V1/traderunner/productsummarycount" method="GET">
+        <service class="CityBeach\Integration\Api\ProductSummaryInterface" method="getCount"/>
+        <resources>
+            <resource ref="CityBeach_Integration::API"></resource>
+        </resources>
+    </route>
+    <route url="/V1/traderunner/productsummary" method="GET">
+        <service class="CityBeach\Integration\Api\ProductSummaryInterface" method="getList"/>
+        <resources>
+            <resource ref="CityBeach_Integration::API"></resource>
+        </resources>
+    </route>
+    <route url="/V1/traderunner/order" method="POST">
+        <service class="CityBeach\Integration\Api\OrderingInterface" method="execute"/>
+        <resources>
+            <resource ref="CityBeach_Integration::API"></resource>
+        </resources>
+    </route>
+    <route url="/V1/traderunner/shipping-methods" method="GET">
+        <service class="CityBeach\Integration\Api\ShippingMethodListInterface" method="execute"/>
+        <resources>
+            <resource ref="CityBeach_Integration::API"></resource>
+        </resources>
+    </route>
+    <route url="/V1/traderunner/sources" method="GET">
+        <service class="CityBeach\Integration\Api\CityBeachInterface" method="getSourceDetails"/>
+        <resources>
+            <resource ref="CityBeach_Integration::API"></resource>
+        </resources>
+    </route>
+    <route url="/V1/traderunner/sourceInventory" method="GET">
+        <service class="CityBeach\Integration\Api\ProductSummaryInterface" method="getSourceInventoryList"/>
+        <resources>
+            <resource ref="CityBeach_Integration::API"></resource>
+        </resources>
+    </route>
+
+</routes>

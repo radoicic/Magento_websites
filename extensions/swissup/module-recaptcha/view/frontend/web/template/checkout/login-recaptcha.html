@@ -1,0 +1,4 @@
+<!-- ko if: isVisible -->
+<input name="captcha_form_id" type="hidden" data-bind="value: formId,  attr: {'data-scope': dataScope}" />
+<div data-bind="attr: {'id': formId, 'data-mage-init': getMageInit()}" class="field g-recaptcha required" afterRender="initListeners"></div>
+<!-- /ko -->

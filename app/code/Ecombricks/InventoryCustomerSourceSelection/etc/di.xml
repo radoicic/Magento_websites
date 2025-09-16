@@ -1,0 +1,501 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Catalog\Data\Product\SourceQuoteInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Catalog\Product\SourceQuote"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Catalog\Product\SourceQuoteManagementInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Catalog\Product\SourceQuoteManagement"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\Quote\ShippingMethodManagementInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Quote\ShippingMethodManagement"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\Quote\GuestCart\GuestShippingMethodManagementInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Quote\GuestCart\GuestShippingMethodManagement"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\CatalogInventory\StockStateInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\CatalogInventory\StockState"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\InventorySales\GetProductSalableQtyInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\GetProductSalableQty"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\SourceItemInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\SourceItem"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\ReturnProcessor\Request\ItemsToRefundInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\ReturnProcessor\Request\ItemsToRefund"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\ReturnProcessor\ProcessRefundItemsInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\ReturnProcessor\ProcessRefundItems"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\InventorySales\IsProductSalableForRequestedQtyInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsProductSalableForRequestedQtyConditionChainOnAddToCart"/>
+    <virtualType name="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsProductSalableForRequestedQtyConditionChainOnAddToCart" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsProductSalableForRequestedQtyConditionChain">
+        <arguments>
+            <argument name="conditions" xsi:type="array">
+                <item name="is_correct_qty" xsi:type="array">
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="object" xsi:type="object">Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\IsCorrectQtyCondition</item>
+                </item>
+                <item name="back_order" xsi:type="array">
+                    <item name="sort_order" xsi:type="number">10</item>
+                    <item name="object" xsi:type="object">Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\BackOrderCondition</item>
+                </item>
+                <item name="manage_stock" xsi:type="array">
+                    <item name="sort_order" xsi:type="number">20</item>
+                    <item name="object" xsi:type="object">Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\ManageStockCondition</item>
+                </item>
+                <item name="is_salable_with_reservations" xsi:type="array">
+                    <item name="sort_order" xsi:type="number">30</item>
+                    <item name="object" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsSalableWithReservationsCondition</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsProductSalableForRequestedQtyConditionChainOnPlaceOrder" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsProductSalableForRequestedQtyConditionChain">
+        <arguments>
+            <argument name="conditions" xsi:type="array">
+                <item name="back_order" xsi:type="array">
+                    <item name="sort_order" xsi:type="number">10</item>
+                    <item name="object" xsi:type="object">Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\BackOrderCondition</item>
+                </item>
+                <item name="manage_stock" xsi:type="array">
+                    <item name="sort_order" xsi:type="number">20</item>
+                    <item name="object" xsi:type="object">Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\ManageStockCondition</item>
+                </item>
+                <item name="is_salable_with_reservations" xsi:type="array">
+                    <item name="sort_order" xsi:type="number">30</item>
+                    <item name="object" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsSalableWithReservationsCondition</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryReservations\ReservationInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryReservations\Reservation"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryReservations\ReservationBuilderInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryReservations\ReservationBuilder"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryReservations\GetReservationsQuantityInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryReservations\ResourceModel\GetReservationsQuantity"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\Price\GetInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Inventory\SourceItem\Option\Price\Get"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\Price\SaveInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Inventory\SourceItem\Option\Price\Save"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\Price\DeleteInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Inventory\SourceItem\Option\Price\Delete"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\TaxClass\GetInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Inventory\SourceItem\Option\TaxClass\Get"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\TaxClass\SaveInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Inventory\SourceItem\Option\TaxClass\Save"/>
+    <preference for="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\TaxClass\DeleteInterface" type="Ecombricks\InventoryCustomerSourceSelection\Model\Inventory\SourceItem\Option\TaxClass\Delete"/>
+    <virtualType name="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryCatalog\ResourceModel\Product\Indexer\Price\SourcePriceModifier\ConnectionProvider" type="Ecombricks\Common\Model\ResourceModel\ConnectionProvider">
+        <arguments>
+            <argument name="resourceName" xsi:type="string">indexer</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\DataObject\Copy">
+        <plugin name="3853a5abf283f293bbf303ad7bdb1063" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Framework\DataObject\Copy"/>
+    </type>
+    <type name="Magento\Framework\Model\ResourceModel\Db\VersionControl\Metadata">
+        <plugin name="2342cafa81274f3655f0a888a3f68919" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Framework\Model\ResourceModel\Db\VersionControl\Metadata"/>
+    </type>
+    <type name="Magento\CatalogInventory\Api\StockStateInterface">
+        <plugin name="check_quote_item_qty" disabled="true"/>
+        <plugin name="suggest_qty" disabled="true"/>
+    </type>
+    <type name="Ecombricks\InventoryCustomerSourceSelection\Api\CatalogInventory\StockStateInterface">
+        <plugin name="328e39372cf6017952cc015d3501eb3b" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\CatalogInventory\StockStateInterface"/>
+    </type>
+    <type name="Ecombricks\InventoryCustomerSourceSelection\Block\Catalog\Product\View\Estimate">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="default" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Block\Catalog\Product\View\Estimate\Layout\DefaultProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ecombricks\InventoryCustomerSourceSelection\Model\InventoryCatalog\ResourceModel\Product\Indexer\Price\SourcePriceModifier">
+        <arguments>
+            <argument name="connectionProvider" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventoryCatalog\ResourceModel\Product\Indexer\Price\SourcePriceModifier\ConnectionProvider</argument>
+        </arguments>
+    </type>
+    <type name="Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\CheckItemsQuantity">
+        <arguments>
+            <argument name="isProductSalableForRequestedQty" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\IsProductSalableForRequestedQtyCondition\IsProductSalableForRequestedQtyConditionChainOnPlaceOrder</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle">
+        <plugin name="36044c1e9de6c922079bc387e4fead66" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Block\Bundle\Catalog\Product\View\Type\Bundle"/>
+    </type>
+    <type name="Magento\Bundle\Pricing\Adjustment\Calculator">
+        <plugin name="478567c79e6cbeaafc189215bc2406b7" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Pricing\Bundle\Adjustment\Calculator" sortOrder="100"/>
+    </type>
+    <type name="Magento\Bundle\Pricing\Price\BundleOptions">
+        <plugin name="7e1bd36e16fc152714597416adb19e1e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Pricing\Bundle\Price\BundleOptions" sortOrder="100"/>
+    </type>
+    <type name="Magento\Bundle\Pricing\Price\BundleSelectionPrice">
+        <plugin name="44360afca6db87e6db407fb752c29a3f" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Pricing\Bundle\Price\BundleSelectionPrice" sortOrder="100"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option">
+        <plugin name="9dc46a5e8965acc8cc5fbf7bd866c2e2" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\CatalogInventory\Quote\Item\QuantityValidator\Initializer\Option" sortOrder="100"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\StockItem">
+        <plugin name="1e18f388eb95c02cea0d656b5259c0d1" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\CatalogInventory\Quote\Item\QuantityValidator\Initializer\StockItem" sortOrder="100"/>
+    </type>
+    <type name="Magento\CatalogInventory\Observer\ProductQty">
+        <plugin name="aaf9eba697fc99072bdd398c9c619468" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Observer\CatalogInventory\ProductQty"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\View">
+        <plugin name="d57a15d4b82275843f9d50706e8f4e24" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Block\Catalog\Product\View"/>
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Configuration">
+        <plugin name="e8bd1dca3291062de3f9f6e5ac8752ce" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Helper\Catalog\Product\Configuration"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="11bba21d8df4e482927d7a321ea6d166" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\Product\SourceItem\Option\Price"/>
+        <plugin name="159da0af0e2ce64be9c630107109e6d4" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\Product\SourceItem\Option\TaxClass"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\CartConfiguration">
+        <plugin name="a9a66a19078b3bad43854976e448d2ea" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\Product\CartConfiguration"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Copier">
+        <plugin name="cf70ea8ec1367d886dfdae8982e09f53" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\Product\Copier\SourceItem\Option\Price"/>
+        <plugin name="808892fe653d55c8eb3b7a1e45bf3866" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\Product\Copier\SourceItem\Option\TaxClass"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="a92301c824a95fad5f4ea46dd50f557b" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\Product\Type\AbstractType"/>
+    </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Indexer\Price\BasePriceModifier">
+        <plugin name="11981637246407be5925a1095daa1ed4" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryCatalog\ResourceModel\Product\Indexer\Price\BasePriceModifier"/>
+    </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="f6fe7ebc51ad80e41033dd62af8ae0ea" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\Cart" sortOrder="100"/>
+    </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="aaa99369cea9cdd13235013b3fce57ab" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\DefaultConfigProvider"/>
+    </type>
+    <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
+        <plugin name="affcca96efb6b23d7071c52c21ccd851" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\GuestPaymentInformationManagement" sortOrder="100"/>
+    </type>
+    <type name="Magento\Checkout\Model\PaymentInformationManagement">
+        <plugin name="e7b059d33ef0666dd3879d4dc21f1a68" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\PaymentInformationManagement" sortOrder="100"/>
+    </type>
+    <type name="Magento\Checkout\Model\Session">
+        <plugin name="1fd9ed90bf76440b4672fbd0ec52b066" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\Session"/>
+    </type>
+<!--	 
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="7b82c761ffb00b405e831f828bd23966" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\ShippingInformationManagement" sortOrder="100"/>
+    </type>
+-->   
+    <type name="Magento\Checkout\Model\TotalsInformationManagement">
+        <plugin name="2b71dece00725c798e328eef3b4bbf5e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\TotalsInformationManagement" sortOrder="100"/>
+    </type>
+    <type name="Magento\Checkout\Model\Type\Onepage">
+        <plugin name="53f9d3a66b3ce29c815c6f137199747a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Checkout\Type\Onepage" sortOrder="100"/>
+    </type>
+    <type name="Magento\Config\App\Config\Source\RuntimeConfigSource">
+        <plugin name="f3919ac0621d261d779e75334f5dd530" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\App\Config\Config\Source\RuntimeConfigSource" sortOrder="100"/>
+    </type>
+    <type name="Magento\Config\Block\System\Config\Form\Field">
+        <plugin name="3b9b446a72014b417ccf21dd6b883f77" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Block\Config\System\Config\Form\Field"/>
+    </type>
+    <type name="Magento\Config\Controller\Adminhtml\System\AbstractConfig">
+        <plugin name="384b668c723bdfecfbf519d3d46e4f45" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Controller\Config\Adminhtml\System\AbstractConfig"/>
+    </type>
+    <type name="Magento\Config\Controller\Adminhtml\System\Config\Edit">
+        <plugin name="09dc315aa69de71f9ccdc90b5bc15db2" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Controller\Config\Adminhtml\System\Config\Edit" sortOrder="100"/>
+    </type>
+    <type name="Magento\Config\Controller\Adminhtml\System\Config\Save">
+        <plugin name="c7ebd1da48746e8d3624d2e14f320add" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Controller\Config\Adminhtml\System\Config\Save" sortOrder="100"/>
+    </type>
+    <type name="Magento\Config\Model\Config\Loader">
+        <plugin name="06837666df90cdf25445d6775675548a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Config\Config\Loader" sortOrder="100"/>
+    </type>
+    <type name="Magento\Config\Model\Config\SchemaLocator">
+        <plugin name="34d71a4426fa8c3017cc48cc28225f23" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Config\Config\SchemaLocator" sortOrder="100"/>
+    </type>
+    <type name="Magento\Config\Model\Config\Structure\AbstractElement">
+        <plugin name="1ddc6451f37b881eb52c0055e13645ce" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Config\Config\Structure\AbstractElement"/>
+    </type>
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin name="cfca60fcfb2c20f03ecf3646c5065bc8" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Block\ConfigurableProduct\Product\View\Type\Configurable"/>
+    </type>
+    <type name="Magento\Framework\App\Config">
+        <plugin name="282701c301084cca72f658cf777b7a4c" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\App\Framework\Config" sortOrder="100"/>
+    </type>
+    <type name="Magento\Framework\App\Config\Value">
+        <plugin name="00d60d42c0a3e3173e051bdb944c13b8" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\App\Framework\Config\Value"/>
+    </type>
+    <type name="Magento\InstantPurchase\Model\QuoteManagement\Purchase">
+        <plugin name="0f3d98b4c4628799e2a9ec5c35cac314" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InstantPurchase\QuoteManagement\Purchase" sortOrder="100"/>
+    </type>
+    <type name="Magento\InstantPurchase\Model\QuoteManagement\ShippingConfiguration">
+        <plugin name="b8d321333838329709274eb32852568a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InstantPurchase\QuoteManagement\ShippingConfiguration" sortOrder="100"/>
+    </type>
+    <type name="Magento\InstantPurchase\Model\ShippingMethodChoose\CheapestMethodDeferredChooser">
+        <plugin name="51f3003c35bac37d871ab24df7ad0502" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InstantPurchase\ShippingMethodChoose\CheapestMethodDeferredChooser" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryApi\Api\SourceItemsDeleteInterface">
+        <plugin name="eb7214e3892c1acbc2d92164eaf7fd77" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryApi\Price\SourceItemsDeleteInterface"/>
+        <plugin name="779fed387ce91fa7ff715e9d5277fa0d" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryApi\TaxClass\SourceItemsDeleteInterface"/>
+    </type>
+    <type name="Magento\InventoryCatalogApi\Api\BulkInventoryTransferInterface">
+        <plugin name="8f22c5c21cca0598403a51767ee9141b" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryCatalogApi\Price\BulkInventoryTransferInterface"/>
+        <plugin name="cea8c8465eb57fe1df78d0dd2e1564d9" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryCatalogApi\TaxClass\BulkInventoryTransferInterface"/>
+    </type>
+    <type name="Magento\InventoryCatalogApi\Api\BulkSourceAssignInterface">
+        <plugin name="501fbfbb475d851158631e8d36a8b19e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryCatalogApi\Price\BulkSourceAssignInterface"/>
+        <plugin name="ba1b93c1890ac2e0b44196349e03a6d6" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryCatalogApi\TaxClass\BulkSourceAssignInterface"/>
+    </type>
+    <type name="Magento\InventoryCatalogApi\Api\BulkSourceUnassignInterface">
+        <plugin name="22cd97e11307991c58e7b221909b9109" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryCatalogApi\Price\BulkSourceUnassignInterface"/>
+        <plugin name="d8cfd8ab95dec95da55600f57004ec89" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\InventoryCatalogApi\TaxClass\BulkSourceUnassignInterface"/>
+    </type>
+    <type name="Magento\InventoryDistanceBasedSourceSelection\Model\Algorithms\DistanceBasedAlgorithm">
+        <plugin name="4ee74c9082bc589b335e541d1b93a59e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryDistanceBasedSourceSelection\Algorithms\DistanceBasedAlgorithm" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryImportExport\Model\Export\AttributeCollectionProvider">
+        <plugin name="1bda02f918abbb6fd4c2c1a1e452c126" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryImportExport\Export\AttributeCollectionProvider\SourceItem\Option\Price"/>
+        <plugin name="e9f21e31b140db3beb3f46818abca434" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryImportExport\Export\AttributeCollectionProvider\SourceItem\Option\TaxClass"/>
+    </type>
+    <type name="Magento\InventoryImportExport\Model\Import\Command\Append">
+        <plugin name="20bd176791e674b25d821e8f4aad279d" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryImportExport\Import\Command\Append\SourceItem\Option\Price"/>
+        <plugin name="5ee27a813d1f268eb5e51077122c496b" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryImportExport\Import\Command\Append\SourceItem\Option\TaxClass"/>
+    </type>
+    <type name="Magento\InventoryImportExport\Model\Import\Command\Replace">
+        <plugin name="50d4843cb6741a7ad02bffa5518661c1" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryImportExport\Import\Command\Replace\SourceItem\Option\Price"/>
+        <plugin name="2edc1c0f3aee7722bf2e2c873eca012a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryImportExport\Import\Command\Replace\SourceItem\Option\TaxClass"/>
+    </type>
+    <type name="Magento\InventoryImportExport\Model\Import\Validator\ValidatorChain">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="sku" xsi:type="object">Magento\InventoryImportExport\Model\Import\Validator\SkuValidator</item>
+                <item name="source" xsi:type="object">Magento\InventoryImportExport\Model\Import\Validator\SourceValidator</item>
+                <item name="qty" xsi:type="object">Magento\InventoryImportExport\Model\Import\Validator\QtyValidator</item>
+                <item name="price" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventoryImportExport\Import\Validator\PriceValidator</item>
+                <item name="taxClass" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventoryImportExport\Import\Validator\TaxClassValidator</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\InventoryInStorePickupShippingApi\Model\Carrier\InStorePickup">
+        <plugin name="36dca2a69187dc094ce3e731179ebba1" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryInStorePickupShippingApi\Carrier\InStorePickup"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Command\CreateCompensations">
+        <plugin name="2d15b490312f2b64fc71c38d09116af3" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Command\InventoryReservationCli\CreateCompensations" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Command\Input\GetReservationFromCompensationArgument">
+        <plugin name="e69cbfc2b5ab43645d5faf31a8dbd648" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Command\InventoryReservationCli\Input\GetReservationFromCompensationArgument" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Command\ShowInconsistencies">
+        <plugin name="5fe0bf91e29f5978078de3176c697a5e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Command\InventoryReservationCli\ShowInconsistencies" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Model\ResourceModel\GetOrderDataForOrderInFinalState">
+        <plugin name="229e09817278490e07b8ecae100436c7" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationCli\ResourceModel\GetOrderDataForOrderInFinalState"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Model\ResourceModel\GetOrderItemsDataForOrdersInNotFinalState">
+        <plugin name="5f8839dd821699285b1134b56edd6d2e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationCli\ResourceModel\GetOrderItemsDataForOrdersInNotFinalState" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Model\ResourceModel\GetReservationsList">
+        <plugin name="fa53e348bfebb83a3a1e185804ac924a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationCli\ResourceModel\GetReservationsList" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Model\SalableQuantityInconsistency\AddExistingReservations">
+        <plugin name="0bfb6d989e8a7318a6630f8f502a14a4" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationCli\SalableQuantityInconsistency\AddExistingReservations" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Model\SalableQuantityInconsistency\AddExpectedReservations">
+        <plugin name="250750d60f4851ab9e853c3a7d32bda0" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationCli\SalableQuantityInconsistency\AddExpectedReservations" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Model\SalableQuantityInconsistency\Collector">
+        <plugin name="ae51ae826cb4b32b09869d1b41c76956" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationCli\SalableQuantityInconsistency\Collector" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationCli\Model\SalableQuantityInconsistency\FilterManagedStockProducts">
+        <plugin name="ef5d59bf134bc7acd6582b0dd7eb6d20" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationCli\SalableQuantityInconsistency\FilterManagedStockProducts" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservationsApi\Model\AppendReservationsInterface">
+        <plugin name="prevent_append_reservation_on_not_manage_items_in_stock" disabled="true"/>
+        <plugin name="2f490865175ab766371d17f2229f61eb" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservationsApi\AppendReservationsInterface"/>
+    </type>
+    <type name="Magento\InventoryReservations\Model\ResourceModel\CleanupReservations">
+        <plugin name="f702dee0e116a9eef7a6d846af22642a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservations\ResourceModel\CleanupReservations" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservations\Model\ResourceModel\GetReservationsQuantity">
+        <plugin name="30a74c366a7f497da1b7377ba02da0d5" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservations\ResourceModel\GetReservationsQuantity" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryReservations\Model\ResourceModel\SaveMultiple">
+        <plugin name="5119d224d78c86a25a47b05b1845541d" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryReservations\ResourceModel\SaveMultiple" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventorySalesApi\Model\ReturnProcessor\GetSourceDeductedOrderItemsChain">
+        <arguments>
+            <argument name="sourceDeductedItemsSelector" xsi:type="array">
+                <item name="source_deducted__virtual_invoice_items" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\ReturnProcessor\GetInvoicedItemsPerSource</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\InventorySalesApi\Model\ReturnProcessor\GetSourceDeductedOrderItemsChain">
+        <arguments>
+            <argument name="sourceDeductedItemsSelector" xsi:type="array">
+                <item name="source_deducted_shipping_items" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\InventoryShipping\ReturnProcessor\GetShippedItemsPerSource</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\InventorySales\Model\GetItemsToCancelFromOrderItem">
+        <plugin name="ebe1743228fafd738af158b2970d6ece" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventorySales\GetItemsToCancelFromOrderItem" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventorySales\Model\PlaceReservationsForSalesEvent">
+        <plugin name="d78b7f40f9941b2bc3160bca1eba9afc" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventorySales\PlaceReservationsForSalesEvent" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventorySales\Model\ResourceModel\DeleteReservationsBySkus">
+        <plugin name="c0c977b5cf25e4dc793f394c071a8f52" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventorySales\ResourceModel\DeleteReservationsBySkus" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventorySales\Model\ResourceModel\UpdateReservationsBySkus">
+        <plugin name="5eeafcae8f2959763988e5e5013d11d8" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventorySales\ResourceModel\UpdateReservationsBySkus" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryShippingAdminUi\Controller\Adminhtml\SourceSelection\ProcessAlgorithm">
+        <plugin name="99a5041207de4905015c0ea6eea9f23a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Controller\InventoryShipping\Adminhtml\SourceSelection\ProcessAlgorithm" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryShippingAdminUi\Ui\DataProvider\SourceSelectionDataProvider">
+        <plugin name="f83bd7c92df3e71032e64a1edf92db1d" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Ui\InventoryShipping\DataProvider\SourceSelectionDataProvider" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryShipping\Model\GetSourceSelectionResultFromInvoice">
+        <plugin name="971439aa7ecc801c22f256529301f169" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventoryShipping\GetSourceSelectionResultFromInvoice" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryShipping\Observer\SourceDeductionProcessor">
+        <plugin name="9ada3edc1ed9ad2e181e07185bfbed7b" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Observer\InventoryShipping\SourceDeductionProcessor" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryShipping\Observer\VirtualSourceDeductionProcessor">
+        <plugin name="4af401e8bf2b207436a0f20e003b0baa" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Observer\InventoryShipping\VirtualSourceDeductionProcessor" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventorySourceSelectionApi\Model\Algorithms\Result\GetDefaultSortedSourcesResult">
+        <plugin name="f03aa1c325e0811078b0c4364e4bbde1" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventorySourceSelection\Algorithms\Result\GetDefaultSortedSourcesResult" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventorySourceSelectionApi\Model\GetSourceSelectionAlgorithmList">
+        <arguments>
+            <argument name="availableAlgorithms" xsi:type="array">
+                <item name="default" xsi:type="array">
+                    <item xsi:type="string" name="code">default</item>
+                    <item xsi:type="string" name="title" translatable="true">Default</item>
+                    <item xsi:type="string" name="description" translatable="true">Default sources selection</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\InventorySourceSelectionApi\Model\SourceSelectionService">
+        <arguments>
+            <argument name="sourceSelectionMethods" xsi:type="array">
+                <item name="default" xsi:type="string">Ecombricks\InventoryCustomerSourceSelection\Model\InventorySourceSelection\Algorithms\DefaultAlgorithm</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\InventorySourceSelection\Model\Algorithms\PriorityBasedAlgorithm">
+        <plugin name="91698d8f3538e043e3fc554872ff2da6" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventorySourceSelection\Algorithms\PriorityBasedAlgorithm" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventorySourceSelection\Model\GetDefaultSourceSelectionAlgorithmCode">
+        <plugin name="2ef7881abbc180fa97b25eb0e6aedd30" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\InventorySourceSelection\GetDefaultSourceSelectionAlgorithmCode" sortOrder="100"/>
+    </type>
+    <type name="Magento\Inventory\Model\ResourceModel\SourceItem\Collection">
+        <plugin name="892780977bb0201e14dcc0cd0b93c2d0" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Inventory\ResourceModel\SourceItem\Collection\Option\Price"/>
+        <plugin name="775e75e3887faa34a567cdd5f15ef24e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Inventory\ResourceModel\SourceItem\Collection\Option\TaxClass"/>
+    </type>
+    <type name="Magento\Multishipping\Model\Checkout\Type\Multishipping">
+        <plugin name="dafd369b893e1747bb059b1ed098e20c" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Multishipping\Checkout\Type\Multishipping" sortOrder="100"/>
+    </type>
+    <type name="Magento\OfflineShipping\Model\ResourceModel\Carrier\Tablerate">
+        <plugin name="a6e263d2d9af0f68c1f78128bb3aba0d" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\OfflineShipping\ResourceModel\Carrier\Tablerate"/>
+    </type>
+    <type name="Magento\OfflineShipping\Model\ResourceModel\Carrier\Tablerate\CSV\RowParser">
+        <plugin name="93595585abfb3d998c9371b4fa18de28" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\OfflineShipping\ResourceModel\Carrier\Tablerate\CSV\RowParser"/>
+    </type>
+    <type name="Magento\OfflineShipping\Model\ResourceModel\Carrier\Tablerate\DataHashGenerator">
+        <plugin name="fc0ff28832a5e8e3696b1bc8091479f2" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\OfflineShipping\ResourceModel\Carrier\Tablerate\DataHashGenerator"/>
+    </type>
+    <type name="Magento\OfflineShipping\Model\ResourceModel\Carrier\Tablerate\Import">
+        <plugin name="a1f577835ccd8b2280fb258fc3df28b9" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\OfflineShipping\ResourceModel\Carrier\Tablerate\Import" sortOrder="100"/>
+    </type>
+    <type name="Magento\OfflineShipping\Model\ResourceModel\Carrier\Tablerate\RateQuery">
+        <plugin name="95a39966bc4928eba2273d48b3fe7a7c" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\OfflineShipping\ResourceModel\Carrier\Tablerate\RateQuery"/>
+    </type>
+    <type name="Magento\Paypal\Block\Express\Review">
+        <plugin name="7f0626523bee8fee9e894d78f7b58f3c" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Block\Paypal\Express\Review" sortOrder="100"/>
+    </type>
+    <type name="Magento\Paypal\Controller\Express\AbstractExpress\Cancel">
+        <plugin name="c97c2453c51cfb68442112ff9393f313" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Controller\Paypal\Express\AbstractExpress\Cancel" sortOrder="100"/>
+    </type>
+    <type name="Magento\Paypal\Controller\Express\AbstractExpress\PlaceOrder">
+        <plugin name="acadae39a395397a629f692900b386d2" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Controller\Paypal\Express\AbstractExpress\PlaceOrder" sortOrder="100"/>
+    </type>
+    <type name="Magento\Paypal\Helper\Checkout">
+        <plugin name="967389eacfa0bb890672f53249178cff" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Helper\Paypal\Checkout" sortOrder="100"/>
+    </type>
+    <type name="Magento\Paypal\Model\Express\Checkout">
+        <plugin name="e4a1a9d45a03e93905c5abef2ad019aa" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Paypal\Express\Checkout" sortOrder="100"/>
+    </type>
+ 
+<!--
+    <type name="Magento\Quote\Model\Cart\ShippingMethodConverter">
+        <plugin name="5cb90e99542639ce5322043bed080ff0" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Cart\ShippingMethodConverter"/>
+    </type>
+    <type name="Magento\Quote\Model\QuoteManagement">
+        <plugin name="5b9f67c5ee21a86cae710d15ea5a7439" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\QuoteManagement" sortOrder="100"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address">
+        <plugin name="1b7c469a44b3e123bfb4dbe0d84902a7" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\Address" sortOrder="100"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address\Item">
+        <plugin name="40c635c519a16ceda50998a54382cd74" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\Address\Item"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address\Total\Shipping">
+        <plugin name="d502793828492cca815b6a74322ab25e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\Address\Total\Shipping" sortOrder="100"/>
+    </type>
+-->	
+    <type name="Magento\Quote\Model\Quote\Item">
+        <plugin name="0ba0767a1c12ee69add65e4db217444a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\Item"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\Processor">
+        <plugin name="1036ad606ba6e278c583ce4c49fc5c26" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\Item\Processor"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="2bbc2f6c540d8417ca45b0a4ee1e647e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\Item\ToOrderItem"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\Updater">
+        <plugin name="22aad3e4c5467ddd31ca7125d5321117" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\Item\Updater"/>
+    </type>
+<!--
+    <type name="Magento\Quote\Model\Quote\ShippingAssignment\ShippingProcessor">
+        <plugin name="4a4acec8f901d9b032e061788c357f1f" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\Quote\ShippingAssignment\ShippingProcessor" sortOrder="100"/>
+    </type>
+    <type name="Magento\Quote\Model\ResourceModel\Quote\Address\Rate">
+        <plugin name="dec79cd4d9f932697f9db49e3c2ee3bf" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\ResourceModel\Quote\Address\Rate"/>
+    </type>
+    <type name="Magento\Quote\Model\ShippingMethodManagement">
+        <plugin name="b2f0d3d51ceb9ec8c405b9350a12bb90" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Quote\ShippingMethodManagement" sortOrder="100"/>
+    </type>
+-->
+    <type name="Magento\SalesInventory\Model\Order\ReturnProcessor">
+        <plugin name="process_return_product_qty_on_credit_memo" disabled="true"/>
+        <plugin name="d1a739fd6176049a5d4e58488f8136c8" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\SalesInventory\Order\ReturnProcessor" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Api\OrderManagementInterface">
+        <plugin name="inventory_reservations_placement" disabled="true"/>
+        <plugin name="e0b8467dd5d027bc2158e109414aa800" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Api\Sales\OrderManagementInterface" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid">
+        <plugin name="14c3d31078cff5f8167bc3177ca1cfe7" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Block\Sales\Adminhtml\Order\Create\Items\Grid" sortOrder="100"/>
+    </type>
+<!--
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Shipping\Method\Form">
+        <plugin name="efc3adb90658665976fb8a6208b2d04a" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Block\Sales\Adminhtml\Order\Create\Shipping\Method\Form" sortOrder="100"/>
+    </type>
+-->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Create\Save">
+        <plugin name="197ebeae6c755c5855c72f3207afb0e7" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Controller\Sales\Adminhtml\Order\Create\Save" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\AdminOrder\Create">
+        <plugin name="68ace4108dd1ae05f0a69e4a9fa69ece" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Sales\AdminOrder\Create" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="3c123b8c1568d594ef04f5acd9bd7886" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Sales\Order" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Item">
+        <plugin name="9aba63c6a5b02d43a952ce33f621acf9" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Sales\Order\Item"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\ShipmentFactory">
+        <plugin name="2825c6ade7a75d0508b9d175fac370aa" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Sales\Order\ShipmentFactory" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+        <plugin name="ed845b87f861468295b350f47b8c529b" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Sales\ResourceModel\Order\Grid\Collection" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Shipment">
+        <plugin name="a4a8bce7e1607c537182b540415f0447" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Sales\ResourceModel\Order\Shipment"/>
+    </type>
+    <type name="Magento\Sales\Model\Service\PaymentFailuresService">
+        <plugin name="50ccc04aa93057ba4037be855c59a89e" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Sales\Service\PaymentFailuresService" sortOrder="100"/>
+    </type>
+    <type name="Magento\Shipping\Model\CarrierFactory">
+        <plugin name="a0dec6a9e371a66dba95589b33346fd2" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Shipping\CarrierFactory"/>
+    </type>
+    <type name="Magento\Store\Model\Store">
+        <plugin name="bf772ef29d20e8c01a6f6ffca048ec7b" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Store\Store"/>
+    </type>
+    <type name="Magento\Store\Model\Website">
+        <plugin name="dd4859c0ad019b3492534840dfeeaff7" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Store\Website"/>
+    </type>
+    <type name="Magento\Tax\Model\Sales\Total\Quote\Shipping">
+        <plugin name="c05c947c9abb2a83ca6be542a3ceb00d" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Tax\Sales\Total\Quote\Shipping" sortOrder="100"/>
+    </type>
+</config>

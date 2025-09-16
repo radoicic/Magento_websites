@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/products/:sku/source-quotes" method="POST">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\Catalog\Product\SourceQuoteManagementInterface" method="getList"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/inventory/get-product-salable-source-quantity/:sku/:sourceCode" method="GET">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\InventorySales\GetProductSalableQtyInterface" method="execute"/>
+        <resources>
+            <resource ref="InventorySalesApi::stock"/>
+        </resources>
+    </route>
+    <route url="/V1/inventory/is-product-salable-for-requested-source-qty/:sku/:sourceCode/:requestedQty" method="GET">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\InventorySales\IsProductSalableForRequestedQtyInterface" method="execute"/>
+        <resources>
+            <resource ref="InventorySalesApi::stock"/>
+        </resources>
+    </route>
+    <route url="/V1/inventory/get-source-item-price" method="POST">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\Price\GetInterface" method="execute" />
+        <resources>
+            <resource ref="Magento_InventoryApi::source"/>
+        </resources>
+    </route>
+    <route url="/V1/inventory/save-source-item-price" method="POST">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\Price\SaveInterface" method="execute" />
+        <resources>
+            <resource ref="Magento_InventoryApi::source"/>
+        </resources>
+    </route>
+    <route url="/V1/inventory/delete-source-item-price" method="POST">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\Price\DeleteInterface" method="execute" />
+        <resources>
+            <resource ref="Magento_InventoryApi::source"/>
+        </resources>
+    </route>
+    <route url="/V1/inventory/get-source-item-tax-class" method="POST">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\TaxClass\GetInterface" method="execute" />
+        <resources>
+            <resource ref="Magento_InventoryApi::source"/>
+        </resources>
+    </route>
+    <route url="/V1/inventory/save-source-item-tax-class" method="POST">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\TaxClass\SaveInterface" method="execute" />
+        <resources>
+            <resource ref="Magento_InventoryApi::source"/>
+        </resources>
+    </route>
+    <route url="/V1/inventory/delete-source-item-tax-class" method="POST">
+        <service class="Ecombricks\InventoryCustomerSourceSelection\Api\Inventory\SourceItem\Option\TaxClass\DeleteInterface" method="execute" />
+        <resources>
+            <resource ref="Magento_InventoryApi::source"/>
+        </resources>
+    </route>
+</routes>

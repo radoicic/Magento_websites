@@ -1,0 +1,57 @@
+<?php
+
+$ag = $block->getAgreements();
+//echo "<pre>";print_r($ag->debug());die();
+if($ag){
+	echo '<div style="display:none"><div id="tac-modal-content"><div class="modal-inner-content">';
+	//echo $block->render($ag->getContent());
+	echo $ag->getHtmlCode();
+	echo "</div></div></div>";
+	
+	$btn = $ag['settings']->getCheckboxText();
+?>
+
+<script>
+require([
+'jquery',
+'Magento_Ui/js/lib/view/utils/dom-observer',
+'Magento_Ui/js/modal/modal'
+], function ($,$do,modal) {
+    $(document).ready(function(){
+        $do.get('.order-review-form', function(elem){
+            $(elem).addClass('test-class');
+			$(elem).before( '<div class="cus-checkout-agreement"><button id="tac-modal-btn" type="button" class="action action-show"><i class="fa fa-check-square-o" aria-hidden="true"></i><span data-bind="html: checkboxText"><?=$btn?></span></button></div>' );
+			
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Terms and Conditions',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'modal-close',
+                    click: function (){
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            modal(options, $('#tac-modal-content'));	
+			
+            $(document).on('click',"#tac-modal-btn",function(){
+                $("#tac-modal-content").modal("openModal");
+            });			
+			
+			
+			
+			
+			
+			
+			
+        });
+    });
+});
+</script>
+<?php
+}
+?>

@@ -1,0 +1,18 @@
+<integrations>
+    <integration name="CityBeach Integration">
+        <resources>
+            <resource name="Magento_Customer::customer" />
+            <resource name="Magento_Log::online" />
+            <resource name="Magento_Sales::sales" />
+            <resource name="Magento_Sales::sales_operation" />
+            <resource name="Magento_Sales::sales_order" />
+            <resource name="Magento_Sales::actions" />
+            <resource name="Magento_Sales::reorder" />
+            <resource name="Magento_Catalog::products" />
+            <resource name="Magento_Backend::admin" />
+            <resource name="Magento_Catalog::attributes_attributes" />
+            <resource name="CityBeach_Integration::Shared" />
+            <resource name="CityBeach_Integration::api" />
+        </resources>
+    </integration>
+</integrations>

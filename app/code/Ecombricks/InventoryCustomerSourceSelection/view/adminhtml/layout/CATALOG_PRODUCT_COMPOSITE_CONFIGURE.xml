@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <body>
+        <referenceBlock name="product.composite.fieldset">
+            <block class="Ecombricks\InventoryCustomerSourceSelection\Block\Catalog\Adminhtml\Product\Composite\Fieldset\Source" name="product.composite.fieldset.source" template="Ecombricks_InventoryCustomerSourceSelection::catalog/product/composite/fieldset/source.phtml"/>
+        </referenceBlock>
+    </body>
+</layout>

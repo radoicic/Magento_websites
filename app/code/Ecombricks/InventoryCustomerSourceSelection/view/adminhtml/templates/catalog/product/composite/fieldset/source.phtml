@@ -1,0 +1,26 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $sources = $block->getSources(); ?>
+<?php if (count($sources)) : ?>
+<?php $currentSourceCode = $block->getCurrentSourceCode(); ?>
+<fieldset id="product_composite_configure_fields_source" class="fieldset product-composite-source-block admin__fieldset <?= $block->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
+    <div class="field admin__field _required">
+        <label class="label admin__field-label"><span><?= $block->escapeHtml(__('Source')) ?></span></label>
+        <div class="control admin__field-control">
+            <select id="product_composite_configure_input_source" name="source" class="required admin__control-select source">
+                <option value=""><?= $block->escapeHtml(__('Select Source')) ?></option>
+                <?php foreach ($sources as $source) :  ?>
+                <?php $sourceCode = $source->getSourceCode(); ?>
+                <option value="<?= $block->escapeHtml($sourceCode) ?>"<?php if ($currentSourceCode === $sourceCode) : ?> selected="selected"<?php endif; ?>>
+                    <?= $block->escapeHtml($source->getName()) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+</fieldset>
+<?php endif; ?>

@@ -1,0 +1,48 @@
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<div id="product-estimate" data-bind="blockLoader: isLoading, visible: isVisible()">
+    <each args="getRegion('messages')" render="{name: getTemplate()}" />
+    <each args="getRegion('address')" render="{name: getTemplate()}" />
+    <div class="source-quotes" data-bind="if: (getSourceQuotes().length > 0)">
+        <div class="source-quote" data-bind="foreach: { data: getSourceQuotes(), as: 'quote' }">
+            <div class="source-info">
+                <each args="$parents[0].getRegion('source')" render="{name: getTemplate(), data: $parents[1].getSource(quote.source_code), as: 'source'}" />
+            </div>
+            <ifnot args="$parents[0].isVirtual()">
+            <div class="source-quote-shipping-methods quote-shipping-methods">
+                <dl class="items methods" data-bind="foreach: { data: $parents[0].getSourceQuoteCarriers(quote.source_code), as: 'carrier' }">
+                    <dt class="item-title"><span data-bind="text: carrier.title"></span></dt>
+                    <dd class="item-options" data-bind="foreach: { data: $parents[1].getSourceQuoteCarrierShippingRates(quote.source_code, carrier.code), as: 'method' }">
+                        <div data-bind="css: {'field choice item': method.available, 'message error': !method.available} ">
+                            <ifnot args="method.available">
+                            <div data-bind="text: method.error_message"></div>
+                            </ifnot>
+                            <if args="method.available">
+                            <input type="radio" class="radio" data-bind="
+                                click: $parents[2].selectShippingMethod.bind($parents[2], quote.source_code, $data),
+                                checked: $parents[2].getSelectedSourceShippingMethod.bind($parents[2], quote.source_code)(),
+                                attr: {
+                                    value: method.carrier_code + '_' + method.method_code,
+                                    id: 's_method_' + quote.source_code + '_' + method.carrier_code + '_' + method.method_code
+                                }
+                                "/>
+                            <label class="label" data-bind="attr: { for: 's_method_' + quote.source_code + '_' + method.carrier_code + '_' + method.method_code }">
+                                <!-- ko text: method.method_title --><!-- /ko -->
+                                <each args="$parents[2].getRegion('shipping-rate-price')" render="{name: getTemplate()}" />
+                            </label>
+                            </if>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            </ifnot>
+            <div class="source-quote-totals quote-totals">
+                <each args="$parents[0].getRegion('totals')" render="{name: getTemplate()}" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_FacebookShop
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Webkul_FacebookShop::facebookshop" title="Facebook Shop" sortOrder="10" >
+                     <resource id="Webkul_FacebookShop::menu" title="Menu" sortOrder="10">
+                        <resource id="Webkul_FacebookShop::assign_gpc" title="Assign Google Product Category" sortOrder="2" />
+                        <resource id="Webkul_FacebookShop::mapping" title="Manage Fb Attributes Mapping" sortOrder="3" />
+                        <resource id="Webkul_FacebookShop::catalogfeed" title="Catalog Feed Csv Logs" sortOrder="4" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Webkul_FacebookShop::config_facebookshop"
+                                title="Facebook Shop" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

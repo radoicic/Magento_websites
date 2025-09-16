@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php if ($block->isEnabled() && $block->hasSources()) : ?>
+<div id="product-estimate-block" class="block product-estimate">
+    <div class="title" data-role="title">
+        <strong id="product-estimate-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Estimate Totals')) ?></strong>
+    </div>
+    <div id="product-estimate-container" data-bind="scope:'product-estimate'" class="content" data-role="content" aria-labelledby="product-estimate-heading">
+        <p class="note"><?= $block->escapeHtml(__('Enter your destination to get a totals estimate.')) ?></p>
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <script type="text/x-magento-init">
+            {
+                "#product-estimate-container": {
+                    "Magento_Ui/js/core/app": <?= $block->getJsLayout() ?>
+                }
+            }
+        </script>
+        <script>
+            window.checkoutConfig = <?= $block->getSerializedCheckoutConfig() ?>;
+            require([
+                'mage/url',
+                'Magento_Ui/js/block-loader'
+            ], function(url, blockLoader) {
+                blockLoader("<?= $block->escapeUrl($block->getViewFileUrl('images/loader-1.gif')) ?>");
+                return url.setBaseUrl('<?= $block->escapeUrl($block->getBaseUrl()) ?>');
+            })
+        </script>
+    </div>
+</div>
+<?php endif; ?>

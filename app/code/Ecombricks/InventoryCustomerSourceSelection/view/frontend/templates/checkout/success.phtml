@@ -1,0 +1,59 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $blockWrapper = $block->getWrapper(); ?>
+<?php $blockWrapper->setObject($block); ?>
+
+<div class="checkout-success">
+<?php if ($blockWrapper->isSplitOrder()) : ?>
+
+<?php $orders = $blockWrapper->getOrders(); ?>
+<?php if (!empty($orders)) : ?>
+<ul class="orders">
+<?php foreach ($orders as $order) : ?>
+<?php if ($blockWrapper->getCanViewOrder($order)) : ?>
+<li><p><?= $block->escapeHtml(
+    __(
+        'Your order number is: %1.',
+        sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeUrl($blockWrapper->getViewOrderUrl($order)), $blockWrapper->getOrderId($order))
+    ),
+    ['a', 'strong']
+) ?></p></li>
+<?php  else : ?>
+<li><p><?= $block->escapeHtml(__('Your order # is: <span>%1</span>.', $blockWrapper->getOrderId($order)), ['span']) ?></p></li>
+<?php endif; ?>
+<?php endforeach; ?>
+</ul>
+<p><?= $block->escapeHtml(__('We\'ll email you orders confirmation with details and tracking info.')) ?></p>
+<?php endif;?>
+
+<?php else : ?>
+
+<?php $order = $blockWrapper->getOrder(); ?>
+<?php if ($blockWrapper->getOrderId($order)) : ?>
+<?php if ($blockWrapper->getCanViewOrder($order)) : ?>
+<p><?= $block->escapeHtml(
+    __(
+        'Your order number is: %1.',
+        sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeUrl($blockWrapper->getViewOrderUrl($order)), $blockWrapper->getOrderId($order))
+    ),
+    ['a', 'strong']
+) ?></p>
+<?php  else : ?>
+<p><?= $block->escapeHtml(__('Your order # is: <span>%1</span>.', $block->escapeHtml($blockWrapper->getOrderId($order))), ['span']) ?></p>
+<?php endif;?>
+<p><?= $block->escapeHtml(__('We\'ll email you an order confirmation with details and tracking info.')) ?></p>
+<?php endif;?>
+
+<?php endif; ?>
+
+<?= $block->getAdditionalInfoHtml() ?>
+<div class="actions-toolbar">
+    <div class="primary">
+        <a class="action primary continue" href="<?= $block->escapeUrl($block->getContinueUrl()) ?>"><span><?= $block->escapeHtml(__('Continue Shopping')) ?></span></a>
+    </div>
+</div>
+</div>

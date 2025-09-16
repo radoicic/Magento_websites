@@ -1,0 +1,139 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">tidesign_checkoutagreements_agreementlist_listing.tidesign_checkoutagreements_agreementlist_listing_data_source</item>
+		</item>
+	</argument>
+	<settings>
+		<spinner>tidesign_checkoutagreements_agreementlist_columns</spinner>
+		<deps>
+			<dep>tidesign_checkoutagreements_agreementlist_listing.tidesign_checkoutagreements_agreementlist_listing_data_source</dep>
+		</deps>
+		<buttons>
+			<button name="add">
+				<url path="*/*/new"/>
+				<class>primary</class>
+				<label translate="true">Add new</label>
+			</button>
+		</buttons>
+	</settings>
+	<dataSource name="tidesign_checkoutagreements_agreementlist_listing_data_source" component="Magento_Ui/js/grid/provider">
+		<settings>
+			<storageConfig>
+				<param name="indexField" xsi:type="string">agreement_id</param>
+			</storageConfig>
+			<updateUrl path="mui/index/render"/>
+		</settings>
+		<aclResource>TiDesign_CheckoutAgreements::Agreementlist</aclResource>
+		<dataProvider name="tidesign_checkoutagreements_agreementlist_listing_data_source" class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+			<settings>
+				<requestFieldName>id</requestFieldName>
+				<primaryFieldName>agreement_id</primaryFieldName>
+			</settings>
+		</dataProvider>
+	</dataSource>
+	<listingToolbar name="listing_top">
+		<settings>
+			<sticky>true</sticky>
+		</settings>
+		<bookmark name="bookmarks"/>
+		<columnsControls name="columns_controls"/>
+		<filters name="listing_filters"/>
+		<paging name="listing_paging"/>
+	</listingToolbar>
+	<columns name="tidesign_checkoutagreements_agreementlist_columns">
+		<settings>
+			<editorConfig>
+				<param name="selectProvider" xsi:type="string">tidesign_checkoutagreements_agreementlist_listing.tidesign_checkoutagreements_agreementlist_listing.tidesign_checkoutagreements_agreementlist_columns.ids</param>
+				<param name="enabled" xsi:type="boolean">true</param>
+				<param name="indexField" xsi:type="string">agreement_id</param>
+				<param name="clientConfig" xsi:type="array">
+					<item name="saveUrl" xsi:type="url" path="tidesign_checkoutagreements/Agreementlist/inlineEdit"/>
+					<item name="validateBeforeSave" xsi:type="boolean">false</item>
+				</param>
+			</editorConfig>
+			<childDefaults>
+				<param name="fieldAction" xsi:type="array">
+					<item name="provider" xsi:type="string">tidesign_checkoutagreements_agreementlist_listing.tidesign_checkoutagreements_agreementlist_listing.tidesign_checkoutagreements_agreementlist_columns_editor</item>
+					<item name="target" xsi:type="string">startEdit</item>
+					<item name="params" xsi:type="array">
+						<item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+						<item name="1" xsi:type="boolean">true</item>
+					</item>
+				</param>
+			</childDefaults>
+		</settings>
+		<selectionsColumn name="ids">
+			<settings>
+				<indexField>agreement_id</indexField>
+			</settings>
+		</selectionsColumn>
+		<column name="agreement_id">
+			<settings>
+				<filter>text</filter>
+				<sorting>asc</sorting>
+				<label translate="true">ID</label>
+			</settings>
+		</column>
+		<column name="agreement_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">45</item>
+					<item name="sortOrder" xsi:type="number">10</item>
+					<item name="label" xsi:type="string" translate="true">ID</item>
+                </item>
+            </argument>
+		</column>
+		<column name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">true</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">20</item>
+					<item name="label" xsi:type="string" translate="true">Name</item>
+                </item>
+            </argument>
+		</column>
+		<column name="store_id" class="TiDesign\CheckoutAgreements\Ui\Component\Listing\Column\TdStore">
+            <settings>
+                <label translate="true">Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+		<column name="customer_group" class="TiDesign\CheckoutAgreements\Ui\Component\Listing\Column\TdGroup">
+            <settings>
+                <label translate="true">Customer Group</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+		<column name="is_active" class="TiDesign\CheckoutAgreements\Ui\Component\Listing\Column\TdStatus">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="sortable" xsi:type="boolean">true</item>
+					<item name="filter" xsi:type="string">true</item>
+					<item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">120</item>
+					<item name="sortOrder" xsi:type="number">60</item>
+					<item name="label" translate="false" xsi:type="string">Status</item>
+				</item>
+			</argument>
+		</column>		
+		<actionsColumn name="actions" class="TiDesign\CheckoutAgreements\Ui\Component\Listing\Column\AgreementlistActions">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="indexField" xsi:type="string">agreement_id</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">100</item>
+					<item name="sortOrder" xsi:type="number">100</item>
+				</item>
+			</argument>
+		</actionsColumn>		
+	</columns>
+</listing>

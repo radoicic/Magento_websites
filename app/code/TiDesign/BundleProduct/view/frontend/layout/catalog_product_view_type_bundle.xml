@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="TiDesign_BundleProduct::css/style.css"/>
+	</head>
+    <body>
+        <referenceBlock name="product.info.main">
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="product.info.my_block_name"
+                   template="TiDesign_BundleProduct::script.phtml"
+                   after="product.info.price" />
+        </referenceBlock>
+<!--
+        <referenceBlock name="customize.button" remove="true" />
+        <referenceBlock name="bundle.back.button" remove="true" />
+-->
+		<referenceBlock name="bundle.summary">
+			<action method="setTemplate">
+				<argument name="template" xsi:type="string">TiDesign_BundleProduct::catalog/product/view/summary.phtml</argument>
+			</action>
+		</referenceBlock>
+		
+    </body>
+</page>

@@ -1,0 +1,110 @@
+<?php
+	namespace TiDesign\Consignment\Controller\Adminhtml\Ajax;
+	
+	use Magento\Framework\App\Action\Action;
+	use Magento\Framework\App\ResponseInterface;
+	use Magento\Framework\Controller\ResultFactory;
+	use Magento\Framework\App\Config\ScopeConfigInterface;
+	
+	
+	class Index extends \Magento\Backend\App\Action
+	{
+		protected 	$resultPageFactory;
+		private 	$_consCollection;
+		private 	$scopeConfig;
+		protected 	$categoryCollectionFactory;	
+		protected 	$categoryFactory;	
+		protected   $consignmentHelper;
+		
+		public function __construct(
+			\Magento\Backend\App\Action\Context $context,
+			\TiDesign\Consignment\Helper\Consignment $consignmentHelper,
+			\Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+			\TiDesign\Consignment\Model\ConsignmentlistFactory $consCollection,
+			ScopeConfigInterface $scopeConfig,
+			\Magento\Catalog\Model\CategoryRepository $categoryCollectionFactory,
+			\Magento\Catalog\Model\CategoryFactory $categoryFactory
+		) {
+			parent::__construct($context);
+			$this->consignmentHelper 			= $consignmentHelper;
+			$this->resultJsonFactory 			= $resultJsonFactory;
+			$this->_consCollection 				= $consCollection;
+			$this->scopeConfig 					= $scopeConfig;
+			$this->categoryCollectionFactory 	= $categoryCollectionFactory;
+			$this->categoryFactory 				= $categoryFactory;
+			
+		}
+		public function execute() {
+			/*
+				$post = $this->getRequest()->getPostValue();
+				echo "<pre>";
+				print_r($post);
+				exit;			
+			*/
+			$bak = $this->getRequest()->getParam('bak');
+			
+			switch($bak){
+				case "name":
+					$data 	= $this->_consCollection->create()->getCollection();
+					$name 	= $this->_request->getParam('name');
+					$id 	= $this->_request->getParam('id');
+					$data->addFieldToFilter('td_name', ['eq'=>$name])->addFieldToFilter('td_id', ['neq'=>$id]);
+					if($data->getSize() > 0){
+						$data=Array('status'  => 0, 'message' => '<span id="name_check_message" class="admin__field-error" for="td_name">Name is already in use</span>');
+					}else{
+						$data=Array('status'  => 1, 'message' => '<span id="name_check_message"  class="admin__field-success">Name is usable</span>');
+					}
+				break;
+				
+				case "category":
+				/* todo 
+				** check category url
+				** remove create
+				*/
+					$name 			= $this->_request->getParam('category');
+					$catArray 		= [];
+					$categoryId		= $this->getConfig("consignment/consignment_status/container_category_id");
+					$category 		= $this->categoryCollectionFactory->get($categoryId);
+					$subCategories 	= $category->getChildrenCategories();
+					foreach($subCategories as $subcategory){
+						$catArray[]	= $subcategory->getName();
+					}
+					if(in_array($name, $catArray)) {
+						$data=Array('status'  => 0, 'message' => '<span id="category_check_message" class="admin__field-error" for="td_name">Category is already in use</span>');
+					}else{
+						$parentCategory = $this->categoryFactory->create()->load($categoryId);
+						$catFactory 	= $this->categoryFactory->create();
+						$cate 			= $catFactory->getCollection()
+													->addAttributeToFilter('name', $name)
+													->getFirstItem();
+						if (!$cate->getId()) {
+							$catFactory->setPath($parentCategory->getPath())
+								->setParentId($categoryId)
+								->setName($name)
+								->setIsActive(true)
+								->setIncludeInMenu(false);
+							$catFactory->save();
+							$data=Array('status'  => 1, 'cat_id' => $catFactory->getId(), 'message' => '<span id="name_check_message"  class="admin__field-success">New category created</span>');
+						}else{
+							
+						}
+
+												
+					}
+				break;
+			}
+			
+			
+			
+			$result = $this->resultJsonFactory->create();
+			$result->setData($data);
+			return $result;
+		}
+		public function getConfig($config_path)
+		{
+			return $this->scopeConfig->getValue(
+				$config_path,
+				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+			);
+		}
+	}

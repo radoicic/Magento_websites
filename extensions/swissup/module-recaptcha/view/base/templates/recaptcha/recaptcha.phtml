@@ -1,0 +1,6 @@
+<?php if ($this->getCaptchaModel()->getSiteKey() == ''): ?>
+    <h2>Add your keys for reCAPTCHA</h2>
+    <p>If you do not have keys already then visit <tt><a href = "https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a></tt> to generate them. Set them into respective fields of reCAPTCHA extension config.</p>
+<?php else: ?>
+    <div id="<?= $this->getFormId();?>" class="field g-recaptcha required" data-mage-init='{"Swissup_Recaptcha/js/recaptcha": <?= $block->getOptions();?>}'></div>
+<?php endif; ?>

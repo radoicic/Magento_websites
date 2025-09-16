@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.options.wrapper.bottom">
+            <block class="Ecombricks\InventoryCustomerSourceSelection\Block\Catalog\Product\View\Source" name="product.info.source" before="product.info.addtocart.additional" template="Ecombricks_InventoryCustomerSourceSelection::catalog/product/view/source.phtml"/>
+        </referenceBlock>
+<!--		
+        <referenceContainer name="product.info.main">
+            <block class="Ecombricks\InventoryCustomerSourceSelection\Block\Catalog\Product\View\Estimate" name="product.info.estimate" as="estimate" after="product.info" template="Ecombricks_InventoryCustomerSourceSelection::catalog/product/view/estimate.phtml">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="types" xsi:type="array">
+                            <item name="form.input" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                    <item name="deps" xsi:type="array">
+                                        <item name="0" xsi:type="string">checkoutProvider</item>
+                                    </item>
+                                    <item name="template" xsi:type="string">ui/form/field</item>
+                                    <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                </item>
+                            </item>
+                        </item>
+                        <item name="components" xsi:type="array">
+                            <item name="product-estimate-config" xsi:type="array">
+                                <item name="component" xsi:type="string">uiComponent</item>
+                                <item name="children" xsi:type="array">
+                                    <item name="shipping-rates-validation" xsi:type="array">
+                                        <item name="children" xsi:type="array">
+                                            <item name="freeshipping" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_OfflineShipping/js/view/shipping-rates-validation/freeshipping</item>
+                                            </item>
+                                            <item name="flatrate" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_OfflineShipping/js/view/shipping-rates-validation/flatrate</item>
+                                            </item>
+                                            <item name="tablerate" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_OfflineShipping/js/view/shipping-rates-validation/tablerate</item>
+                                            </item>
+                                            <item name="dhl" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Dhl/js/view/shipping-rates-validation</item>
+                                            </item>
+                                            <item name="fedex" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Fedex/js/view/shipping-rates-validation</item>
+                                            </item>
+                                            <item name="ups" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Ups/js/view/shipping-rates-validation</item>
+                                            </item>
+                                            <item name="usps" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Usps/js/view/shipping-rates-validation</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="product-estimate" xsi:type="array">
+                                <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/catalog/product/estimate</item>
+                                <item name="provider" xsi:type="string">checkoutProvider</item>
+                                <item name="sortOrder" xsi:type="string">1</item>
+                                <item name="deps" xsi:type="array">
+                                    <item name="0" xsi:type="string">product-estimate-config</item>
+                                    <item name="1" xsi:type="string">product-estimate.address</item>
+                                </item>
+                                <item name="children" xsi:type="array">
+                                    <item name="shipping-rate-price" xsi:type="array">
+                                        <item name="component" xsi:type="string">Magento_Tax/js/view/checkout/shipping_method/price</item>
+                                        <item name="displayArea" xsi:type="string">shipping-rate-price</item>
+                                    </item>
+                                    <item name="errors" xsi:type="array">
+                                        <item name="sortOrder" xsi:type="string">0</item>
+                                        <item name="component" xsi:type="string">Magento_Ui/js/view/messages</item>
+                                        <item name="displayArea" xsi:type="string">messages</item>
+                                    </item>
+                                    <item name="address" xsi:type="array">
+                                        <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/catalog/product/estimate/address</item>
+                                        <item name="config" xsi:type="array">
+                                            <item name="deps" xsi:type="array">
+                                                <item name="0" xsi:type="string">checkoutProvider</item>
+                                            </item>
+                                        </item>
+                                        <item name="displayArea" xsi:type="string">address</item>
+                                        <item name="children" xsi:type="array">
+                                            <item name="city" xsi:type="array">
+                                                <item name="sortOrder" xsi:type="string">115</item>
+                                                <item name="dataScope" xsi:type="string">shippingAddress.city</item>
+                                                <item name="provider" xsi:type="string">checkoutProvider</item>
+                                            </item>
+                                            <item name="country_id" xsi:type="array">
+                                                <item name="sortOrder" xsi:type="string">110</item>
+                                                <item name="dataScope" xsi:type="string">shippingAddress.country_id</item>
+                                                <item name="provider" xsi:type="string">checkoutProvider</item>
+                                            </item>
+                                            <item name="region_id" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/region</item>
+                                                <item name="sortOrder" xsi:type="string">112</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="template" xsi:type="string">ui/form/field</item>
+                                                    <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                    <item name="customEntry" xsi:type="string">shippingAddress.region</item>
+                                                </item>
+                                                <item name="filterBy" xsi:type="array">
+                                                    <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.country_id]]></item>
+                                                    <item name="field" xsi:type="string">country_id</item>
+                                                </item>
+                                            </item>
+                                            <item name="region" xsi:type="array">
+                                                <item name="visible" xsi:type="boolean">false</item>
+                                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                <item name="sortOrder" xsi:type="string">111</item>
+                                                <item name="dataScope" xsi:type="string">shippingAddress.region</item>
+                                            </item>
+                                            <item name="postcode" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                <item name="dataScope" xsi:type="string">shippingAddress.postcode</item>
+                                                <item name="sortOrder" xsi:type="string">114</item>
+                                                <item name="provider" xsi:type="string">checkoutProvider</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                    <item name="source" xsi:type="array">
+                                        <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/inventory/source</item>
+                                        <item name="displayArea" xsi:type="string">source</item>
+                                    </item>
+                                    <item name="totals" xsi:type="array">
+                                        <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/catalog/product/estimate/totals</item>
+                                        <item name="displayArea" xsi:type="string">totals</item>
+                                        <item name="children" xsi:type="array">
+                                            <item name="subtotal" xsi:type="array">
+                                                <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/tax/product/estimate/totals/subtotal</item>
+                                                <item name="sortOrder" xsi:type="string">10</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="title" xsi:type="string" translate="true">Subtotal</item>
+                                                    <item name="excludingTaxMessage" xsi:type="string" translate="true">(Excl. Tax)</item>
+                                                    <item name="includingTaxMessage" xsi:type="string" translate="true">(Incl. Tax)</item>
+                                                </item>
+                                            </item>
+                                            <item name="shipping" xsi:type="array">
+                                                <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/tax/product/estimate/totals/shipping</item>
+                                                <item name="sortOrder" xsi:type="string">20</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="title" xsi:type="string" translate="true">Shipping</item>
+                                                    <item name="excludingTaxMessage" xsi:type="string" translate="true">Excl. Tax</item>
+                                                    <item name="includingTaxMessage" xsi:type="string" translate="true">Incl. Tax</item>
+                                                </item>
+                                            </item>
+                                            <item name="tax" xsi:type="array">
+                                                <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/tax/product/estimate/totals/tax</item>
+                                                <item name="sortOrder" xsi:type="string">30</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="title" xsi:type="string" translate="true">Tax</item>
+                                                </item>
+                                            </item>
+                                            <item name="before_grandtotal" xsi:type="array">
+                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                <item name="sortOrder" xsi:type="string">90</item>
+                                                <item name="children" xsi:type="array"></item>
+                                            </item>
+                                            <item name="grand-total" xsi:type="array">
+                                                <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/tax/product/estimate/totals/grand-total</item>
+                                                <item name="sortOrder" xsi:type="string">100</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="title" xsi:type="string" translate="true">Order Total</item>
+                                                    <item name="exclTaxLabel" xsi:type="string" translate="true">Order Total Excl. Tax</item>
+                                                    <item name="inclTaxLabel" xsi:type="string" translate="true">Order Total Incl. Tax</item>
+                                                </item>
+                                            </item>
+                                            <item name="weee" xsi:type="array">
+                                                <item name="component" xsi:type="string">Ecombricks_InventoryCustomerSourceSelection/js/weee/product/estimate/totals/weee</item>
+                                                <item name="sortOrder" xsi:type="string">40</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="title" xsi:type="string" translate="true">FPT</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="checkoutProvider" xsi:type="array">
+                                <item name="component" xsi:type="string">uiComponent</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+-->		
+    </body>
+</page>

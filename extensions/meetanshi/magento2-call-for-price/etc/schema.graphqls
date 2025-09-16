@@ -1,0 +1,40 @@
+type StoreConfig {
+    callforprice_general_active : String
+    callforprice_general_notification_type : String
+    callforprice_general_enablefor : String
+    callforprice_general_display_categories : String
+    callforprice_general_typeas : String
+    callforprice_general_displayed_text : String
+    callforprice_general_displayed_text_label : String
+    callforprice_general_label_color : String
+    callforprice_general_allow_customer_group : String
+    callforprice_general_display_customer_group : String
+    callforprice_general_header_text : String
+    callforprice_privacy_setting_privacy_enable : String
+    callforprice_privacy_setting_privacy_text : String
+    callforprice_privacy_setting_show_privacy_policy : String
+    callforprice_recaptcha_setting_recaptcha_enable : String
+    callforprice_recaptcha_setting_sitekey : String
+    callforprice_recaptcha_setting_secret_key : String
+}
+
+type Mutation {
+    callforpriceInquiry(input: CallforpriceInput!): CallforpriceOutput @resolver(class: "\\Meetanshi\\Callforprice\\Model\\Resolver\\Inquiry") @doc(description:"Call For Price Inquiry")
+}
+
+input CallforpriceInput {
+    cname: String
+    email: String
+    country_id: String
+    phone_number: String
+    comment: String
+    privacy: Int
+    g_recaptcha_response: String
+    callProductId: Int
+}
+
+type CallforpriceOutput {
+   success: String @doc(description: "Success true/false")
+   successmsg: String @doc(description: "Success Message")
+   errormsg: String @doc(description: "Error Message")
+}

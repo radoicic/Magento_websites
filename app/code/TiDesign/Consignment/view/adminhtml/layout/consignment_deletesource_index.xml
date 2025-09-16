@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="styles"/>
+	<head>
+		<css src="TiDesign_Consignment::css/adminstyle.css"/>
+		<css src="TiDesign_Consignment::css/adminstyle.css"/>
+		<css src="TiDesign_Consignment::css/select2.min.css"/>
+		<remove src="Magezon_Builder::css/bootstrap.css"/>
+	</head>
+	<body>
+		<referenceContainer name="content">
+			<block class="TiDesign\Consignment\Block\Adminhtml\Deletesource\Index" template="TiDesign_Consignment::deletesource.phtml"/>
+		</referenceContainer>
+	</body>
+</page>

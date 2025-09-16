@@ -1,0 +1,36 @@
+<?php if ($block->getHelper()->isDebugMode()): ?>
+
+    <script>
+        (async () => 
+        {
+            const response = await fetch(<?php echo json_encode($block->getUrl('taxswitch/index/debug')) ?>, 
+            {
+                method: 'POST',
+                headers: 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const content = await response.json();
+                
+			let dialog = document.createElement('div');
+
+			dialog.style.cssText = ['position:fixed','top:30px','left:5px','padding:20px','background:rgba(0,0,0,0.7)','color:rgb(255,255,255)','z-index:9999'].join(';');
+
+			document.body.appendChild(dialog);
+
+			Object.entries(content).forEach(([key, value]) => 
+			{
+				let row = document.createElement('div');
+
+				row.innerHTML = value;
+
+				dialog.appendChild(row);
+			});
+			
+        })();
+    </script>
+
+<?php endif ?>

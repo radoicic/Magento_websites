@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+	<preference for="TiDesign\CheckoutAgreements\Api\AgreementlistRepositoryInterface" type="TiDesign\CheckoutAgreements\Model\AgreementlistRepository"/>
+	<preference for="TiDesign\CheckoutAgreements\Api\Data\AgreementlistInterface" type="TiDesign\CheckoutAgreements\Model\Agreementlist"/>
+	<preference for="TiDesign\CheckoutAgreements\Api\Data\AgreementlistSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="TiDesign\CheckoutAgreements\Model\ResourceModel\Agreementlist\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">tidesign_consignment_checkoutagreements_grid</argument>
+			<argument name="resourceModel" xsi:type="string">TiDesign\CheckoutAgreements\Model\ResourceModel\Agreementlist\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="tidesign_checkoutagreements_agreementlist_listing_data_source" xsi:type="string">TiDesign\CheckoutAgreements\Model\ResourceModel\Agreementlist\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+
+
+	<preference for="TiDesign\CheckoutAgreements\Api\Data\LoglistInterface" type="TiDesign\CheckoutAgreements\Model\Loglist" />
+	<preference for="TiDesign\CheckoutAgreements\Api\LoglistRepositoryInterface" type="TiDesign\CheckoutAgreements\Model\LoglistRepository" />
+	<virtualType name="LoglistGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+		<arguments>
+			<argument name="collection" xsi:type="object" shared="false">TiDesign\CheckoutAgreements\Model\ResourceModel\Loglist\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="checkoutagreements_loglist_grid_data_source" xsi:type="string">TiDesign\CheckoutAgreements\Model\ResourceModel\Loglist\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+	
+	<virtualType name="TiDesign\CheckoutAgreements\Model\ResourceModel\Loglist\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">tidesign_consignment_checkoutagreements_log</argument>
+			<argument name="resourceModel" xsi:type="string">TiDesign\CheckoutAgreements\Model\ResourceModel\Loglist</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\Model\Entity\RepositoryFactory">
+		<arguments>
+			<argument name="entities" xsi:type="array">
+				<item name="TiDesign\CheckoutAgreements\Api\Data\LoglistInterface" xsi:type="string">TiDesign\CheckoutAgreements\Api\LoglistRepositoryInterface</item>
+			</argument>
+		</arguments>
+	</type>		
+	
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="checkoutagreements_customerlist_grid_data_source" xsi:type="string">TiDesign\CheckoutAgreements\Model\ResourceModel\Customerlist\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="TiDesign\CheckoutAgreements\Model\ResourceModel\Customerlist\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">tidesign_consignment_checkoutagreements_list</argument>
+            <argument name="resourceModel" xsi:type="string">TiDesign\CheckoutAgreements\Model\ResourceModel\Customerlist</argument>
+        </arguments>
+    </virtualType>
+	
+	
+	
+	
+	
+</config>

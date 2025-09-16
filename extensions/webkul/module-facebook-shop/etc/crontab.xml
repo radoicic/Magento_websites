@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_FacebookShop
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="index">
+        <job name="webkul_fbshop_cron_feed" instance="Webkul\FacebookShop\Model\Cron" method="catalogSync">
+            <config_path>crontab/default/jobs/webkul_fbshop_cron_feed/schedule/cron_expr</config_path>
+        </job>
+    </group>
+</config>

@@ -1,0 +1,28 @@
+<?php
+
+$SITE_URL = 'https://traderunner.omnivore.com.au';
+
+$base_url = $block->escapeHtml($block->getBaseUrl());
+$email_address = $block->escapeHtml($block->getEmailAddress());
+$access_token = $block->escapeHtml($block->getAccessToken());
+$historic_token = $block->escapeHtml($block->getHistoricToken());
+$store_name = $block->escapeHtml($block->getStoreName());
+$integration_url = $block->getUrl('adminhtml/integration/index');
+?>
+
+<?php if ($access_token) : ?>
+<form action="<?php echo $SITE_URL; ?>/magento2/connect" method="post" target="_blank">
+  <input type="hidden" name="flavour" value="traderunner" />
+  <input type="hidden" name="storeName" value="<?php echo $store_name; ?>" />
+  <input type="hidden" name="endpoint" value="<?php echo $base_url; ?>" />
+  <input type="hidden" name="accessToken" value="<?php echo $access_token; ?>" />
+  <input type="hidden" name="historicToken" value="<?php echo $historic_token; ?>" />
+  <input type="hidden" name="email" value="<?php echo $email_address; ?>" />
+  <button>Go To TradeRunner</button>
+</form>
+<?php else: ?>
+<div class="error-container">
+    <h2>CityBeach Intergation Error</h2>
+    <p>Please ensure the the <strong>CityBeach Integration</strong> <a href="<?php echo $integration_url; ?>">integration</a> exists and is active.</p>
+</div>
+<?php endif; ?>

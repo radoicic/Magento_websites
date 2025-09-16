@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="CityBeach\Integration\Api\ProductSummaryInterface" type="CityBeach\Integration\Model\ProductSummary" />
+    <preference for="CityBeach\Integration\Api\ProductInventoryInterface" type="CityBeach\Integration\Model\ProductInventory" />
+    <preference for="CityBeach\Integration\Api\OrderingInterface" type="CityBeach\Integration\Model\Ordering" />
+    <preference for="CityBeach\Integration\Api\CityBeachInterface" type="CityBeach\Integration\Model\CityBeach" />
+    <preference for="CityBeach\Integration\Api\ShippingMethodListInterface" type="CityBeach\Integration\Model\ShippingMethodList" />
+    <preference for="CityBeach\Integration\Api\Data\AddressInterface" type="CityBeach\Integration\Model\Order\Address" />
+    <preference for="CityBeach\Integration\Api\Data\CustomerInterface" type="CityBeach\Integration\Model\Order\Customer" />
+    <preference for="CityBeach\Integration\Api\Data\ShippingInterface" type="CityBeach\Integration\Model\Order\Shipping" />
+    <preference for="CityBeach\Integration\Api\Data\OrderInterface" type="CityBeach\Integration\Model\Order\Order" />
+    <preference for="CityBeach\Integration\Api\Data\PaymentInterface" type="CityBeach\Integration\Model\Order\Payment" />
+    <preference for="CityBeach\Integration\Api\Data\ProductInterface" type="CityBeach\Integration\Model\Order\Product" />
+</config>

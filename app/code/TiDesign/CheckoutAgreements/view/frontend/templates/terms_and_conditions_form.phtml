@@ -1,0 +1,198 @@
+<?php
+	$formName	= $block->generateRandomString();
+
+	$data 		= $block->getDefinitions();
+	if($data){
+		$rendered	= ($data->getHtmlCode()) ?? ''; 
+		$edit		= ($data->getEdit()) ?? 1;
+		$activation	= ($data->getActivation()) ?? 0;
+		$status		= ($data->getStatus()) ?? 0;
+		$filename	= ($data->getFilename()) ?? '';
+	}else{
+		$edit=1;
+	}
+	$form		= $block->getForm();
+	
+	
+	$waiting_message	= '<span class="custom-notification"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Waiting for the administrator to approve your form.<br>   - If approved, an activation message will be sent to your e-mail account to confirm your form.<br>   - If it is not approved, a message will be sent stating why it was not approved and you will be asked to fill in the required fields again.</span>';
+	$activation_message	= '<span class="custom-notification"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Admin accepted your form and an been sent to your e-mail address, with the pdf version of the form you filled in attached. Please check the document and if the information is correct, click the "Confirm Your Contract" button at the bottom of the email, confirming that the information belongs to you and is correct, and activate your consignment</span>';
+	$toolbar			= '<div class="toolbar"><span class="download-button"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF file</span><span class="edit-button '.$block->getEditStatus().'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Request Editing</span></div>';
+
+
+//	$contentHeight 	= $block->getContentHeight() ?? "100";
+	$contentHeight 	= 0;
+	$buttonText 	= $block->getButtonText() ?? "Read More";
+	$always_show	= $block->getAlwaysShow();
+
+?>
+<?php 
+if($always_show==1 || $edit==1){ 
+?>
+<style id="readmore_iframe_style">
+.read-more {
+  display: block;
+  padding: 0 0 30px 0;
+  position: relative;
+}
+.read-more-content {
+  display: block;
+/*  border: 1px solid #ccc;*/
+  max-height: <?php echo $contentHeight;?>px;
+  overflow: hidden;
+}
+/*
+.read-more.open .read-more-content {
+  max-height: 100%;
+}
+*/
+.read-more.open .read-more-content {
+  max-height: 100%;
+  border: 1px solid #ccc;
+  padding: 3px;
+}
+
+.read-more-button {
+	position: absolute !important;
+	left: 0;
+	right: 0;
+	margin: auto;
+	border: 1px solid rgb(0, 102, 204) !important;
+	background: #fff;
+	color: rgb(0, 102, 204) !important;
+	padding: 4px 9px !important;
+	border-radius: 10px !important;
+	cursor: pointer;
+	margin-top: -13px !important;
+	outline: none !important;
+	font-size: 10px !important;
+	height:auto !important;
+/*	display: block !important;*/
+}
+.read-more-button:hover{
+    background: #fff;
+	color: rgb(0, 102, 204) !important;
+	box-shadow: rgb(38, 57, 77) 0px 4px 6px -2px;
+}
+.read-more.open .read-more-button {
+  display: block !important;
+}
+.read-more-title {
+  visibility: hidden;
+  position: relative;
+}
+.read-more-title:after {
+  content: "<?php echo $buttonText;?>";
+  visibility: visible;
+}
+.read-more.open .read-more-title:after {
+  content: "Close";
+  visibility: visible;
+}
+</style>
+<?php 
+} 
+?>
+<?php
+
+	// 
+	if($edit==1){
+	?>
+		<form id="custom-form" method="post">
+			<input type="hidden" name="id" 			id="id" 				value="<?=($data)? $data->getId() : "";?>" />
+			<input type="hidden" name="customer_id" id="customer_id" 		value="<?=$block->getCutomerId();?>" />
+			<?php echo $form;?>
+			<button>Save</button>
+		</form>
+	<?php
+	}else{
+		if($status == 0){			//admin daha kabul etmediyse
+			echo $waiting_message;
+		}else{						//admin kabul ettiyse
+			if($activation == 0){	//kullanıcı aktif etmediyse
+				echo $activation_message;
+			}else{
+				echo $toolbar;
+			}
+		}
+		echo $rendered;
+	}
+	
+	
+	if($edit==0 && $status==1 && $activation==1){
+		echo "<hr>".$filename;
+?>
+<script>
+	require([
+	  'jquery',
+	  'Magento_Ui/js/modal/alert',
+	  'loader'
+	], function($,alert){
+		$(document).ready(function() {
+			var ajaxUrl = "<?php echo $this->getUrl('termsandconditions/ajax');?>"; 
+			function show_loader(){$("body").loader("show");}
+			function hide_loader(){$("body").loader("hide");}
+					
+			$(document).on("click", '.download-button', function(event){
+				var link = document.createElement('a');
+				link.href = '<?php echo $block->getDownloadUrl($filename);?>';
+				link.download = '<?php echo $filename;?>';
+				link.dispatchEvent(new MouseEvent('click'));
+				document.body.removeChild(link);
+			});
+			
+			$(document).on("click", '.edit-button:not(.disabled)', function(event){
+				var el = $(this);
+				show_loader();
+				$.ajax({
+					url: ajaxUrl,
+					type: 'POST', 
+					dataType: 'json',
+					async: false,
+					data: {
+						islem: 'requestedit',
+						customerid: '<?=$block->getCutomerId();?>',
+						ip: '<?=$block->getCustomerIp();?>',
+					},
+					success: function(result){
+						hide_loader();
+						console.log(result);
+						if(result.status != 1){
+							alert({content: "Error"});
+						}
+						el.addClass("disabled");
+						alert({content: result.html});
+
+					},
+					error: function (xhr, status, errorThrown) {
+						hide_loader();
+						alert({content: "Error"});
+					}
+				});	
+
+			});				
+			
+		});
+	});
+</script>			
+<?php
+	}
+?>
+<script>
+	require([
+	  'jquery',
+	], function($){
+		$(document).ready(function() {
+			$(document).on("click", '.read-more-button', function(event){
+				event.preventDefault();
+				$(this).parent().toggleClass("open");
+				return false;
+			});
+			$(document).on("click", 'a[href="#readmore"]', function(event){
+				event.preventDefault();
+				$('.read-more-button').click();
+				return false;
+			});			
+		});
+	});	
+</script>	
+

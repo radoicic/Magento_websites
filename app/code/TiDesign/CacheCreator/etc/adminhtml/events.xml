@@ -1,0 +1,17 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_cache_flush_all">
+        <observer name="tidesign_cachecreator_clear_cache" instance="TiDesign\CacheCreator\Observer\Clearcache" />
+    </event>      
+    <event name="adminhtml_cache_flush_system">
+        <observer name="tidesign_cachecreator_clear_cache" instance="TiDesign\CacheCreator\Observer\Clearcache" />
+    </event>        
+    <event name="adminhtml_cache_refresh_type">
+        <observer name="tidesign_cachecreator_clear_cache" instance="TiDesign\CacheCreator\Observer\Clearcache" />
+    </event>  
+    <event name="clean_media_cache_after">
+        <observer name="tidesign_cachecreator_clear_cache" instance="TiDesign\CacheCreator\Observer\Clearcache" />
+    </event>   
+    <event name="clean_static_files_cache_after">
+        <observer name="tidesign_cachecreator_clear_cache" instance="TiDesign\CacheCreator\Observer\Clearcache" />
+    </event>                                         
+</config>

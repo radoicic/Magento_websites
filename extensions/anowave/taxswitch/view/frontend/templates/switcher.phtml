@@ -1,0 +1,189 @@
+<?php if ($block->getHelper()->usePrivateContent()):?>
+	<li data-bind="scope: 'switcher'"><span data-bind="text: switcher().label"></span></li>
+	<li data-bind="scope: 'switcher'">
+		<script type="text/x-magento-init">
+ 		{
+            "*": 
+			{
+                "Magento_Ui/js/core/app": 
+				{
+                    "components": 
+					{
+                        "switcher": 
+						{
+                            "component": "Anowave_TaxSwitch/js/switcher",
+							"config":
+							{
+								"endpoint": "<?php echo $block->getUrl('taxswitch/index/index') ?>"
+							}
+                        }
+                    }
+                }
+            }
+        }
+		</script>
+		<script>
+			var bindTrack  = <?php echo $block->getHelper()->getTrack() ?>; 
+			var bindRender = function()
+			{
+				return true;
+			};
+			var bindRenderOptions = function()
+			{
+				<?php if (false):?>
+				
+					<?php
+					/**
+					 * This is kind of dirty workaround. value: switcher().current doesn't seem to work in Magento 2.1.2
+					 */
+					?>
+					var select = jQuery('select[name=tax_display]'), current = jQuery(':hidden[name=current]').val(), current_arg = jQuery(':hidden[name=current_arg]').val();
+	
+					if (0 < parseInt(current_arg))
+					{
+						select.val(current_arg);
+					}
+					else 
+					{
+						select.val(current);
+					}
+
+				<?php endif ?>
+
+				return this;
+			};
+			var bindChange = function(target, event)
+			{
+				 if (event.originalEvent)
+				 {
+				 	if (true == bindTrack.enable)
+					{
+						/**
+						 * Get tax display type
+						 */
+						bindTrack.fieldsObject['eventLabel'] = jQuery('select[name=tax_display]').find('option:selected:first').text();
+
+						if ('ua' == bindTrack.type) 
+						{
+							if ('undefined' !== typeof ga)
+							{
+								ga('send', bindTrack.fieldsObject);						
+							}
+						}
+						else 
+						{
+							if ('undefined' !== typeof dataLayer)
+							{
+								bindTrack.fieldsObject['event'] = 'taxSwitch';
+
+								/**
+								 * Push event to dataLayer
+								 */
+								dataLayer.push(bindTrack.fieldsObject);
+							}
+						}
+					}
+						
+					 jQuery(event.target).parents('form:first').submit();
+				 }
+			};
+	
+		</script>
+		<div data-bind="text: switcher().select"></div>
+		<input type="hidden" name="current" data-bind="value: switcher().current" />
+		<input type="hidden" name="current_arg" value="<?php echo (int) @$_GET['tax_display'] ?>" />
+		<form method="post" action="<?php echo $block->getUrl('taxswitch/index/switch')?>">
+			<select name="tax_display" class="tax_display_select" data-bind="event: { change: bindChange }, afterRender: bindRender, optionsAfterRender: bindRenderOptions, options: switcher().options, optionsText: 'label', optionsValue: 'value', value: switcher().current"></select>
+		</form>
+	</li>
+	<?php else: ?>
+	<li><?php echo $block->getHelper()->getShowPricesText() ?></li>
+	<li>
+		<form method="post" action="<?php echo $block->getUrl('taxswitch/index/switch')?>" data-switcher="true">
+			<input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+			<?php if (\Anowave\TaxSwitch\Model\System\Config\Source\Template::AS_SELECT === $block->getHelper()->getDisplayTemplate()):?>
+				<select name="tax_display" class="tax_display_select" onchange="this.form.submit()">
+    				<?php foreach($block->getOptions() as $option):?>
+    					<option value="<?php echo $option['value'] ?>" <?php if ($option['checked']):?>selected<?php endif ?>><?php echo $option['label'] ?></option>
+    				<?php endforeach?>
+    			</select>
+			<?php elseif (\Anowave\TaxSwitch\Model\System\Config\Source\Template::AS_RADIOS === $block->getHelper()->getDisplayTemplate()): ?>
+				<div class="toggle-wrapper">
+					<?php foreach($block->getOptions() as $option):?>
+    					<input id="toggle-<?php echo $option['value'] ?>" class="toggle toggle-<?php echo $option['value'] ?>" type="radio" onchange="this.form.submit()" name="tax_display" value="<?php echo $option['value'] ?>" <?php if ($option['checked']):?>checked<?php endif ?> />
+    					<label for="toggle-<?php echo $option['value'] ?>" class="btn"><?php echo $option['label'] ?></label>
+    				<?php endforeach?>
+    				</div>
+    		<?php else: ?>
+    			<?php $current = $block->getHelper()->getCurrentTaxDisplay() ?>
+    			<input type="hidden" name="tax_display" value="<?php echo $current ?>"/>
+    			<div class="toggle-wrapper-links">
+    				<?php $options = $block->getOptions() ?>
+    				<a data-value="<?php echo $options['inc']['value']?>" class="toggle-inc <?php if ($options['inc']['checked']):?>checked<?php endif ?>"><?php echo $options['inc']['label']?></a>
+    				<a style="background-color: <?php echo $block->getHelper()->getToggleBackground() ?>" class="toggle <?php if (\Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX === $current): ?>toggle-off<?php endif; ?>"></a>
+    				<a data-value="<?php echo $options['exc']['value']?>" class="toggle-exc <?php if ($options['exc']['checked']):?>checked<?php endif ?>"><?php echo $options['exc']['label']?></a>
+    			</div>
+    			<script>
+        			window.addEventListener('DOMContentLoaded', (event) => 
+        			{
+            			document.querySelectorAll('a[data-value]').forEach(element => 
+            			{
+                			element.addEventListener('click', event => 
+                			{
+								let form = element.parentNode.parentNode;
+
+                    			let input = document.querySelector('[name=tax_display]');
+
+                    			input.value = event.target.dataset.value;
+
+                    			form.submit();
+
+                    			return false;
+                    		});
+                		});
+
+                		(current => 
+                		{
+                			document.querySelectorAll('a.toggle').forEach(element => 
+                			{
+                    			element.addEventListener('click', event => 
+                    			{
+									let form = element.parentNode.parentNode;
+									
+                        			let input = document.querySelector('[name=tax_display]');
+
+                        			input.value = 1 == current ? 2 : 1;
+
+                        			form.submit();
+
+                        			return false;
+                        		});
+                    		});
+                    		
+                    	})(<?php echo $current ?>);
+        			});
+    			</script>
+			<?php endif ?>
+			<script>
+    			window.addEventListener('DOMContentLoaded', (event) => 
+    			{
+    				(invalidate => 
+        			{
+            			if (invalidate)
+            			{
+            				require(['Magento_Customer/js/customer-data'], function (customerData) 
+            				{
+            					var sections = ['cart'];
+            					
+                                customerData.initStorage();
+                                customerData.invalidate(sections);
+                                customerData.reload(sections, true);
+         			        });
+            			}
+            			
+            		})(<?php echo json_encode($block->isInvalidate())?>); 
+    			});
+			</script>
+		</form>
+	</li>
+<?php endif ?>

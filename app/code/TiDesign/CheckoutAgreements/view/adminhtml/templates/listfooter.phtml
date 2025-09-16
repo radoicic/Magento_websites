@@ -1,0 +1,303 @@
+
+<div style="display: none;">
+	<div  id="hidden-form">
+		<h3>Reason for rejection</h3>
+		<input type="hidden" name="form-customer" 	id="form-customer" 	value="">
+		<input type="hidden" name="form-log" 		id="form-log" 		value="">
+		<input type="hidden" name="form-islem" 		id="form-islem" 	value="">
+		<div class="form-block">
+			<textarea name="form-message" id="form-message" rows="10"></textarea>
+		</div>
+		<div class="form-block">
+			<button id="send-message" ><span>Send message</span></buton>
+			<button class="primary" onclick="window.parent.jQuery.fancyboxuby.close()"><span>Cancel</span></buton>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	require([
+	  'jquery',
+	  'fancyboxuby',
+	  'Magento_Ui/js/modal/alert',
+	  'jquery/ui',
+	  'loader',
+	  'uiRegistry'
+	], function($, fancyboxuby, alert){
+		$(document).ready(function() {
+			var ajaxUrl = "<?php echo $this->getUrl('tidesign_checkoutagreements/ajax');?>"; 
+			
+			function show_loader(){$("body").loader("show");}
+			function hide_loader(){$("body").loader("hide");}
+
+			$(document).on("click", '.deny-contract', function(){
+				$('#form-customer').val($(this).data('customer'));
+				$('#form-log').val($(this).data('log'));
+				$('#form-islem').val('denyform');
+				$.fancyboxuby.open({ 
+					'src' : $(this).data('src'), 
+					'type' : 'inline',
+					'afterClose': function() {
+						$("#form-message").val("");
+						$('#form-customer').val('');
+						$('#form-log').val('');
+						$('#form-islem').val('');
+					}
+				});
+			});
+			
+			$(document).on("click", '.deny-edit', function(){
+				$('#form-customer').val($(this).data('customer'));
+				$('#form-log').val($(this).data('log'));
+				$('#form-islem').val('denyedit');
+				$.fancyboxuby.open({ 
+					'src' : $(this).data('src'), 
+					'type' : 'inline',
+					'afterClose': function() {
+						$("#form-message").val("");
+						$('#form-customer').val('');
+						$('#form-log').val('');
+						$('#form-islem').val('');
+					}
+				});
+			});			
+			
+			
+			
+/*	********************* deny-contract/edit   *******************************/	
+			$(document).on("click", '#send-message', function(event){
+				show_loader();
+				$.ajax({
+					url: ajaxUrl,
+					type: 'POST', 
+					dataType: 'json',
+					async: false,
+					data: {
+						islem:$('#form-islem').val(),
+						customerid: $('#form-customer').val(),
+						logid: $('#form-log').val(),
+						message: $('#form-message').val(),
+					},
+					success: function(result){
+						hide_loader();
+						console.log(result);
+						if(result.status != 1){
+							alert({content: "Error"});
+						}
+						var el = $('a.button-deny[data-log="'+$('#form-log').val()+'"]');
+						
+						if($('#form-islem').val() == 'denyform'){
+							el.parent().after("<p class='orange'>User's form rejected. New form awaited.</p>");
+						}
+						el.parent().prev().remove();
+						el.parent().remove();
+
+					},
+					error: function (xhr, status, errorThrown) {
+						hide_loader();
+						alert({content: "Error"});
+					}
+				});	
+				$.fancyboxuby.close();
+			});	
+/*	*********************************************************************************************/	
+
+	
+/*	********************* accept-contract *******************************/			
+			$(document).on("click", '.accept-contract', function(event){
+				var el = $(this);
+				alert({
+					content: $.mage.__('Are you sure you want to ACCEPT consignment form'),
+					buttons: [{
+						text: $.mage.__('Cancel'),
+						class: 'action-secondary action-dismiss',
+						click: function (event) {
+							this.closeModal(event);
+						}
+					}, {
+						text: $.mage.__('Accept'),
+						class: 'action-primary action-accept',
+						click: function (event) {
+							show_loader();
+							$.ajax({
+								url: ajaxUrl,
+								type: 'POST', 
+								dataType: 'json',
+								async: false,
+								data: {
+									islem:'acceptform',
+									customerid: el.data('customer'),
+									logid: el.data('log'),
+								},
+								success: function(result){
+									hide_loader();
+									console.log(result);
+									if(result.status != 1){
+										alert({content: "Error"});
+									}
+									el.parent().after('<p class="green">Admin accepted contract</p><p class="orange">Waiting user to activate contract</p>');
+									el.parent().prev().remove();
+									el.parent().remove();
+								},
+								error: function (xhr, status, errorThrown) {
+									hide_loader();
+									alert({content: "Error"});
+								}
+							});	
+							this.closeModal(event);
+						}
+					}]
+				});			
+			});			
+/*	*********************************************************************************************/	
+
+/*	********************* manually activate *******************************/			
+			$(document).on("click", '.manual-activate', function(event){
+				var el = $(this);
+				alert({
+					content: $.mage.__('Are you sure you want to ACTIVATE consignment form'),
+					buttons: [{
+						text: $.mage.__('Cancel'),
+						class: 'action-secondary action-dismiss',
+						click: function (event) {
+							this.closeModal(event);
+						}
+					}, {
+						text: $.mage.__('Accept'),
+						class: 'action-primary action-accept',
+						click: function (event) {
+							show_loader();
+							$.ajax({
+								url: ajaxUrl,
+								type: 'POST', 
+								dataType: 'json',
+								async: false,
+								data: {
+									islem:'manualactivate',
+									customerid: el.data('customer'),
+									logid: el.data('log'),
+								},
+								success: function(result){
+									hide_loader();
+									console.log(result);
+									if(result.status != 1){
+										alert({content: "Error"});
+									}
+									el.parent().after('<p class="green">User activated contract</p>');
+									el.parent().prev().remove();
+									el.parent().remove();
+								},
+								error: function (xhr, status, errorThrown) {
+									hide_loader();
+									alert({content: "Error"});
+								}
+							});	
+							this.closeModal(event);
+						}
+					}]
+				});			
+			});			
+/*	*********************************************************************************************/				
+				
+/*	********************* accept-edit *******************************/			
+			$(document).on("click", '.accept-edit', function(event){
+				var el = $(this);
+				alert({
+					content: $.mage.__('Are you sure you want to ALLOW editing consignment form'),
+					buttons: [{
+						text: $.mage.__('Cancel'),
+						class: 'action-secondary action-dismiss',
+						click: function (event) {
+							this.closeModal(event);
+						}
+					}, {
+						text: $.mage.__('Accept'),
+						class: 'action-primary action-accept',
+						click: function (event) {
+							show_loader();
+							$.ajax({
+								url: ajaxUrl,
+								type: 'POST', 
+								dataType: 'json',
+								async: false,
+								data: {
+									islem:'acceptedit',
+									customerid: el.data('customer'),
+									logid: el.data('log'),
+								},
+								success: function(result){
+									hide_loader();
+									console.log(result);
+									if(result.status != 1){
+										alert({content: "Error"});
+									}
+									el.parent().after('<p class="orange">User\'s edit request accepted. New form awaited.</p>');
+									el.parent().prev().remove();
+									el.parent().remove();
+								},
+								error: function (xhr, status, errorThrown) {
+									hide_loader();
+									alert({content: "Error"});
+								}
+							});	
+							this.closeModal(event);
+						}
+					}]
+				});			
+			});			
+/*	*********************************************************************************************/	
+			
+
+/*	********************* DELETE *******************************/			
+			$(document).on("click", '.delete-customer', function(event){
+				var el = $(this);
+				alert({
+					content: $.mage.__('Are you sure you want to Delete Record'),
+					buttons: [{
+						text: $.mage.__('Cancel'),
+						class: 'action-secondary action-dismiss',
+						click: function (event) {
+							this.closeModal(event);
+						}
+					}, {
+						text: $.mage.__('Accept'),
+						class: 'action-primary action-accept',
+						click: function (event) {
+							show_loader();
+							$.ajax({
+								url: ajaxUrl,
+								type: 'POST', 
+								dataType: 'json',
+								async: false,
+								data: {
+									islem:'deletecustomer',
+									customerid: el.data('customer'),
+									logid: el.data('log'),
+								},
+								success: function(result){
+									hide_loader();
+									console.log(result);
+									if(result.status != 1){
+										alert({content: "Error"});
+									}
+									require('uiRegistry').get('index = tidesign_checkoutagreements_customerlist_index').source.reload({refresh: true})
+								},
+								error: function (xhr, status, errorThrown) {
+									hide_loader();
+									alert({content: "Error"});
+								}
+							});	
+							this.closeModal(event);
+						}
+					}]
+				});			
+			});			
+/*	*********************************************************************************************/	
+
+
+
+			
+		});
+	});
+</script>

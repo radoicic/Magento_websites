@@ -1,0 +1,41 @@
+<?php
+/**
+ * Magezon
+ *
+ * This source file is subject to the Magezon Software License, which is available at https://www.magezon.com/license
+ * Do not edit or add to this file if you wish to upgrade the to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ * Please refer to https://www.magezon.com for more information.
+ *
+ * @category  Magezon
+ * @package   Magezon_ProductPageBuilder
+ * @copyright Copyright (C) 2019 Magezon (https://www.magezon.com)
+ */
+
+// @codingStandardsIgnoreFile
+/**
+ * @var $block \Magezon\ProductPageBuilder\Block\Product\Element
+ */
+
+$product = $this->getProduct();
+?>
+<div class="ppbd-product-addtocart">
+	<?php if ($product->getTypeId() == \Magento\Bundle\Model\Product\Type::TYPE_CODE) { ?>
+		<?= $block->renderElement('customize.button') ?>
+	<?php } else { ?>
+		<?= $block->renderElement('product.info') ?>
+	<?php } ?>
+</div>
+<script>
+	require(['jquery'], function($) {
+		var addToCartParents = $('.mgz-element-product_addtocart').parents('.mgz-element-inner');
+		var priceParents     = $('.mgz-element-product_price').parents('.mgz-element-inner');
+		var parent;
+		for (var i = 0; i < addToCartParents.length; i++) {
+			if ($.inArray(addToCartParents[i], priceParents) !== -1 && !parent) {
+				parent = $(addToCartParents[i]);
+			}
+		}
+		if (parent && !$('.magezon-builder .product-info-main').length) parent.addClass('product-info-main');
+	});
+</script>

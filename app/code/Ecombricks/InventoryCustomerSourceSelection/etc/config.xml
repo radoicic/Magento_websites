@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <catalog>
+            <product_source_quote>
+                <active>1</active>
+                <current_source_only>0</current_source_only>
+            </product_source_quote>
+        </catalog>
+        <cataloginventory>
+            <source_options>
+                <split_order>1</split_order>
+                <enable_price>1</enable_price>
+                <enable_tax_class>1</enable_tax_class>
+            </source_options>
+        </cataloginventory>
+    </default>
+</config>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <remove src="Meetanshi_Callforprice::css/callforprice.css"/>
+        <remove src="Meetanshi_Callforprice::build/css/intlTelInput.css"/>
+        <remove src="Meetanshi_Callforprice::build/js/data.js"/>
+        <remove src="Meetanshi_Callforprice::build/js/intlTelInput.js"/>
+        <remove src="Meetanshi_Callforprice::build/js/utils.js"/>
+        <remove src="https://www.google.com/recaptcha/api.js"/>
+		<remove src="Magezon_Core::css/owlcarousel/owl.carousel.min.css"/>
+		<remove src="Magezon_Core::css/animate.css"/>
+		<remove src="Magezon_Core::css/fontawesome5.css"/>
+		<remove src="Magezon_Core::css/mgz_font.css"/>
+		<remove src="Magezon_Core::css/mgz_bootstrap.css"/>
+		<remove src="Magezon_Builder::css/openiconic.min.css"/>
+		<remove src="Magezon_Builder::css/styles.css"/>
+		<remove src="Magezon_Builder::css/common.css"/>
+    </head>
+    <body>
+        <referenceBlock name="before_body_callforprice" remove="true"/>
+        <referenceBlock name="magezon.builder.head" remove="true"/>
+        <referenceBlock name="magezon.builder.footer" remove="true"/>
+		<referenceContainer name="head.additional">
+			<referenceBlock name="font-awesome"  remove="true"/>
+		</referenceContainer>
+    </body>
+</page>

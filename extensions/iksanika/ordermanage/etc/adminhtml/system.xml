@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Iksanika. All rights reserved.
+ * See IKS-LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="iksanika" translate="label" sortOrder="1">
+            <label>Iksanika</label>
+        </tab>
+        <section id="iksanika_ordermanage" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Orders Manager (Advanced)</label>
+            <tab>iksanika</tab>
+            <resource>Iksanika_Ordermanage::config_ordermanage</resource>
+            <group id="columns" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Grid Settings</label>
+                <field id="showcolumns" translate="label comment" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Columns</label>
+                    <comment>If Yes - show column with basic image, if No - hide column with basic image</comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\Show</source_model>
+                </field>
+                <field id="sort" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Column</label>
+                    <comment>The selected column must be also selected above if it's not already there</comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\Show</source_model>
+                </field>
+                <field id="page" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Initial Page Number</label>
+                </field>
+                <field id="limit" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Page Size</label>
+                </field>
+                <field id="dir" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Column Direction</label>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Sort\Direction</source_model>
+                </field>
+                <field id="hide_status" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hide orders with statuses</label>
+                    <comment>Use CTRL+click to select statuses which will be not shown in orders grid.</comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusesOrder</source_model>
+                </field>
+            </group>
+            <group id="products" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Order Products Data Settings</label>
+                <field id="showattr" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Products Data</label>
+                    <comment>Use CTRL+click to select products attributes which will be shown in orders grid.</comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\Products</source_model>
+                </field>
+                <field id="includeproducts" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Products Info in Order Grid</label>
+                    <comment>In case of Enable you will able to show/hide order products details right in the Order Grid</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="showproducts" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Expand Order Grid with Products</label>
+                    <comment>If enable the Order Grid will be expanded by default with Products, otherwise will collabsed - only generate order information inline</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="hideorderitems" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hide Order Items with status</label>
+                    <comment>Orders items with selected statuses will be hidden from grid for order with status 'Processing'</comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusesOrderItem</source_model>
+                </field>
+            </group>
+            <group id="images" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Image Settings in Order Grid</label>
+                <field id="width" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Image Width</label>
+                </field>
+                <field id="height" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Image Height</label>
+                </field>
+                <field id="scale" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Image Scale</label>
+                    <comment>If Yes - images will be resized into Width+Height space, if No - proportionaly to defined value of Width or Height</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="invoice" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bulk Invoice Settings</label>
+                <!--
+                <field id="notify" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify Customer</label>
+                    <comment>Yes - will send email</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                -->
+                <field id="status" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Assign Status</label>
+                    <comment></comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusInvoice</source_model>
+                </field>
+            </group>
+            <group id="capture" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bulk Capture Settings</label>
+                <!--
+                <field id="notify" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify Customer</label>
+                    <comment>Yes - will send email</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                -->
+                <field id="captureInMassAction" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Proceed Capture in Mass Actions</label>
+                    <comment>If yes - Capture step will be triggered in complex mass actions, if no - Capture will be no triggered in complex mass actions. By complex mass actions meant multistep actions such as: Invoice » Capture » Ship | Invoice » Capture » Ship » Print | Invoice » Capture » Ship » Complete | Invoice » Capture » Ship » Complete » Print</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="capture" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Capture Type</label>
+                    <comment></comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\CaptureType</source_model>
+                </field>
+                <field id="status" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Assign Status</label>
+                    <comment></comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusCapture</source_model>
+                </field>
+            </group>
+            <group id="ship" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bulk Shippment Settings</label>
+                <!--
+                <field id="notify" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify Customer</label>
+                    <comment>Yes - will send email</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                -->
+                <field id="status" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Assign Status</label>
+                    <comment></comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusShip</source_model>
+                </field>
+                <field id="carrier_code" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Carrier</label>
+                    <comment>Will be used in bulk shippment for auto generation carrier info</comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\CarrierCode</source_model>
+                </field>
+                <field id="carrier_title" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Carrier Title</label>
+                    <comment>Will be shown in the carrier dropdown for the 'custom' option</comment>
+                </field>
+            </group>
+            <group id="complete" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bulk Complete Settings</label>
+                <!--
+                <field id="notify" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify Customer</label>
+                    <comment>Yes - will send email</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                -->
+                <field id="status" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Assign Status</label>
+                    <comment></comment>
+                    <source_model>Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusComplete</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

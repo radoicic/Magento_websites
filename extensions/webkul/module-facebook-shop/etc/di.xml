@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_FacebookShop
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+   <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                 <item name="facebookshop_mapping_list_data_source" xsi:type="string">Webkul\FacebookShop\Model\ResourceModel\Mapping\Grid\Collection</item>
+                  <item name="facebookshop_catalogfeed_list_data_source" xsi:type="string">Webkul\FacebookShop\Model\ResourceModel\FeedLogModel\Grid\Collection</item>  
+            </argument>
+        </arguments>
+    </type>
+    <type name="Webkul\FacebookShop\Model\ResourceModel\Mapping\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_fb_magento_attribute_mapping</argument>
+            <argument name="eventPrefix" xsi:type="string">facebookshop_mapping_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">facebookshop_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\FacebookShop\Model\ResourceModel\Mapping</argument>
+        </arguments>
+    </type>
+     <type name="Webkul\FacebookShop\Model\ResourceModel\FeedLogModel\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_facebookshop_csvlogs</argument>
+            <argument name="eventPrefix" xsi:type="string">facebookshop_catalogfeed_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">ffacebookshop_catalogfeed_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\FacebookShop\Model\ResourceModel\FeedLogModel</argument>
+        </arguments>
+    </type>
+</config>

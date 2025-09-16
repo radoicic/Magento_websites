@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="cataloginventory">
+            <group id="source_options">
+                <field id="split_order" translate="label" type="select" sortOrder="10" showInDefault="0" showInWebsite="0" showInStore="0" canRestore="1"/>
+            </group>
+        </section>
+        <section id="carriers" enabledForSource="true">
+            <group id="matrixrates" enabledForSource="true">
+                <group id="hint" enabledForSource="true"/>
+                <field id="active" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="condition_name" enabledForSource="true"/>
+                <field id="include_virtual_price" enabledForSource="true"/>
+                <field id="use_base_price" enabledForSource="true"/>
+                <field id="use_tax_price" enabledForSource="true"/>
+                <field id="use_discount" enabledForSource="true"/>
+                <field id="csv_delimiter" enabledForSource="true"/>
+                <field id="import_export_note" enabledForSource="true"/>
+                <field id="export" enabledForSource="true"/>
+                <field id="import" enabledForSource="true"/>
+                <field id="handling_type" enabledForSource="true"/>
+                <field id="handling_fee" enabledForSource="true"/>
+                <field id="zip_from_range" enabledForSource="true"/>
+                <field id="zip_code_max_length" enabledForSource="true"/>
+                <field id="from_filter_operator" enabledForSource="true"/>
+                <field id="to_filter_operator" enabledForSource="true"/>
+                <field id="low_group_priority" enabledForSource="true"/>
+                <field id="methods_priority" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="sort_order" enabledForSource="true"/>
+            </group>
+        </section>
+    </system>
+</config>

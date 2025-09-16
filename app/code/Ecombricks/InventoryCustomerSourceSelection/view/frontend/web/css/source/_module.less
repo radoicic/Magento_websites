@@ -1,0 +1,185 @@
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+// Common
+& when (@media-common = true) {
+    .source-info {
+        font-size: 1.6rem;
+        font-weight: @font-weight__semibold;
+    }
+    .field.source-field {
+        width: 100% !important;
+    }
+    .block.product-estimate {
+        > .title {
+            strong {
+                .lib-font-size(18);
+                font-weight: @font-weight__semibold;
+            }
+        }
+    }
+    .product-estimate {
+        &:extend(.abs-add-box-sizing all);
+        .lib-css(background, @sidebar__background-color);
+        margin-top: @indent__xl;
+        margin-bottom: @indent__m;
+        padding: 1px 0 @indent__m;
+        &:extend(.abs-adjustment-incl-excl-tax all);
+        form:not(:last-of-type) {
+            .fieldset {
+                margin: 0 0 @indent__m;
+            }
+        }
+        .price {
+            font-weight: @font-weight__bold;
+        }
+        .field {
+            margin: 0 0 16px;
+        }
+        > .title {
+            margin: 16px 0;
+        }
+        .item-options {
+            margin: 0 0 16px;
+            .field {
+                .radio {
+                    float: left;
+                }
+                .radio {
+                    + .label {
+                        display: block;
+                        margin: 0;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
+        .source-quotes {
+            margin-top: @indent__l;
+            .source-quote {
+                .source-info {
+                    margin: @indent__s 0 @indent__s + @indent__xs;
+                }
+                .quote-shipping-methods {
+                    padding-left: @indent__s + @indent__xs;
+                }
+                .quote-totals {
+                    margin-top: @indent__l;
+                    &:extend(.abs-sidebar-totals all);
+                    border-top: 0px;
+                    padding-top: 0px;
+                    tbody,
+                    tfoot {
+                        .mark {
+                            text-align: left;
+                        }
+                    }
+                    .grand {
+                        th,
+                        td {
+                            padding: 6px 0;
+                        }
+                        .mark {
+                            .lib-font-size(14);
+                        }
+                        .amount {
+                            .lib-font-size(14);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    .cart-summary {
+        .block {
+            .source-info {
+                margin: 0 0 @indent__s;
+            }
+            .source-shipping-methods {
+                padding-left: @indent__s + @indent__xs;
+            }
+        }
+    }
+    
+    .opc-wrapper {
+        .source-info {
+            margin: @indent__m 0 @indent__s;
+        }
+    }
+    
+    ul.orders {
+        list-style: none;
+        padding-left: 0;
+        &.print {
+            
+        }
+        li {
+            clear: both;
+        }
+    }
+    
+}
+
+// Mobile
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .product-estimate {
+        .source-quotes {
+            .source-quote {
+                .quote-totals {
+                    &:extend(.abs-sidebar-totals-mobile all);
+                }
+            }
+        }
+    }
+}
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .product-estimate {
+        .source-quotes {
+            .source-quote {
+                .quote-totals {
+                    .table-wrapper {
+                        border-top: 0;
+                    }
+                    .totals {
+                        tbody > tr:not(:last-child) > td:last-child {
+                            border: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Desktop
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .product-estimate {
+        padding: 1px @indent__base @indent__m;
+        .fieldset {
+            .actions-toolbar {
+                margin-left: 0;
+                > .secondary {
+                    float: none;
+                }
+            }
+        }
+        > .title {
+            padding-left: 0;
+            &:after {
+                right: 3px;
+            }
+        }
+        .content {
+            &:extend(.abs-revert-side-paddings all);
+        }
+        .fieldset {
+            .field {
+                .lib-form-field-type-revert(@_type: block);
+                margin: 0 0 @indent__s;
+            }
+        }
+    }
+}
+

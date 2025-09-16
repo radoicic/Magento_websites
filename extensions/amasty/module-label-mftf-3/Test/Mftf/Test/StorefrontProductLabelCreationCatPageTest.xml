@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+
+    <test name="StorefrontProductLabelCreationCatPageTest">
+
+        <annotations>
+            <features value="Amasty Product Labels"/>
+            <stories value="Product Label creation and application"/>
+            <title value="Product Label creation and application checking"/>
+            <description
+                value="Check that Product Label is created correctly and applied on products on Category Page"/>
+            <severity value="MAJOR"/>
+            <testCaseId value="PRODLAB-1"/>
+            <group value="Amasty"/>
+            <group value="ProdLab"/>
+            <group value="ProdLabSmoke"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+            <createData entity="TestCategory" stepKey="createTestCategory"/>
+            <createData entity="productAttributeWithTwoOptions" stepKey="createConfigProductAttribute"/>
+            <createData entity="productAttributeOption1" stepKey="createConfigProductAttributeOption">
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+            </createData>
+            <createData entity="productAttributeOption2" stepKey="createConfigProductAttributeOption2">
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+            </createData>
+            <createData entity="AddToDefaultSet" stepKey="addToDefaultAttributeSet">
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+            </createData>
+            <getData entity="ProductAttributeOptionGetter" index="1" stepKey="getConfigAttributeOption">
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+            </getData>
+            <getData entity="ProductAttributeOptionGetter" index="2" stepKey="getConfigAttributeOption2">
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+            </getData>
+            <createData entity="TestConfProductA1" stepKey="createTestConfProductA1">
+                <requiredEntity createDataKey="createTestCategory"/>
+            </createData>
+            <createData entity="ConfProdA1ChildSimProductA1" stepKey="createConfProdA1ChildSimProductA1">
+                <requiredEntity createDataKey="createTestCategory"/>
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+                <requiredEntity createDataKey="getConfigAttributeOption"/>
+            </createData>
+            <createData entity="ConfProdA1ChildSimProductA2" stepKey="createConfProdA1ChildSimProductA2">
+                <requiredEntity createDataKey="createTestCategory"/>
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+                <requiredEntity createDataKey="getConfigAttributeOption2"/>
+            </createData>
+            <createData entity="ConfigurableProductTwoOptions" stepKey="createConfigProductOption">
+                <requiredEntity createDataKey="createTestConfProductA1"/>
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+                <requiredEntity createDataKey="getConfigAttributeOption"/>
+                <requiredEntity createDataKey="getConfigAttributeOption2"/>
+            </createData>
+            <createData entity="ConfProdA1AddChildSimProd" stepKey="createConfigProductAddChild">
+                <requiredEntity createDataKey="createTestConfProductA1"/>
+                <requiredEntity createDataKey="createConfProdA1ChildSimProductA1"/>
+            </createData>
+            <createData entity="ConfProdA1AddChildSimProd" stepKey="createConfigProductAddChild2">
+                <requiredEntity createDataKey="createTestConfProductA1"/>
+                <requiredEntity createDataKey="createConfProdA1ChildSimProductA2"/>
+            </createData>
+            <createData entity="TestSimpleProductB1" stepKey="createSimpleProductB1">
+                <requiredEntity createDataKey="createTestCategory"/>
+                <requiredEntity createDataKey="createConfigProductAttribute"/>
+                <requiredEntity createDataKey="getConfigAttributeOption2"/>
+            </createData>
+            <actionGroup ref="AdminProductLabelConfigurationGeneralTabActionGroup"
+                         stepKey="createProductLabel">
+                <argument name="product_label" value="ProductLabelGeneralTabDefault"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <deleteData stepKey="deleteTestCategory" createDataKey="createTestCategory"/>
+            <deleteData stepKey="deleteTestConfProductA1" createDataKey="createTestConfProductA1"/>
+            <deleteData stepKey="deleteConfProdA1ChildSimProductA1" createDataKey="createConfProdA1ChildSimProductA1"/>
+            <deleteData stepKey="deleteConfProdA1ChildSimProductA2" createDataKey="createConfProdA1ChildSimProductA2"/>
+            <deleteData stepKey="deleteSimpleProductB1" createDataKey="createSimpleProductB1"/>
+            <deleteData stepKey="deleteConfigProductAttribute" createDataKey="createConfigProductAttribute"/>
+            <actionGroup ref="AdminDeleteProductLabelActionGroup" stepKey="deleteProductLabel"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+
+        <comment userInput="Navigate to Category Page. Check that Product Label is displayed on Category Page"
+                 stepKey="testActivitiesComment"/>
+
+        <amOnPage url="$createTestCategory.custom_attributes[url_key]$.html"
+                  stepKey="navigateToRequiredPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad"/>
+        <grabCookie userInput="setProductLabelIDInCookie" stepKey="grabCookie"/>
+        <seeNumberOfElements
+            selector="{{StorefrontProductLabelSection.ProductLabelSelector(ProductTabIdentifier.Identifier,{$grabCookie})}}"
+            userInput="2"
+            stepKey="seeProductLabels"/>
+
+    </test>
+</tests>

@@ -1,0 +1,195 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+declare(strict_types=1);
+
+namespace Ecombricks\InventoryCustomerSourceSelection\Block\Catalog\Product\View;
+
+/**
+ * Product source block
+ */
+class Source extends \Magento\Catalog\Block\Product\View
+{
+    /**
+     * Get source by source code
+     * 
+     * @var \Ecombricks\InventoryCommon\Model\GetSourceBySourceCode
+     */
+    private $getSourceBySourceCode;
+
+    /**
+     * Get current salable source items
+     * 
+     * @var \Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\GetCurrentSalableSourceItems
+     */
+    private $getCurrentSalableSourceItems;
+
+    /**
+     * Sources
+     * 
+     * @var \Magento\InventoryApi\Api\Data\SourceInterface[]
+     */
+    private $sources;
+
+
+	private 	$sourceItemsBySku;				//ekle
+	protected 	$_domainCollectionFactory;		//ekle
+	protected 	$_domainInventoryCollection;	//ekle
+
+    /**
+     * Constructor
+     * 
+     * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Stdlib\StringUtils $string
+     * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Ecombricks\InventoryCommon\Model\GetSourceBySourceCode $getSourceBySourceCode
+     * @param \Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\GetCurrentSalableSourceItems $getCurrentSalableSourceItems
+     * @param array $data
+     * @return void
+     */
+    public function __construct(
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Stdlib\StringUtils $string,
+        \Magento\Catalog\Helper\Product $productHelper,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Ecombricks\InventoryCommon\Model\GetSourceBySourceCode $getSourceBySourceCode,
+        \Ecombricks\InventoryCustomerSourceSelection\Model\InventorySales\GetCurrentSalableSourceItems $getCurrentSalableSourceItems,
+		\Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,	//ekle
+		\TiDesign\Domainmanager\Model\ResourceModel\Domainlist\CollectionFactory $domainCollectionFactory,	//ekle
+        array $data = []
+    )
+    {
+        $this->getSourceBySourceCode = $getSourceBySourceCode;
+        $this->getCurrentSalableSourceItems = $getCurrentSalableSourceItems;
+		$this->sourceItemsBySku 			= $sourceItemsBySku;			//ekle
+		$this->_domainInventoryCollection 	= $domainCollectionFactory;		//ekle
+        parent::__construct(
+            $context,
+            $urlEncoder,
+            $jsonEncoder,
+            $string,
+            $productHelper,
+            $productTypeConfig,
+            $localeFormat,
+            $customerSession,
+            $productRepository,
+            $priceCurrency,
+            $data
+        );
+    }
+    
+    /**
+     * Get sources
+     * 
+     * @return array
+     */
+    public function getSources(): array
+    {
+        if ($this->sources !== null) {
+            return $this->sources;
+        }
+        $this->sources = [];
+        $product = $this->getProduct();
+        $sourceCodes = array_keys($this->getCurrentSalableSourceItems->execute($product->getData(\Magento\Catalog\Api\Data\ProductInterface::SKU)));
+        foreach ($sourceCodes as $sourceCode) {
+            $this->sources[$sourceCode] = $this->getSourceBySourceCode->execute($sourceCode);
+        }
+        return $this->sources;
+    }
+
+    /**
+     * Get current source code
+     * 
+     * @return string
+     */
+    public function getCurrentSourceCode(): string
+    {
+        $sourceCode = $this->getProduct()->getPreconfiguredValues()->getSource();
+        return $sourceCode ? $sourceCode : $this->getDefaultSourceCode();
+    }
+
+    /**
+     * Get source validators
+     *
+     * @return array
+     */
+    public function getSourceValidators(): array
+    {
+        $validators = [];
+        $validators['required-number'] = true;
+        return $validators;
+    }
+
+    /**
+     * Get default source code
+     * 
+     * @return string|null
+     */
+    private function getDefaultSourceCode(): ?string
+    {
+        $sourceCodes = array_keys($this->getSources());
+        return !empty($sourceCodes) ? current($sourceCodes) : null;
+    }
+	
+	//ekle
+    public function getSourceItemBySku()
+    {
+		$sources = [];
+		$product = $this->getProduct();
+		$sourceItemList = $this->sourceItemsBySku->execute($product->getData(\Magento\Catalog\Api\Data\ProductInterface::SKU));
+
+		foreach ($sourceItemList as $source) {
+			$data = $source->getData();
+			$code = $data["source_code"];
+			$sources[$code]["code"] 	= $data["source_code"];
+			$sources[$code]["qty"] 		= $data["quantity"];
+			$sources[$code]["status"] 	= $data["status"];
+		}
+
+       return $sources;
+    }
+
+	//ekle
+    protected function prepareDomainCollection()
+    {
+        $this->_domainInventoryCollection = $this->_domainCollectionFactory->create()
+			->addFieldToFilter('td_status', array('eq' => '1'));
+    }
+	public function getDomainInventorySource()
+	{
+		$Url 				= $_SERVER['HTTP_HOST'];
+		$data 				= null;
+		$m 					= [];
+		$currentCategory 	= ""; //$this->helper('Magento\Catalog\Helper\Data')->getCategory();
+		
+        if (is_null($this->_domainInventoryCollection)) {
+            $this->prepareDomainCollection();
+        }
+		$staticInventoryCollection 		= clone $this->_domainInventoryCollection;
+		$filteredInventoryCollection 	= $staticCollection->addFieldToFilter(['td_url'], [['finset' => $Url]]);
+		if($filteredCollection->count()>0){
+			$data 				= $filteredCollection->getFirstItem();
+			$m["store_id"] 		= $data->getTdStore();
+			$m["consignment"]	= $data->getTdConsignment();
+			$m["source"]		= $data->getTdSource();
+			$m["category"]		= $data->getTdCategory();
+			$m["cur_category"]	= $currentCategory;
+		}
+		return $m;
+	}
+}

@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="sales" enabledForSource="true">
+            <label>Sales</label>
+        </tab>
+        <section id="catalog">
+            <group id="product_source_quote" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="1000">
+                <label>Estimate Product Totals</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="current_source_only" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Current Source Only</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+        <section id="cataloginventory">
+            <group id="source_options" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Source Options</label>
+                <field id="split_order" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Split Order</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_price" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable Price</label>
+                    <backend_model>Magento\Catalog\Model\Indexer\Product\Price\System\Config\PriceScope</backend_model>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_tax_class" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable Tax Class</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+        <section id="shipping" enabledForSource="true">
+            <group id="origin" enabledForSource="true">
+                <field id="country_id" enabledForSource="true"/>
+                <field id="region_id" enabledForSource="true"/>
+                <field id="postcode" enabledForSource="true"/>
+                <field id="city" enabledForSource="true"/>
+                <field id="street_line1" enabledForSource="true"/>
+                <field id="street_line2" enabledForSource="true"/>
+            </group>
+        </section>
+        <section id="carriers" enabledForSource="true">
+            <group id="flatrate" enabledForSource="true">
+                <field id="active" enabledForSource="true"/>
+                <field id="name" enabledForSource="true"/>
+                <field id="price" enabledForSource="true"/>
+                <field id="handling_type" enabledForSource="true"/>
+                <field id="handling_fee" enabledForSource="true" />
+                <field id="sort_order" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="type" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+            </group>
+            <group id="tablerate" enabledForSource="true">
+                <field id="handling_type" enabledForSource="true"/>
+                <field id="handling_fee" enabledForSource="true"/>
+                <field id="active" enabledForSource="true"/>
+                <field id="condition_name" enabledForSource="true"/>
+                <field id="include_virtual_price" enabledForSource="true"/>
+                <field id="export" enabledForSource="false"/>
+                <field id="import" enabledForSource="false"/>
+                <field id="name" enabledForSource="true"/>
+                <field id="sort_order" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+            </group>
+            <group id="freeshipping" enabledForSource="true">
+                <field id="active" enabledForSource="true"/>
+                <field id="free_shipping_subtotal" enabledForSource="true"/>
+                <field id="tax_including" enabledForSource="true"/>
+                <field id="name" enabledForSource="true"/>
+                <field id="sort_order" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+            </group>
+            <group id="dhl" enabledForSource="true">
+                <field id="active" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="id" enabledForSource="true"/>
+                <field id="password" enabledForSource="true"/>
+                <field id="account" enabledForSource="true"/>
+                <field id="content_type" enabledForSource="true"/>
+                <field id="handling_type" enabledForSource="true"/>
+                <field id="handling_action" enabledForSource="true"/>
+                <field id="handling_fee" enabledForSource="true"/>
+                <field id="divide_order_weight" enabledForSource="true"/>
+                <field id="unit_of_measure" enabledForSource="true"/>
+                <field id="size" enabledForSource="true"/>
+                <field id="height" enabledForSource="true"/>
+                <field id="depth" enabledForSource="true"/>
+                <field id="width" enabledForSource="true"/>
+                <field id="doc_methods" enabledForSource="true"/>
+                <field id="nondoc_methods" enabledForSource="true"/>
+                <field id="ready_time" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+                <field id="free_method_doc" enabledForSource="true"/>
+                <field id="free_method_nondoc" enabledForSource="true"/>
+                <field id="free_shipping_enable" enabledForSource="true"/>
+                <field id="free_shipping_subtotal" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="sort_order" enabledForSource="true"/>
+                <field id="debug" enabledForSource="true"/>
+                <field id="sandbox_mode" enabledForSource="true"/>
+            </group>
+            <group id="fedex" enabledForSource="true">
+                <field id="active" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="account" enabledForSource="true"/>
+                <field id="meter_number" enabledForSource="true"/>
+                <field id="key" enabledForSource="true"/>
+                <field id="password" enabledForSource="true"/>
+                <field id="sandbox_mode" enabledForSource="true"/>
+                <field id="production_webservices_url" enabledForSource="true"/>
+                <field id="sandbox_webservices_url" enabledForSource="true"/>
+                <field id="shipment_requesttype" enabledForSource="true"/>
+                <field id="packaging" enabledForSource="true"/>
+                <field id="dropoff" enabledForSource="true"/>
+                <field id="unit_of_measure" enabledForSource="true"/>
+                <field id="max_package_weight" enabledForSource="true"/>
+                <field id="handling_type" enabledForSource="true"/>
+                <field id="handling_action" enabledForSource="true"/>
+                <field id="handling_fee" enabledForSource="true"/>
+                <field id="residence_delivery" enabledForSource="true"/>
+                <field id="allowed_methods" enabledForSource="true"/>
+                <field id="smartpost_hubid" enabledForSource="true"/>
+                <field id="free_method" enabledForSource="true"/>
+                <field id="free_shipping_enable" enabledForSource="true"/>
+                <field id="free_shipping_subtotal" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="debug" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="sort_order" enabledForSource="true"/>
+            </group>
+            <group id="ups" enabledForSource="true">
+                <field id="access_license_number" enabledForSource="true"/>
+                <field id="active" enabledForSource="true"/>
+                <field id="allowed_methods" enabledForSource="true"/>
+                <field id="shipment_requesttype" enabledForSource="true"/>
+                <field id="container" enabledForSource="true"/>
+                <field id="free_shipping_enable" enabledForSource="true"/>
+                <field id="free_shipping_subtotal" enabledForSource="true"/>
+                <field id="dest_type" enabledForSource="true"/>
+                <field id="free_method" enabledForSource="true"/>
+                <field id="gateway_url" enabledForSource="true"/>
+                <field id="gateway_xml_url" enabledForSource="true"/>
+                <field id="handling_type" enabledForSource="true"/>
+                <field id="handling_action" enabledForSource="true"/>
+                <field id="handling_fee" enabledForSource="true"/>
+                <field id="max_package_weight" enabledForSource="true"/>
+                <field id="min_package_weight" enabledForSource="true"/>
+                <field id="origin_shipment" enabledForSource="true"/>
+                <field id="password" enabledForSource="true"/>
+                <field id="pickup" enabledForSource="true"/>
+                <field id="sort_order" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="tracking_xml_url" enabledForSource="true"/>
+                <field id="type" enabledForSource="true"/>
+                <field id="is_account_live" enabledForSource="true"/>
+                <field id="unit_of_measure" enabledForSource="true"/>
+                <field id="username" enabledForSource="true"/>
+                <field id="negotiated_active" enabledForSource="true"/>
+                <field id="include_taxes" enabledForSource="true"/>
+                <field id="shipper_number" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+                <field id="mode_xml" enabledForSource="true"/>
+                <field id="debug" enabledForSource="true"/>
+            </group>
+            <group id="usps" enabledForSource="true">
+                <field id="active" enabledForSource="true"/>
+                <field id="gateway_url" enabledForSource="true"/>
+                <field id="gateway_secure_url" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="userid" enabledForSource="true"/>
+                <field id="password" enabledForSource="true"/>
+                <field id="mode" enabledForSource="true"/>
+                <field id="shipment_requesttype" enabledForSource="true"/>
+                <field id="container" enabledForSource="true"/>
+                <field id="size" enabledForSource="true"/>
+                <field id="width" enabledForSource="true"/>
+                <field id="length" enabledForSource="true"/>
+                <field id="height" enabledForSource="true"/>
+                <field id="girth" enabledForSource="true"/>
+                <field id="machinable" enabledForSource="true"/>
+                <field id="max_package_weight" enabledForSource="true"/>
+                <field id="handling_type" enabledForSource="true"/>
+                <field id="handling_action" enabledForSource="true"/>
+                <field id="handling_fee" enabledForSource="true"/>
+                <field id="allowed_methods" enabledForSource="true"/>
+                <field id="free_method" enabledForSource="true"/>
+                <field id="free_shipping_enable" enabledForSource="true"/>
+                <field id="free_shipping_subtotal" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+                <field id="sallowspecific" enabledForSource="true"/>
+                <field id="specificcountry" enabledForSource="true"/>
+                <field id="debug" enabledForSource="true"/>
+                <field id="showmethod" enabledForSource="true"/>
+                <field id="sort_order" enabledForSource="true"/>
+            </group>
+            <group id="instore" enabledForSource="true">
+                <field id="active" enabledForSource="true"/>
+                <field id="name" enabledForSource="true"/>
+                <field id="title" enabledForSource="true"/>
+                <field id="price" enabledForSource="true"/>
+                <field id="search_radius" enabledForSource="true"/>
+                <field id="specificerrmsg" enabledForSource="true"/>
+            </group>
+        </section>
+    </system>
+</config>

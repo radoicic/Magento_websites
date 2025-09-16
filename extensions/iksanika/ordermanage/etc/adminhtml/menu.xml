@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Iksanika. All rights reserved.
+ * See IKS-LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksanika_Ordermanage::order_manager" title="Orders Manager (Advanced)" module="Iksanika_Ordermanage" sortOrder="11" parent="Magento_Sales::sales_operation" action="ordermanage/order/" resource="Iksanika_Ordermanage::ordermanage"/>
+    </menu>
+</config>

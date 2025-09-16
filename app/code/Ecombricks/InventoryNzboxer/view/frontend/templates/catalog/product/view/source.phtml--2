@@ -1,0 +1,99 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $viewModel = $block->getData('viewModel'); ?>
+<?php $sources = $block->getSources(); ?>
+<?php 
+	$sourcedata = $viewModel->getSourceItemBySku($block->getProduct()); 
+	$domainData = $viewModel->getDomainInventorySource();	
+	
+	echo "<pre>"; 
+	print_r($domainData);
+	echo "</pre>";
+	
+	if($domainData["consignment"] == 1 && $domainData["cur_category"] == $domainData["category"]){
+		$selected_source = $domainData["source"];
+	}else{
+		$selected_source = $domainData["default_source"];
+	}
+?>
+<?php if (count($sources)) : ?>
+<?php $currentSourceCode = $block->getCurrentSourceCode(); ?>
+<div class="fieldset" tabindex="0">
+    <div class="field source-field option required">
+        <label class="label"><span><?= $block->escapeHtml(__('Source')) ?></span></label>
+        <div class="control">
+            <div class="nested options-list">
+                <?php foreach ($sources as $source) :  ?>
+                <?php $sourceCode = $source->getSourceCode(); ?>
+				<?php if($sourceCode == $domainData["source"] || $sourceCode == $domainData["default_source"]): ?>
+                <div class="field choice source">
+                    <input type="radio" disabled
+                           class="radio product-custom-option product source"
+                           id="source_<?= $block->escapeHtmlAttr($sourceCode) ?>"
+                           name="source"
+                           value="<?= $block->escapeHtmlAttr($sourceCode) ?>"
+                           <?php if ($sourceCode == $selected_source) : ?>checked="true"<?php endif; ?>
+                           data-validate="<?= $block->escapeHtmlAttr(json_encode($block->getSourceValidators())) ?>"/>
+                    <label class="label" for="source_<?= $block->escapeHtmlAttr($sourceCode) ?>"><span><?= $block->escapeHtml($source->getName()) ?> (<?php echo (int)$sourcedata[$block->escapeHtmlAttr($sourceCode)]["qty"];?>)</span></label>
+                </div>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script>		
+require([
+	'jquery',
+], function($){
+	/*
+		$(".product-info-stock-sku .stock.available").after("<div class='warehouse'><span class='label'>Warehouse:</span><span> <?php echo $sources[$selected_source]->getName();?>  (<?php echo (int)$sourcedata[$block->escapeHtmlAttr($selected_source)]['qty'];?>)</span></div>");
+	*/
+	//Out of stock
+	//In stock
+	<?php
+		if((int)$sourcedata[$block->escapeHtmlAttr($selected_source)]['qty']>0){
+	?>
+		$(".product-info-stock-sku .stock.available").append("<span>(<?php echo (int)$sourcedata[$block->escapeHtmlAttr($selected_source)]['qty'];?>  Piece<?php if((int)$sourcedata[$block->escapeHtmlAttr($selected_source)]['qty']>1){echo 's';}?>)</span>");
+	<?php
+		}else{
+	?>
+		$(".product-info-stock-sku .stock.available").html('<span class="label">Availability:</span><span>Out of stock</span>');
+	<?php
+		}
+	?>
+	
+});
+</script>
+
+</script>
+<?php 
+
+// source 
+echo "<pre>";
+print_r($sourcedata);
+echo "</pre>";
+
+// domain
+$domainData = $block->getDomainInventorySource();
+echo "<pre>";
+print_r($domainData);
+echo "</pre>";
+
+/*
+Array
+(
+    [store_id] => 9
+    [consignment] => 1
+    [source] => citykickboxing
+    [default_source] => nzboxer
+    [category] => 296
+    [cur_category] => 296
+)
+*/
+?>
+<?php endif; ?>

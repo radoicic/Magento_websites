@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="tidesign_termsandconditions_form" class="TiDesign\CheckoutAgreements\Block\Widget\Formelement">
+        <label translate="true">TiDesign Terms and conditions Form</label>
+        <description>Terms and conditions form elements</description>
+        <parameters>
+		
+            <parameter name="title" xsi:type="text"  visible="true" sort_order="10" required="true">
+                <label translate="true">Title</label>
+                <description translate="true">Please specify title you want to display on the frontend.</description>
+            </parameter>
+
+			<parameter name="input_type" xsi:type="select" source_model="TiDesign\CheckoutAgreements\Model\Config\Source\Formelement" visible="true" sort_order="20" required="true">
+                <label translate="true">Input Type</label>
+            </parameter>
+			
+            <parameter name="number_of_row" xsi:type="text" sort_order="30" >
+                <label translate="true">Number of Rows</label>
+                <description translate="true">Text area row number</description>
+				<depends>
+					<parameter name="input_type" value="textarea" />
+				</depends>
+            </parameter>	
+			
+            <parameter name="placeholder_text" xsi:type="text" sort_order="40"  >
+                <label translate="true">Placeholder text</label>
+                <description translate="true">Add  \n  for line break</description>
+				<depends>
+					<parameter name="input_type" value="textarea" />
+				</depends>
+            </parameter>	
+							
+			<parameter name="input_data" xsi:type="select" source_model="TiDesign\CheckoutAgreements\Model\Config\Source\Formdata" visible="true" sort_order="100" required="true">
+                <label translate="true">Input Data</label>
+				<description translate="true">Select for Text and Textarea </description>
+            </parameter>	
+			
+        </parameters>
+    </widget>
+</widgets>

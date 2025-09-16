@@ -1,0 +1,78 @@
+& when (@media-common = true) {
+    .fundraiser-form-landing {
+
+        .content__container {
+            padding: 0 30px;
+            color: #216dab;
+        }
+
+        .content__top {
+            background-color: #216dab;
+            height: 400px;
+            background-image: url('@{baseDir}TiDesign_Fundraiser/images/common/top-bottom.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position-y: bottom;
+            position: relative;
+            margin-bottom: 40px;
+
+            .title {
+                position: absolute;
+                left: -20px;
+                width: 700px;
+                bottom: 0;
+            }
+        }
+
+        .content__main {
+            margin: 10px 15px;
+
+            .header {
+                .menu {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 17px;
+                    font-weight: 700;
+                    letter-spacing: 1px;
+                    position: relative;
+
+                    .item:first-child {
+                        position: absolute;
+                        left: 0;
+                    }
+
+                    .item:last-child {
+                        position: absolute;
+                        right: 0;
+                    }
+                }
+            }
+
+            .content__items {
+                padding-top: 20px;
+
+                .header {
+                    font-size: 30px;
+                    font-weight: 700;
+                    letter-spacing: 1px;
+                    text-align: center;
+                    margin-bottom: 10px;
+                }
+
+                .item {
+                    margin: 0 60px 15px;
+                    background-color: #f1f1f1;
+                    padding: 10px 30px 10px 70px;
+                    border-radius: 40px;
+                    font-weight: 700;
+
+                    a:not(:hover) {
+                        color: #206dab;;
+                    }
+                }
+            }
+        }
+    }
+}

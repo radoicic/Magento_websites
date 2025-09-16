@@ -1,0 +1,4 @@
+ /* bundle style */
+ .bundle-options-container .block-bundle-summary .product-addto-links {
+	display:none !important;
+}

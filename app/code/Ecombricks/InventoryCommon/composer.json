@@ -1,0 +1,26 @@
+{
+    "name": "ecombricks/module-inventory-common",
+    "description": "N/A",
+    "require": {
+        "magento/framework": "",
+        "ecombricks/module-common": "102.4.*",
+        "magento/module-catalog": "",
+        "magento/module-inventory": "",
+        "magento/module-inventory-api": "",
+        "magento/module-inventory-catalog-api": "",
+        "magento/module-inventory-import-export": ""
+    },
+    "type": "magento2-module",
+    "version": "102.4.2-p1",
+    "license": [
+        "OSL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ecombricks\\InventoryCommon\\": ""
+        }
+    }
+}

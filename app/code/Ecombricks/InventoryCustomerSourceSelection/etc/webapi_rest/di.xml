@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\ResourceModel\Product">
+        <plugin name="425a9c2b46cafe7f1a4418e0ed10d65c" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\ResourceModel\Product\SourceItem\Option\Price"/>
+        <plugin name="275c407406538affd9ebb0b3907b65e8" type="Ecombricks\InventoryCustomerSourceSelection\Plugin\Model\Catalog\ResourceModel\Product\SourceItem\Option\TaxClass"/>
+    </type>
+</config>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="ecombricks_inventory__quote_address_source_shipping_method" resource="default" engine="innodb" comment="Quote Address Source Shipping Method">
+        <column xsi:type="varchar" name="value" nullable="false" length="255" comment="Value"/>
+    </table>
+    <table name="ecombricks_inventory__sales_order_source_shipping_method" resource="default" engine="innodb" comment="Order Source Shipping Method">
+        <column xsi:type="varchar" name="value" nullable="false" length="255" comment="Value"/>
+    </table>
+</schema>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Drc. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template 
+		id="consignment_email_configration_email_template" 
+		label="Consignment Email Template" 
+		file="consignment_email_template.html" 
+		type="html" 
+		module="TiDesign_Consignment" 
+		area="frontend"
+	/>
+</config>

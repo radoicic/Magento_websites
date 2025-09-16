@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="CityBeach_TradeRunner::connect"
+             title="TradeRunner"
+             module="CityBeach_TradeRunner"
+             sortOrder="9999"
+             action="traderunner/index/index"
+             resource="Magento_Backend::system" />
+    </menu>
+</config>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <update handle="fundraiser_default"/>
+    <body>
+        <referenceContainer name="fundraiser.page.content">
+            <block class="TiDesign\Fundraiser\Block\Form\Landing"
+                   name="fundraiser.landing"
+                   template="TiDesign_Fundraiser::landing.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

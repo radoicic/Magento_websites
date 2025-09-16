@@ -1,0 +1,13 @@
+<?php
+$title = $block->escapeHtml($block->getMethod()->getTitle());
+$type = $block->escapeHtml($block->getPaymentType());
+$user_reference = $block->escapeHtml($block->getUserReference());
+$transaction_id = $block->escapeHtml($block->getTransactionId());
+
+/**
+ * @var $block \CityBeach\Integration\Block\Info\Payment
+ */
+?>
+<div class="payment-title"><?php echo $type ?></div>
+<div class="citybeach-payment-user"><span><?php echo $user_reference; ?></span></div>
+<div class="citybeach-payment-transaction_id"><span><?php echo $transaction_id; ?></span></div>

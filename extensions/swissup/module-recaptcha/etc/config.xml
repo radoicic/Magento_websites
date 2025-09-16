@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <swissup_recaptcha>
+            <general>
+                <request_method>CurlPost</request_method>
+            </general>
+            <design>
+                <rtype>v2</rtype>
+                <theme>light</theme>
+                <size>normal</size>
+                <badge>bottomright</badge>
+            </design>
+        </swissup_recaptcha>
+        <subscriptionchecker>
+            <ignore>
+                <swissup_recaptcha/>
+            </ignore>
+        </subscriptionchecker>
+    </default>
+</config>

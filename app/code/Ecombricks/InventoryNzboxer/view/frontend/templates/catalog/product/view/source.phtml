@@ -1,0 +1,53 @@
+<?php 
+    $objectManager 	= \Magento\Framework\App\ObjectManager::getInstance();
+	$helper 		= $objectManager->get('TiDesign\Consignment\Helper\Consignment');
+    $category 		= $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+	$product 		= $block->getProduct();
+	
+	$url 			= $block->getRequest()->getUriString();
+	$isConsCat 			= $helper->compareUrl($url);
+	
+	if($isConsCat){
+		$currentCategoryId =  $category->getId();
+	}else{
+		$currentCategoryId = 0;
+	}
+	//$isConsCat = ($helper->isConsignmentCategory($currentCategoryId) ? true : false);
+
+	if($isConsCat == true){
+		$source = $helper->getConsSource($currentCategoryId);
+	}else{
+		$source = $helper->getDefaultSource();
+	};
+	$p_c_stock = $helper->getConsStock($product, $source);
+?>
+
+
+		<input type="hidden" name="source" value="<?php echo $source; ?>">
+
+
+						
+<script>		
+require([
+	'jquery',
+], function($){
+	$(document).ready(function() {
+		<?php
+			$product_typid = $product->getTypeId();
+			if($product_typid =="simple"){	
+				if((int)$p_c_stock > 0){
+		?>
+			$(".product-info-stock-sku .stock.available").append("<span>(<?php echo (int)$p_c_stock;?>  Piece<?php if((int)$p_c_stock>1){echo 's';}?>)</span>");
+		<?php
+				}else{
+		?>
+			$(".product-info-stock-sku .stock.available").html('<span class="label">Availability:</span><span>Out of stock</span>');
+			$(".box-tocart").remove();
+		<?php
+				}
+			}
+
+		?>	
+	});
+});
+</script>

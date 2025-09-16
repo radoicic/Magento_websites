@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ecombricks\InventoryCommon\Api\CurrentSourceProviderInterface" type="Ecombricks\InventoryCommon\Model\CurrentSourceProvider"/>
+    <preference for="Ecombricks\InventoryCommon\Api\CurrentStockProviderInterface" type="Ecombricks\InventoryCommon\Model\CurrentStockProvider"/>
+    <preference for="Ecombricks\InventoryCommon\Api\Data\SourceItemOptionInterface" type="Ecombricks\InventoryCommon\Model\SourceItem\Option"/>
+    <preference for="Ecombricks\InventoryCommon\Api\SourceItem\Option\GetInterface" type="Ecombricks\InventoryCommon\Model\SourceItem\Option\Get"/>
+    <preference for="Ecombricks\InventoryCommon\Api\SourceItem\Option\SaveInterface" type="Ecombricks\InventoryCommon\Model\SourceItem\Option\Save"/>
+    <preference for="Ecombricks\InventoryCommon\Api\SourceItem\Option\DeleteInterface" type="Ecombricks\InventoryCommon\Model\SourceItem\Option\Delete"/>
+    <preference for="Ecombricks\InventoryCommon\Api\GetDefaultStockInterface" type="Ecombricks\InventoryCommon\Model\GetDefaultStock"/>
+    <preference for="Ecombricks\InventoryCommon\Api\GetStockByStoreInterface" type="Ecombricks\InventoryCommon\Model\GetStockByStore"/>
+    <preference for="Ecombricks\InventoryCommon\Api\GetStockIdByStoreInterface" type="Ecombricks\InventoryCommon\Model\GetStockIdByStore"/>
+</config>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="fundraiser_theme_listing_data_source" xsi:type="string">TiDesign\Fundraiser\Model\ResourceModel\Theme\Grid\Collection</item>
+                <item name="fundraiser_theme_customer_listing_data_source" xsi:type="string">TiDesign\Fundraiser\Model\ResourceModel\ThemeCustomer\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="TiDesign\Fundraiser\Controller\Customer\Orders">
+        <plugin name="authentication" type="Magento\Sales\Controller\Order\Plugin\Authentication"/>
+    </type>
+    <type name="TiDesign\Fundraiser\Controller\Customer\Order\View">
+        <plugin name="authentication" type="Magento\Sales\Controller\Order\Plugin\Authentication"/>
+    </type>
+    <type name="TiDesign\Fundraiser\Observer\FundraiserTrackingCodeInitializationObserver">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+</config>

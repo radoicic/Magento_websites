@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<taxswitch>
+			<general>
+				<visible>1</visible>
+				<template>1</template>
+				<toggle_background>
+					<![CDATA[#000]]>
+				</toggle_background>
+			</general>
+			<advanced>
+				<add_incl_option>1</add_incl_option>
+				<add_excl_option>1</add_excl_option>
+				<add_both_option>1</add_both_option>
+				<show_prices_text>Show prices</show_prices_text>
+			</advanced>
+			<maxmind>
+				<debug>0</debug>
+			</maxmind>
+		</taxswitch>
+	</default>
+</config>

@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $sources = $block->getSources(); ?>
+<?php if (count($sources)) : ?>
+<?php $currentSourceCode = $block->getCurrentSourceCode(); ?>
+<div class="fieldset" tabindex="0">
+    <div class="field source-field option required">
+        <label class="label"><span><?= $block->escapeHtml(__('Source')) ?></span></label>
+        <div class="control">
+            <div class="nested options-list">
+                <?php foreach ($sources as $source) :  ?>
+                <?php $sourceCode = $source->getSourceCode(); ?>
+                <div class="field choice source">
+                    <input type="radio"
+                           class="radio product-custom-option product source"
+                           id="source_<?= $block->escapeHtmlAttr($sourceCode) ?>"
+                           name="source"
+                           value="<?= $block->escapeHtmlAttr($sourceCode) ?>"
+                           <?php if ($sourceCode == $currentSourceCode) : ?>checked="true"<?php endif; ?>
+                           data-validate="<?= $block->escapeHtmlAttr(json_encode($block->getSourceValidators())) ?>"/>
+                    <label class="label" for="source_<?= $block->escapeHtmlAttr($sourceCode) ?>"><span><?= $block->escapeHtml($source->getName()) ?></span></label>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

@@ -1,0 +1,20 @@
+<?php
+    $templateId = 'r-template-' . $block->getFormId();
+    $options = [
+        'template' => '#' . $templateId,
+        'form' => $block->getIntoForm(),
+        'destination' => $block->getDestination(),
+        'method' => $block->getInsertMethod(),
+        'hidden' => true
+    ]
+?>
+<script type="text/x-magento-init">
+    {
+        "*" : {
+            "Swissup_Recaptcha/js/newsletter": <?= json_encode($options) ?>
+        }
+    }
+</script>
+<script type="text/x-magento-template" id="<?= $templateId ?>">
+    <?= $block->fetchView($block->getTemplateFile('Swissup_Recaptcha::recaptcha/recaptcha.phtml')) ?>
+</script>

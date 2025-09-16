@@ -1,0 +1,140 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $blockWrapper = $block->getWrapper(); ?>
+<?php $blockWrapper->setObject($block); ?>
+
+<form action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>" method="post" id="shipping_method_form" class="form multicheckout shipping">
+    <?php foreach ($block->getAddresses() as $_index => $_address): ?>
+    <div class="block block-shipping">
+        <div class="block-title"><strong><?= $block->escapeHtml(__('Address %1 <span>of %2</span>', ($_index+1), $block->getAddressCount()), ['span']) ?></strong></div>
+        <div class="block-content">
+            <div class="box box-shipping-address">
+                <strong class="box-title">
+                    <span><?= $block->escapeHtml(__('Shipping To')) ?></span>
+                    <a href="<?= $block->escapeUrl($block->getAddressEditUrl($_address)) ?>" class="action edit"><span><?= $block->escapeHtml(__('Change')) ?></span></a>
+                </strong>
+                <div class="box-content">
+                    <address><?= $block->escapeHtml($_address->format('html')) ?></address>
+                </div>
+            </div>
+            <div class="box box-shipping-method">
+                <strong class="box-title">
+                    <span><?= $block->escapeHtml(__('Shipping Method')) ?></span>
+                </strong>
+                <div class="box-content">
+                    
+                    <!-- Inventory Begin -->
+                    <?php $taxHelper = $this->helper(\Magento\Tax\Helper\Data::class) ?>
+                    <?php $address = $_address; ?>
+                    <?php if (!($groupedShippingRates = $address->getGroupedAllShippingRates())) : ?>
+                    <p><?= $block->escapeHtml(__('Sorry, no quotes are available for this order right now.')) ?></p>
+                    <?php else : ?>
+                    <?php foreach ($blockWrapper->getSourceCodes($address) as $sourceCode) : ?>
+                    <?php $sourceShippingRates = !empty($groupedShippingRates[$sourceCode]) ? $groupedShippingRates[$sourceCode] : []; ?>
+                    <dl class="source">
+                        <dt class="source-info">
+                            <span class="source-name"><?= $block->escapeHtml($blockWrapper->getSourceName($sourceCode)) ?></span>
+                        </dt>
+                        <dd class="source-shipping-methods">
+                            <dl class="items methods-shipping">
+                                <?php $isSoleSourceShippingRate = count($sourceShippingRates) == 1; ?>
+                                <?php foreach ($sourceShippingRates as $carrierCode => $carrierShippingRates): ?>
+                                <dt class="item-title"><?= $block->escapeHtml($blockWrapper->getSourceCarrierName($sourceCode, $carrierCode)) ?></dt>
+                                <dd class="item-content">
+                                    <fieldset class="fieldset">
+                                        <legend class="legend">
+                                            <span><?= $block->escapeHtml($blockWrapper->getSourceCarrierName($sourceCode, $carrierCode)) ?></span>
+                                        </legend><br>
+                                        <?php $isSoleCarrierShippingRate = $isSoleSourceShippingRate && count($carrierShippingRates) == 1; ?>
+                                        <?php foreach ($carrierShippingRates as $shippingRate) : ?>
+                                        <div class="field choice">
+                                            <?php if ($shippingRate->getErrorMessage()): ?>
+                                            <strong><?= $block->escapeHtml($shippingRate->getCarrierTitle()) ?>: <?= $block->escapeHtml($shippingRate->getErrorMessage()) ?></strong>
+                                            <?php else : ?>
+                                            <?php $elementId = 's_method_'.$address->getId().'_'.$sourceCode.'_'.$shippingRate->getCode(); ?>
+                                            <?php $elementName = 'shipping_method['.$address->getId().']['.$sourceCode.']'; ?>
+                                            <?php $elementValue = $block->escapeHtml($shippingRate->getCode()); ?>
+                                            <div class="control">
+                                                <?php if ($isSoleCarrierShippingRate) : ?>
+                                                <input type="radio" name="<?= $elementName ?>" value="<?= $elementValue ?>" id="<?= $elementId ?>" class="radio solo method" checked="checked"/>
+                                                <?php else : ?>
+                                                <?php $isCurrentShippingRate = $shippingRate->getCode() === $blockWrapper->getShippingMethod($address, $sourceCode) ?>
+                                                <input type="radio" name="<?= $elementName ?>" value="<?= $elementValue ?>" id="<?= $elementId ?>"<?php if ($isCurrentShippingRate) : ?> checked="checked"<?php endif; ?> class="radio" />
+                                                <?php endif; ?>
+                                            </div>
+                                            <label for="<?= $elementId ?>"><?= $block->escapeHtml($shippingRate->getMethodTitle()) ?>
+                                                <?php $priceExclTax = $block->getShippingPrice($address, $shippingRate->getPrice(), $taxHelper->displayShippingPriceIncludingTax()); ?>
+                                                <?php $priceInclTax = $block->getShippingPrice($address, $shippingRate->getPrice(), true); ?>
+                                                <?php if ($taxHelper->displayShippingBothPrices() && $priceInclTax != $priceExclTax) : ?>
+                                                <span class="price-including-tax" data-label="<?= $block->escapeHtmlAttr(__('Incl. Tax')) ?>">
+                                                <?php endif; ?>
+                                                <?= $block->escapeHtml($priceInclTax, ['span']) ?>
+                                                <?php if ($taxHelper->displayShippingBothPrices() && $priceInclTax != $priceExclTax) : ?>
+                                                </span>
+                                                <?php endif; ?>
+                                                <?php if ($taxHelper->displayShippingBothPrices() && $priceInclTax != $priceExclTax) : ?>
+                                                <span class="price-excluding-tax" data-label="<?= $block->escapeHtmlAttr(__('Excl. Tax')) ?>">
+                                                    <?= $block->escapeHtml($priceExclTax, ['span']) ?>
+                                                </span>
+                                                <?php endif; ?>
+                                            </label>
+                                            <?php endif ?>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    </fieldset>
+                                </dd>
+                                <?php endforeach; ?>
+                            </dl>
+                        </dd>
+                    </dl>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    <!-- Inventory End -->
+                    
+                    <?= $block->getItemsBoxTextAfter($_address) ?>
+                </div>
+            </div>
+            <div class="box box-items">
+                <strong class="box-title">
+                    <span><?= $block->escapeHtml(__('Items')) ?></span>
+                    <a href="<?= $block->escapeUrl($block->getItemsEditUrl($_address)) ?>" class="action edit"><span><?= $block->escapeHtml(__('Edit Items')) ?></span></a>
+                </strong>
+                <div class="box-content">
+                    <div class="table-wrapper">
+                        <table class="items data table" id="shipping-table-<?= $_address->getId() ?>">
+                            <caption class="table-caption"><?= $block->escapeHtml(__('Items')) ?></caption>
+                            <thead>
+                            <tr>
+                                <th class="col item" scope="col"><?= $block->escapeHtml(__('Product Name')) ?></th>
+                                <th class="col qty" scope="col"><?= $block->escapeHtml(__('Qty')) ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($block->getAddressItems($_address) as $_item): ?>
+                                <tr>
+                                    <td class="col item" data-th="<?= $block->escapeHtmlAttr(__('Product Name')) ?>"><?= $block->getItemHtml($_item->getQuoteItem()) ?></td>
+                                    <td class="col qty" data-th="<?= $block->escapeHtmlAttr(__('Qty')) ?>"><?= $_item->getQty() ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+    <?= $block->getChildHtml('checkout_billing_items') ?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button class="action primary continue" type="submit"><span><?= $block->escapeHtml(__('Continue to Billing Information')) ?></span></button>
+        </div>
+        <div class="secondary">
+            <a href="<?= $block->escapeUrl($block->getBackUrl()) ?>" class="action back"><span><?= $block->escapeHtml(__('Back to Select Addresses')) ?></span></a>
+        </div>
+    </div>
+</form>

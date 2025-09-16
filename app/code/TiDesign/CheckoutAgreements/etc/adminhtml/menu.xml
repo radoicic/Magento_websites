@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+
+		<add 
+			id="TiDesign_CheckoutAgreements::checkoutagreements" 
+			title="Terms and Conditions" 
+			module="TiDesign_CheckoutAgreements" 
+			sortOrder="30" 
+			resource="TiDesign_CheckoutAgreements::checkoutagreements" 
+			parent="TiDesign_Core::tidesigncore"/>
+						
+	        <add 
+				id="TiDesign_Magento_CheckoutAgreements::agreementlist" 
+				title="Terms and Conditions List" 
+				translate="title" 
+				module="TiDesign_CheckoutAgreements" 
+				sortOrder="30" 
+				parent="TiDesign_CheckoutAgreements::checkoutagreements" 
+				action="tidesign_checkoutagreements/agreementlist/index" 
+				resource="Magento_CheckoutAgreements::checkoutagreement"/>		
+	        <add 
+				id="TiDesign_Magento_CheckoutAgreements::customerlist" 
+				title="Customer List" 
+				translate="title" 
+				module="TiDesign_CheckoutAgreements" 
+				sortOrder="40" 
+				parent="TiDesign_CheckoutAgreements::checkoutagreements" 
+				action="tidesign_checkoutagreements/customerlist/index" 
+				resource="Magento_CheckoutAgreements::checkoutagreement"/>
+	        <add 
+				id="TiDesign_Magento_CheckoutAgreements::agreementlog" 
+				title="Logs and Requests" 
+				translate="title" 
+				module="TiDesign_CheckoutAgreements" 
+				sortOrder="50" 
+				parent="TiDesign_CheckoutAgreements::checkoutagreements" 
+				action="tidesign_checkoutagreements/loglist/index" 
+				resource="Magento_CheckoutAgreements::checkoutagreement"/>
+					
+			<add 
+				id="TiDesign_CheckoutAgreements::settings" 
+				title="Module Settings" 
+				module="TiDesign_CheckoutAgreements" 
+				sortOrder="100" 
+				parent="TiDesign_CheckoutAgreements::checkoutagreements" 
+				action="adminhtml/system_config/edit/section/checkoutagreements" 
+				resource="TiDesign_CheckoutAgreements::checkoutagreements"/>
+				
+    </menu>
+</config>

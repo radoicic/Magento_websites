@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_FacebookShop
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="wk_facebookshop_csvlogs" resource="default" engine="innodb" comment="Webkul FacebookShop CSV logs">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <column xsi:type="varchar" name="initiated_by" nullable="true"  
+        comment="Iniated By"/>
+         <column xsi:type="text" name="added_products" nullable="true"  
+        comment="product Id(s)"/>
+        <column xsi:type="varchar" name="csv_path" nullable="true" 
+        comment="CSV Path"/>
+        <column xsi:type="text" name="message" nullable="true"
+        comment="Log Message"/>
+          <column xsi:type="varchar" name="status" nullable="true"
+        comment="Csv Generation Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+     <table name="wk_fb_magento_attribute_mapping" resource="default" engine="innodb" comment="Facebook Shop Magento Attributes Mapping">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity Id"/>
+        <column xsi:type="varchar" name="fb_attribute_id" nullable="false" 
+        comment="Facebook Attribute Id"/>
+        <column xsi:type="varchar" name="fb_attribute_name" nullable="true" 
+        comment="CSV Path"/>
+        <column xsi:type="int" name="product_attribute_id" padding="10" unsigned="true" nullable="true" identity="false"
+        comment="Magento Attribute Id"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+</schema>

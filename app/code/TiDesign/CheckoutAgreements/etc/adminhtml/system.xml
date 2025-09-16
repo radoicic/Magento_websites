@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<section id="checkoutagreements" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Consignment Terms and Conditions</label>
+			<tab>tidesign</tab>
+			<resource>TiDesign_CheckoutAgreements::configuration</resource>
+			<group id="checkoutagreements_status" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General</label>
+				<field id="enable_frontend" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="customer_group" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Customer Groups</label>
+					<source_model>TiDesign\CheckoutAgreements\Block\Adminhtml\System\Config\Field\Group</source_model>
+				</field>
+				<field id="button_text" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Read More Button Text</label>
+                </field>
+				<field id="content_height" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Short Text Height</label>
+                </field>
+				<field id="always_show" translate="label comment" type="select" sortOrder="70"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Always Show Read More Fields</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+			<group id="checkoutagreements_mail" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Mail Settings</label>
+				<field id="sender_name" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sender Name</label>
+                </field>
+				<field id="attach_contract" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Attach contract to mail</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="sender_email_identity" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Sender Email</label>
+					<source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>  
+				</field>
+				<field id="bcc" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send Email Copy to</label>
+                    <frontend_model>TiDesign\CheckoutAgreements\Block\Adminhtml\System\Config\Field\Email</frontend_model>
+                </field>
+				<field id="email_template" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Email Template</label>
+					<source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+				</field>
+				<field id="email_text" translate="label comment" type="editor" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Confirmation Text</label>
+					<frontend_model>TiDesign\CheckoutAgreements\Block\Adminhtml\System\Config\Field\Editor</frontend_model>
+				</field>
+			</group>			
+		</section>
+	</system>
+</config>

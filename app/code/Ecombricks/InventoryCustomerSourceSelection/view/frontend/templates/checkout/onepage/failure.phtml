@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $blockWrapper = $block->getWrapper(); ?>
+<?php $blockWrapper->setObject($block); ?>
+
+<?php if ($blockWrapper->isSplitOrder()) : ?>
+
+<?php $realOrderIds = $blockWrapper->getRealOrderIds(); ?>
+<?php if (!empty($realOrderIds)) : ?>
+<ul class="orders">
+<?php foreach ($realOrderIds as $realOrderId) : ?>
+<li><p><?= $block->escapeHtml(__('Order # ')).$realOrderId ?></p></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<?php else : ?>
+
+<?php $realOrderId = $block->getRealOrderId(); ?>
+<?php if ($realOrderId) : ?>
+<p><?= $block->escapeHtml(__('Order # ')).$block->getRealOrderId() ?></p>
+<?php endif ?>
+
+<?php endif; ?>
+
+<?php $error = $block->getErrorMessage(); ?>
+<?php if ($error) : ?><p><?= $error ?></p><?php endif ?>
+<p><?= $block->escapeHtml(__('Click <a href="%1">here</a> to continue shopping.', $block->escapeUrl($block->getContinueShoppingUrl())), ['a']) ?></p>

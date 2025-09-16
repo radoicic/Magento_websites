@@ -1,0 +1,54 @@
+<?php
+$_enable = $this->getConfig('sw_socialfeeds/instagram_photos/enable');
+if($_enable==1){
+    $accesstoken = $this->getConfig('sw_socialfeeds/instagram_photos/accesstocken');
+    $count = $this->getConfig('sw_socialfeeds/instagram_photos/showing_counts');
+    $user_id = $this->getConfig('sw_socialfeeds/instagram_photos/user_id');
+    $padding = $this->getData("padding_item")!=''?'padding:'.$this->getData("padding_item").';':'';
+?>
+    <div class="insta-items grid-items">
+        <div class="photo-instagrams row"></div>
+    </div>
+	
+    <script type="text/javascript" defer="true" async="true">
+        require([
+            'jquery',
+			'imagesloaded'
+        ], function ($) {
+            var instaGram = $('.photo-instagrams'),
+                token = '<?php echo $accesstoken;?>',
+                num_photos = <?php echo $count;?>;
+            var url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,timestamp,thumbnail_url&access_token="+token;
+            $.ajax({
+                type: "GET",
+                dataType: "jsonp",
+                cache: false,
+                url: url,
+                success: function(data) {
+					var media = data;
+					var limit  = media.data.length;
+					if(limit > num_photos){
+						var limit = num_photos;
+					}
+					for (var i = 0; i < limit; i++) {
+						var caption = "";
+						if(media.data[i].caption!=null){
+							caption = media.data[i].caption;
+							var html 	= "<div class='col-xl-2 col-lg-3 col-sm4 col-6' style='<?php echo $padding;?>' data-date='"+media.data[i].timestamp;
+								html	+= "' data-sortid='"+i*2+"'><a class='image-link' target='_blank' href='" + media.data[i].permalink;
+								html	+= "'><img class='instagram-image ' src='";
+								if(media.data[i].media_type == "VIDEO"){
+									html	+= media.data[i].thumbnail_url;
+								}else{
+									html	+= media.data[i].media_url;
+								}
+								html	+= "' /><span class='content'><i class='porto-icon-instagram'></i></span></a></div>";
+								instaGram.append(html);
+						}
+					}
+					instaGram.imagesLoaded().animate({ 'opacity' : 1 }, 500);
+                }
+            });
+        });
+    </script>
+<?php }?>

@@ -1,0 +1,20 @@
+<?php
+$title = $block->escapeHtml($block->getMethod()->getTitle());
+$type = $block->escapeHtml($block->getPaymentType());
+$user_reference = $block->escapeHtml($block->getUserReference());
+$transaction_id = $block->escapeHtml($block->getTransactionId());
+$transaction_date = $block->escapeHtml($block->getTransactionDate());
+$transaction_source = $block->escapeHtml($block->getTransactionSource());
+$marketplace = $block->escapeHtml($block->getMarketplace());
+
+/**
+ * @var $block \CityBeach\Integration\Block\Info\Payment
+ */
+?>
+<div class="payment-title"><?php echo $title ?></div>
+<div class="citybeach-payment-type"><label>Method:</label> <span><?php echo $type; ?></span></div>
+<div class="citybeach-payment-user"><label>User:</label> <span><?php echo $user_reference; ?></span></div>
+<div class="citybeach-payment-transaction_id"><label>Transaction Id:</label> <span><?php echo $transaction_id; ?></span></div>
+<div class="citybeach-payment-transaction_date"><label>Transaction Date:</label> <span><?php echo $transaction_date; ?></span></div>
+<div class="citybeach-payment-transaction_source"><label>Transaction Source:</label> <span><?php echo $transaction_source; ?></span></div>
+<div class="citybeach-payment-marketplace"><label>Marketplace:</label> <span><?php echo $marketplace; ?></span></div>

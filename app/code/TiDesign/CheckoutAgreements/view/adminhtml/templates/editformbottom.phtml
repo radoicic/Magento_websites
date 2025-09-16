@@ -1,0 +1,49 @@
+<script>
+    require([
+		'jquery',
+		'domReady!'
+	], function ($) {
+		$(document).ready(function() {
+
+			function onElementInserted(containerSelector, elementSelector, callback) {
+				let onMutationsObserved = function(mutations) {
+					mutations.forEach(function(mutation) {
+						if (mutation.addedNodes.length) {
+							let elements = $(mutation.addedNodes).find(elementSelector);
+							for (let i = 0, len = elements.length; i < len; i++) {
+								callback(elements[i]);
+							}
+						}
+					});
+				};
+
+				let target = $(containerSelector)[0];
+				let config = { childList: true, subtree: true };
+				let MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+				let observer = new MutationObserver(onMutationsObserved);
+				observer.observe(target, config);
+			}
+
+			onElementInserted('body', '.mce-edit-area.mce-container', function(element) {
+				let myIframe = $(element).find('iframe');
+				let head = $(myIframe).contents().find("head");
+
+				let getstyle = $('#readmore_iframe_style').html();
+				let css = '<style>'+getstyle+'</style>';
+				$(head).append(css);
+				
+				$(myIframe).contents().on("click", ".read-more-button",	function(e){
+					//console.log("click");
+					$(this).parent().toggleClass("open");
+				});
+				
+				$(myIframe).contents().on("click", ".read-more-remove",	function(e){
+					let html = $(this).parent().find(".read-more-content").html();
+					$(this).parent().replaceWith(html);
+				});
+			});	
+		}); 
+	})
+</script>
+
+

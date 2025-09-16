@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert',
+        'Magento_Ui/js/modal/modal',
+        'uiRegistry',
+        'jquery/ui',
+        'select2',
+        'passwordRequirements',
+        'loader'
+    ], function ($, alert, modal, registry) {
+        'use strict';
+        $(document).ready(function() {
+            function show_loader(){$("body").loader("show");}
+            function hide_loader(){$("body").loader("hide");}
+
+            $('body').on('click', "button.action-primary.action-accept" , function(event){
+
+
+                let elm = $(this).parent().parent().find('.modal-content');
+                if(elm.is(':has(span.showLoader)')){
+                    show_loader();
+                }
+            });
+
+        });
+    });
+</script>

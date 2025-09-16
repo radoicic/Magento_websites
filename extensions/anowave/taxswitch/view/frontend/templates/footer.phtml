@@ -1,0 +1,95 @@
+<?php
+/**
+ * @todo Implement private content via subsequent request
+ */
+?>
+<?php if(false): ?>
+	<script>
+		require(['jquery'], function($)
+		{
+			var id = $('[data-role=priceBox]').map(function()
+			{
+				return parseInt($(this).attr('data-product-id'));
+				
+			}).get();
+
+			(function(id)
+			{
+				var helper = (function(id)
+				{
+					var view =
+					{
+						visible: 'visible',
+						hidden:'hidden'
+					};
+					
+					return {
+						prices:
+						{
+							show: function()
+							{
+								$('.price-final_price').css(
+								{
+									visibility: view.visible
+								});
+							},
+							hide: function()
+							{
+								$('.price-final_price').css(
+								{
+									visibility: view.hidden
+								});
+							}
+						},
+						get: function()
+						{
+							if (id.length)
+							{
+								$.getJSON('<?php echo $block->getUrl('taxswitch/price/renderer')?>', { id: id }, this.delegate(this, this.update,[]));
+							}
+
+							return this;
+						},
+						update: function(response)
+						{
+							/**
+							 * Replace prices with non-cached content
+							 */
+							$.each(response, this.delegate(this, this.replace,[]));
+
+							/**
+							 * Show prices
+							 */
+							this.prices.show();
+						},
+						replace: function(index, product)
+						{
+							var content = $('<div/>').html(product.product_price_render).find('>div').html();
+							
+							$('[data-role=priceBox][data-product-id=' + product.product_id + ']').html(content);
+						},
+						delegate:function(target, method, args)
+						{
+							return (typeof method === "function") ? function() 
+							{ 
+								/* Override prototype */
+								arguments.push = Array.prototype.push;
+								
+								/* Push additional arguments */
+								for (var arg in args)
+								{
+									arguments.push(args[arg]);
+								}
+								return method.apply(target, arguments); 
+							} : function()
+							{
+								return false;
+							};
+						}
+					}
+				})(id).get();
+				
+			})(id);
+		});
+	</script>
+<?php endif ?>

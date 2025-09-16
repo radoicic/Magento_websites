@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+
+        <section id="swissup_recaptcha" sortOrder="1818" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <tab>swissup</tab>
+            <label>ReCAPTCHA</label>
+            <resource>Swissup_Recaptcha::config_recaptcha</resource>
+
+            <group id="general" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <comment>We don't provide security CAPTCHA to any other form than your Magento instance does. One exception is "Subscribe to Newsletter" form. So if you want to protect "Contact us" form or "Forgot Password" form make sure Magento CAPTCHA is enabled for them.</comment>
+                <field id="frontend_heading" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frontend settings</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                    <attribute type="shared">1</attribute>
+                </field>
+                <field id="enable_frontend" translate="label comment" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable reCAPTCHA for frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Replace default CAPTCHA on frontend with reCAPTCHA from Google.</comment>
+                </field>
+                <field id="protect_newsletter_subscription" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Protect "Subscribe to newsletter" form</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_frontend">1</field>
+                    </depends>
+                </field>
+                <field id="protect_checkout_payments_guest" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Protect Checkout for guest user</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_frontend">1</field>
+                    </depends>
+                </field>
+                <field id="protect_checkout_payments_signedin" translate="label" type="select" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Protect Checkout for signed in user</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_frontend">1</field>
+                    </depends>
+                </field>
+                <field id="admin_heading" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin settings</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                    <attribute type="shared">1</attribute>
+                </field>
+                <field id="enable_adminhtml" translate="label comment" type="select" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable reCAPTCHA for admin login</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Replace default CAPTCHA on backend login page with reCAPTCHA from Google.</comment>
+                </field>
+            </group>
+
+            <group id="api_key" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>API key</label>
+                <field id="site_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Site Key</label>
+                </field>
+                <field id="secret_key" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Secret Key</label>
+                    <comment>Key for communication between your site and Google. Be sure to keep it a secret.</comment>
+                </field>
+            </group>
+
+            <group id="design" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Design</label>
+                <field id="rtype" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>ReCAPTCHA type</label>
+                    <comment><![CDATA[You can read more about types of reCAPTCHA at <a href="https://developers.google.com/recaptcha/docs/versions" target="blank">developers.google.com/recaptcha</a>.]]></comment>
+                    <source_model>Swissup\Recaptcha\Model\Config\Captcha\Rtype</source_model>
+                </field>
+                <field id="theme" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Color theme</label>
+                    <source_model>Swissup\Recaptcha\Model\Config\Captcha\Theme</source_model>
+                </field>
+                <field id="size" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Size of generated captcha</label>
+                    <source_model>Swissup\Recaptcha\Model\Config\Captcha\Size</source_model>
+                    <depends>
+                        <field id="rtype">v2</field>
+                    </depends>
+                </field>
+                <field id="badge" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Position the badge</label>
+                    <source_model>Swissup\Recaptcha\Model\Config\Captcha\Badge</source_model>
+                    <depends>
+                        <field id="rtype">invisible</field>
+                    </depends>
+                </field>
+                <field id="design_exception_heading" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Design exceptions</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                    <attribute type="shared">1</attribute>
+                </field>
+                <field id="design_exception" translate="comment" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <comment><![CDATA[* "Size" works only when type is reCAPTCHA v2.<br />** "Badge" works only for invisible reCAPTCHA.]]></comment>
+                    <label>Design exception</label>
+                    <frontend_model>Swissup\Recaptcha\Block\Adminhtml\Form\Field\DesignException</frontend_model>
+                    <backend_model>Swissup\Recaptcha\Model\Config\Backend\DesignException</backend_model>
+                </field>
+            </group>
+
+        </section>
+    </system>
+</config>

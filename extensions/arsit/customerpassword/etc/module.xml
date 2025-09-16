@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Arsit_CustomerPassword
+ *
+ * @category    Arsit
+ * @package     Arsit_CustomerPassword
+ * @copyright   Copyright (c) 2016 arsit.ru
+ * @author      developer@arsit.ru
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Arsit_CustomerPassword" setup_version="1.0.1">
+    </module>
+</config>

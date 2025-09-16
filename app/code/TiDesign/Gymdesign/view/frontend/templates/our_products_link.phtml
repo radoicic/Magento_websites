@@ -1,0 +1,5 @@
+<?php
+	$container = $block->getContainer();
+	$categoryObj = $this->categoryRepository->get($container);
+?>
+<a href="<?php echo $categoryObj->getUrl(); ?>">See all products</a>

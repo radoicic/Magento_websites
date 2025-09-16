@@ -1,0 +1,47 @@
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<form id="co-shipping-method-form" data-bind="blockLoader: isLoading, visible: isVisible()">
+    <p class="field note" data-bind="visible: (!isLoading() && shippingRates().length <= 0)">
+        <!-- ko text: $t('Sorry, no quotes are available for this order at this time')--><!-- /ko -->
+    </p>
+    <fieldset class="fieldset rate" data-bind="visible: (shippingRates().length > 0)">
+        <dl class="source" data-bind="foreach: { data: sources(), as: '_source' }">
+            <dt class="source-info">
+                <each args="$parents[0].getRegion('source')" render="{name: getTemplate(), data: _source, as: 'source'}" />
+            </dt>
+            <dd class="source-shipping-methods">
+                <dl class="items methods" data-bind="foreach: { data: $parents[0].getSourceCarriers(_source.source_code), as: 'carrier' }">
+                    <dt class="item-title"><span data-bind="text: carrier.title"></span></dt>
+                    <dd class="item-options" data-bind="foreach: { data: $parents[1].getSourceCarrierShippingRates(_source.source_code, carrier.code), as: 'method' }">
+                        <div data-bind="css: {'field choice item': method.available, 'message error': !method.available} ">
+                            <!-- ko ifnot: (method.available) -->
+                            <div data-bind="text: method.error_message"></div>
+                            <!-- /ko -->
+                            <!-- ko if: (method.available) -->
+                            <input type="radio"
+                                   class="radio"
+                                   data-bind="
+                                        click: $parents[2].selectShippingMethod,
+                                        checked: $parents[2].getSelectedSourceShippingMethod(_source.source_code),
+                                        attr: {
+                                            value: method.carrier_code + '_' + method.method_code,
+                                            id: 's_method_' + _source.source_code + '_' + method.carrier_code + '_' + method.method_code,
+                                            disabled: false
+                                        }
+                                        "/>
+                            <label class="label" data-bind="attr: { for: 's_method_' + _source.source_code + '_' + method.carrier_code + '_' + method.method_code }">
+                                <!-- ko text: method.method_title --><!-- /ko -->
+                                <each args="element.getRegion('price')" render="" />
+                            </label>
+                            <!-- /ko -->
+                        </div>
+                    </dd>
+                </dl>
+            </dd>
+        </dl>
+    </fieldset>
+</form>

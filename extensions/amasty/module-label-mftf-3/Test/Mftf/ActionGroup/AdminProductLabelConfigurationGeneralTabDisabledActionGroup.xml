@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminProductLabelConfigurationGeneralTabDisabledActionGroup"
+                 extends="AdminProductLabelConfigurationGeneralTabActionGroup">
+        <conditionalClick selector="{{AdminProductLabelProfileSection.SettingToggle('status')}}"
+                          dependentSelector="{{AdminProductLabelProfileSection.SettingToggleWithValue('status','1')}}"
+                          visible="true"
+                          stepKey="selectLabelStatus"/>
+    </actionGroup>
+
+</actionGroups>

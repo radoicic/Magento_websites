@@ -1,0 +1,37 @@
+<script type="text/javascript">
+require([
+    'Magento_Ui/js/lib/view/utils/async'
+], function ($) {
+    var row = '#swissup_recaptcha_design_design_exception tbody tr',
+        table = '#swissup_recaptcha_design_design_exception';
+
+    /**
+     * Toggle size and badge dropdown visibility on type changes.
+     */
+    function toggleDropdowns() {
+        $(row).each(function () {
+            var rtype = $('[id$=_rtype]', this);
+
+            $('[data-recaptcha-type]', this).each(function () {
+                if ($(this).data('recaptcha-type') == rtype.val()) {
+                    $(this).css('visibility', '');
+                } else {
+                    $(this).css('visibility', 'hidden');
+                }
+            });
+        });
+    }
+
+    // Listen when new line added.
+    $.async(row, toggleDropdowns);
+
+    // Listen change value of dropdown with type.
+    $(table).change(function (event) {
+        if (!$(event.target).is('[id$=_rtype]')) {
+            return;
+        }
+
+        toggleDropdowns();
+    })
+});
+</script>

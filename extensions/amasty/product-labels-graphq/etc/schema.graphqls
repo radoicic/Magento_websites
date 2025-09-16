@@ -1,0 +1,46 @@
+type Query {
+    amLabelSetting: AmLabelSetting @resolver(class: "Amasty\\LabelGraphQl\\Model\\Resolver\\Setting"),
+    amLabelProvider (
+        productIds: [Int] @doc(description: "Product IDs"),
+        mode: AmLabelMode @doc(description: "Label Mode")
+    ): [AmLabelList] @resolver(class: "Amasty\\LabelGraphQl\\Model\\Resolver\\LabelProvider")
+}
+
+enum AmLabelMode @doc(description: "Label Mode") {
+    CATEGORY,
+    PRODUCT
+}
+
+type AmLabelList {
+    items: [AmLabel] @doc(description: "Labels.")
+}
+
+type AmLabelTooltip {
+    status: Int @doc(description: "Tooltip status"),
+    color: String @doc(description: "Tooltip color"),
+    text_color: String @doc(description: "Tooltip text color"),
+    text: String @doc(description: "Tooltip text"),
+}
+
+type AmLabel @doc(description: "Label info") {
+    label_id: Int @doc(description: "Label id."),
+    product_id: Int @doc(description: "Product id."),
+    position: String @doc(description: "Label position."),
+    name: String @doc(description: "Label name."),
+    txt: String @doc(description: "Label text."),
+    image: String @doc(description: "Label image."),
+    size: String @doc(description: "Label image size. Percent of the product image."),
+    style: String @doc(description: "Label css style."),
+    tooltip_settings: AmLabelTooltip @doc(description: "A settings for label tooltip") @resolver(class: "Amasty\\LabelGraphQl\\Model\\Resolver\\LabelTooltip"),
+    is_visible: Boolean @doc(description: "Is label visible")
+    customer_group_ids: String @doc(description: "Label customer group")
+}
+
+type AmLabelSetting {
+    product_container: String @doc(description: "Product Page Label Container."),
+    category_container: String @doc(description: "Category Page Label Container."),
+    max_labels: Int @doc(description: "Max Number of Labels on One Product."),
+    show_several_on_place: Int @doc(description: "Show Several Labels on the Same Place."),
+    labels_alignment: Int @doc(description: "Labels Alignment."),
+    margin_between: Int @doc(description: "Margin between labels, px.")
+}

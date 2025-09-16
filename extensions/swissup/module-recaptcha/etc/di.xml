@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Captcha\Model\CaptchaFactory">
+        <plugin name="createRecaptchaModel"
+            type="Swissup\Recaptcha\Plugin\Model\CaptchaFactory" sortOrder="1" />
+    </type>
+    <type name="Magento\Checkout\Api\PaymentInformationManagementInterface">
+        <plugin name="swissupRecaptcha-validate" type="Swissup\Recaptcha\Plugin\Checkout\Api\Validation" />
+    </type>
+    <type name="Magento\Checkout\Api\GuestPaymentInformationManagementInterface">
+        <plugin name="swissupRecaptcha-guest-validate" type="Swissup\Recaptcha\Plugin\Checkout\Api\GuestValidation" />
+    </type>
+    <type name="Swissup\Askit\Block\Question\AbstractForm">
+        <plugin name="swissup_recaptcha" type="Swissup\Recaptcha\Plugin\AskitForm" />
+    </type>
+</config>

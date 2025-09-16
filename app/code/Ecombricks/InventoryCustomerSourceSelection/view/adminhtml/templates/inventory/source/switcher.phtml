@@ -1,0 +1,86 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $sources = $block->getSources() ?>
+<?php if (!empty($sources)) : ?>
+<?php $currentSourceCode = $block->getCurrentSourceCode() ?>
+<div class="store-switcher source-switcher store-view source">
+    <span class="source-switcher-label store-switcher-label"><?= $block->escapeHtml(__('Source:')) ?></span>
+    <div class="actions dropdown closable">
+        <input type="hidden" name="source_switcher" id="source_switcher" data-role="source"
+               value="<?= $block->escapeHtmlAttr($currentSourceCode) ?>"
+               onchange="switchSource(this);" <?= $block->getUiId()?>/>
+        <button type="button" class="admin__action-dropdown" data-mage-init='{"dropdown":{}}' data-toggle="dropdown" aria-haspopup="true" id="source-change-button">
+            <?= $block->escapeHtml($block->getCurrentOptionLabel()) ?>
+        </button>
+        <ul class="dropdown-menu" data-role="source-list">
+            <?php if ($block->isDefaultOptionAvailable()) : ?>
+            <li class="store-switcher-all source-switcher-all <?php if (!$currentSourceCode) : ?>current<?php endif ?>">
+                <?php if ($currentSourceCode) : ?>
+                <a data-value="" href="#"><?= $block->escapeHtml($block->getDefaultOptionLabel()) ?></a>
+                <?php else : ?>
+                <span><?= $block->escapeHtml($block->getDefaultOptionLabel()) ?></span>
+                <?php endif ?>
+            </li>
+            <?php endif; ?>
+            <?php foreach ($sources as $source) : ?>
+            <li class="store-switcher-website source-switcher-source<?php if ($currentSourceCode == $source->getSourceCode()) : ?> current<?php endif ?>">
+                <?php if ($currentSourceCode != $source->getSourceCode()) : ?>
+                <a data-value="<?= $block->escapeHtmlAttr($source->getSourceCode()) ?>" href="#"><?= $block->escapeHtml($source->getName()) ?></a>
+                <?php else : ?>
+                <span><?= $block->escapeHtml($source->getName()) ?></span>
+                <?php endif ?>
+            </li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+</div>
+
+<script>
+require([
+    'jquery',
+    'Magento_Ui/js/modal/confirm'
+], function(jQuery, confirm){
+    
+    (function($) {
+        $('[data-role=source-list]').on('click', '[data-value]', function(event) {
+            var sourceCode = $(event.target).data('value');
+            var source = $('[data-role=source]');
+            event.preventDefault();
+            if (!source.val() || (sourceCode !== source.val())) {
+                source.val(sourceCode).trigger('change');
+            }
+        });
+    })(jQuery);
+    
+    function switchSource(sourceElement) {
+        var source = jQuery(sourceElement);
+        <?php if ($block->getUseConfirm()) : ?>
+        confirm({
+            content: "<?= $block->escapeJs(__('Please confirm source switching. All data that hasn\'t been saved will be lost.')) ?>",
+            actions: {
+                confirm: function() {
+                    reload();
+                },
+                cancel: function() {
+                    source.val('<?= $block->escapeJs($block->getSourceCode()) ?>');
+                }
+            }
+        });
+        <?php else : ?>
+        reload();
+        <?php endif ?>
+        
+        function reload() {
+            setLocation('<?= $block->escapeJs($block->getSwitchUrl()) ?>source/' + source.val());
+        }
+    }
+    
+    window.switchSource = switchSource;
+    
+});
+</script>
+<?php endif ?>

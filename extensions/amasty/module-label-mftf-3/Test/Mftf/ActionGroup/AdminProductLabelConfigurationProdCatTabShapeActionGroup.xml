@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminProductLabelConfigurationProdCatTabShapeActionGroup"
+                 extends="AdminProductLabelConfigurationProdCatTabTextOnlyActionGroup">
+        <arguments>
+            <argument name="product_label2"/>
+            <argument name="product_label3"/>
+        </arguments>
+        <click selector="{{AdminProductLabelProfileSection.ShapeTypeSelect(product_label2.ShapeType)}}"
+               stepKey="clickOnLabelShape"
+               after="clickOnLabelType"/>
+        <fillField selector="{{AdminProductLabelProfileSection.LabelColorField(product_label3.TabIdentifier)}}"
+                   userInput="{{product_label2.LabelColorField}}"
+                   stepKey="setLabelColor"
+                   after="clickOnLabelShape"/>
+        <fillField selector="{{AdminProductLabelProfileSection.LabelSizeField(product_label3.TabIdentifier)}}"
+                   userInput="{{product_label2.LabelSizeField}}"
+                   stepKey="setLabelSize"
+                   after="setLabelColor"/>
+    </actionGroup>
+
+</actionGroups>

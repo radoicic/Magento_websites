@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <section id="fundraiser" translate="label" type="text" sortOrder="600"
+                 showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Fundraiser</label>
+            <tab>tidesign</tab>
+            <resource>TiDesign_Fundraiser::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="0"
+                   showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="customer" translate="label" type="text" sortOrder="10"
+                   showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Customer</label>
+                <field id="fundraiser_customer_group" translate="label comment" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Fundraiser Customer Group</label>
+                    <source_model>Magento\Customer\Model\Config\Source\Group</source_model>
+                </field>
+            </group>
+            <group id="product" translate="label" type="text" sortOrder="20"
+                   showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Product</label>
+                <field id="product_size_attribute_code" translate="label comment" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Product Size Attribute</label>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+            <group id="tracking" translate="label" type="text" sortOrder="30"
+                   showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Tracking</label>
+                <field id="tracking_code_param" translate="label comment" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Tracking Code Param</label>
+                    <comment><![CDATA[The parameter key of the tracking code in the URL]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

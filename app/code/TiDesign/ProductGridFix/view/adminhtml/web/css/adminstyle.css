@@ -1,0 +1,104 @@
+.tidesign-qty-details {
+  display: block;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.tidesign-modal .body {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+}
+
+.tidesign-modal .top{
+	padding-bottom: 15px;
+	border-bottom: 1px solid #ccc;
+}
+
+
+.tidesign-modal .top img.admin__control-thumbnail{
+	border: 1px solid #ccc;
+	max-width: 50px;
+	max-height: 50px;
+	float: left;
+	padding: 2px;
+}
+
+.tidesign-modal .top .p-data{
+	display: flex;
+	flex-direction: row;
+}
+	
+@media (min-width: 768px){
+	.tidesign-modal .top .s-bar{
+		padding-left: 3px;
+		border-left: 1px solid #ccc;
+		text-align: right;
+	}
+}
+	
+.tidesign-modal .top .product-name{
+	margin: 0 10px;
+	align-content: center;
+	flex: 1;
+	white-space: normal;
+	word-break: break-word;
+	display: flex;
+	align-items: center;
+}
+
+
+.tidesign-modal .search-bar {
+	line-height: 50px;
+	position: relative;
+}
+
+
+
+.tidesign-modal .search-bar .clear-search{
+	background: #d9d9d9;
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	position: absolute;
+	right: 3px;
+	margin-top: auto;
+	margin-bottom: auto;
+	top: 0;
+	bottom: 0;
+	display:none;
+}
+
+
+.tidesign-modal .data-list {
+	flex: 1 1 auto;
+	flex-direction: row;
+	display: flex;
+	padding-top: 10px;
+}
+.tidesign-modal .data-list .title {
+  font-weight: bold;
+  padding: 5px;
+  display: block;
+  border-bottom: 1px solid #ccc;
+  margin-right: 15px;
+}
+
+.tidesign-modal input.animated-search-filter {
+	min-width: 300px;
+}
+.tidesign-modal ul.animated-search-filter {
+  list-style: none;
+  padding: 0 0 0 10px;
+}
+.tidesign-modal .list {
+	flex: 1;
+	height: 100%;
+}
+.list + .list {
+	padding-left: 15px;
+	border-left: 1px dashed #b3b2b2;
+}
+

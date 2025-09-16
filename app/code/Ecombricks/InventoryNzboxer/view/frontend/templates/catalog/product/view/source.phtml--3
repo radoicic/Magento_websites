@@ -1,0 +1,99 @@
+<?php
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php $viewModel = $block->getData('viewModel'); ?>
+<?php $sources = $block->getSources(); ?>
+<?php 
+	$sourcedata 	= $viewModel->getSourceItemBySku($block->getProduct()); 
+	$inventorydata 	= $viewModel->getInventoryItemBySku($block->getProduct()); 
+	$domainData 	= $viewModel->getDomainInventorySource();	
+	
+
+	echo "domainData<pre>"; 
+	print_r($domainData);
+	echo "</pre>";	
+
+	
+	if($domainData["consignment"] == 1 && $domainData["cur_category"] == $domainData["category"]){
+		$selected_source = $domainData["source"];
+	}else{
+		$selected_source = $domainData["default_source"];
+	}
+	
+	
+	//echo "selected_source = ".$selected_source."<br><br>";
+	
+
+
+/*	
+	// inventorydata 
+	echo "inventorydata<pre>";
+	print_r($inventorydata);
+	echo "</pre>";	
+	
+	// source 
+	echo "sourcedata<pre>";
+	print_r($sourcedata);
+	echo "</pre>";	
+*/
+?>
+
+
+<?php if (count($inventorydata)) : ?>
+
+<div class="fieldset" tabindex="0">
+    <div class="field source-field option required">
+        <label class="label"><span><?= $block->escapeHtml(__('Source')) ?></span></label>
+        <div class="control">
+            <div class="nested options-list">
+			<?php foreach ($inventorydata as $source) :  ?>
+				<?php $sourceCode = $source["code"]; ?>
+				<?php if($sourceCode == $domainData["source"] || $sourceCode == $domainData["default_source"]): ?>
+					<div class="field choice source">
+						<input 
+							type="radio" 
+							
+							class="radio product-custom-option product source"
+							id="source_<?= $block->escapeHtmlAttr($sourceCode) ?>"
+							name="source"
+							value="<?= $block->escapeHtmlAttr($sourceCode) ?>"
+							<?php if ($sourceCode == $selected_source) : ?>checked="true"<?php endif; ?>
+							data-validate="<?= $block->escapeHtmlAttr(json_encode($block->getSourceValidators())) ?>"
+						/>
+						<label class="label" for="source_<?= $block->escapeHtmlAttr($sourceCode) ?>">
+							<span>
+								<?php echo $block->escapeHtml($source["name"]) ?> (<?php echo (int)$source["qty"];?>)
+							</span>
+						</label>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+						
+<script>		
+require([
+	'jquery',
+], function($){
+
+	<?php
+		if((int)$sourcedata[$block->escapeHtmlAttr($selected_source)]['qty']>0){
+	?>
+		$(".product-info-stock-sku .stock.available").append("<span>(<?php echo (int)$sourcedata[$block->escapeHtmlAttr($selected_source)]['qty'];?>  Piece<?php if((int)$sourcedata[$block->escapeHtmlAttr($selected_source)]['qty']>1){echo 's';}?>)</span>");
+	<?php
+		}else{
+	?>
+		$(".product-info-stock-sku .stock.available").html('<span class="label">Availability:</span><span>Out of stock</span>');
+	<?php
+		}
+	?>
+	
+});
+</script>
+
+<?php endif; ?>

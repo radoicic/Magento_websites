@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Iksanika_Ordermanage::config_ordermanage" title="Iksanika Advanced Orders Manager" sortOrder="10"/>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_Sales::sales_operation">
+                        <resource id="Iksanika_Ordermanage::ordermanage" title="Iksanika Advanced Orders Manager" sortOrder="10">
+                            <resource id="Iksanika_Ordermanage::actions" title="Actions" sortOrder="10">
+                                <resource id="Iksanika_Ordermanage::ma_cancel" title="Cancel" sortOrder="10" />
+                                <resource id="Iksanika_Ordermanage::ma_hold" title="Hold" sortOrder="010" />
+                                <resource id="Iksanika_Ordermanage::ma_unhold" title="Unhold" sortOrder="020" />
+                                <resource id="Iksanika_Ordermanage::ma_print_invoices" title="Print Invoices" sortOrder="030" />
+                                <resource id="Iksanika_Ordermanage::ma_print_packing_slips" title="Print Packing Slips" sortOrder="040" />
+                                <resource id="Iksanika_Ordermanage::ma_print_credit_memos" title="Print Credit Memos" sortOrder="050" />
+                                <resource id="Iksanika_Ordermanage::ma_print_all" title="Print All" sortOrder="060" />
+                                <resource id="Iksanika_Ordermanage::ma_print_shipping_lables" title="Print Shipping Labels" sortOrder="070" />
+
+                                <resource id="Iksanika_Ordermanage::ma_update" title="Save Changes" sortOrder="080" />
+                                <resource id="Iksanika_Ordermanage::ma_setstatus" title="Change Order Status" sortOrder="090" />
+
+                                <resource id="Iksanika_Ordermanage::ma_invoice" title="Invoice" sortOrder="100" />
+                                <resource id="Iksanika_Ordermanage::ma_invoice_print" title="Invoice->Print" sortOrder="110" />
+                                <resource id="Iksanika_Ordermanage::ma_capture" title="Capture" sortOrder="120"/>
+                                <resource id="Iksanika_Ordermanage::ma_ship" title="Ship" sortOrder="130"/>
+                                <resource id="Iksanika_Ordermanage::ma_ship_print" title="Ship->Print" sortOrder="140"/>
+                                <resource id="Iksanika_Ordermanage::ma_invoice_capture" title="Invoice->Capture" sortOrder="150"/>
+                                <resource id="Iksanika_Ordermanage::ma_invoice_capture_ship" title="Invoice->Capture->Ship" sortOrder="160"/>
+                                <resource id="Iksanika_Ordermanage::ma_invoice_capture_ship_print" title="Invoice->Capture->Ship->Print" sortOrder="170"/>
+                                <resource id="Iksanika_Ordermanage::ma_invoice_capture_ship_complete" title="Invoice->Capture->Ship->Complete" sortOrder="180"/>
+                                <resource id="Iksanika_Ordermanage::ma_invoice_capture_ship_complete_print" title="Invoice->Capture->Ship->Complete->Print" sortOrder="190"/>
+
+                                <resource id="Iksanika_Ordermanage::ma_sendorderemail" title="Re-send Order email" sortOrder="200"/>
+                                <resource id="Iksanika_Ordermanage::ma_invoice_sendemail" title="Re-send Invoice email" sortOrder="210"/>
+                                <resource id="Iksanika_Ordermanage::ma_ship_sendemail" title="Re-send Shipment email" sortOrder="230"/>
+
+                                <resource id="Iksanika_Ordermanage::ma_complete" title="Complete" sortOrder="240" />
+                                <resource id="Iksanika_Ordermanage::ma_setprocessing" title="Uncancel" sortOrder="250" />
+
+                                <resource id="Iksanika_Ordermanage::ma_delete" title="Delete" sortOrder="260"/>
+                            </resource>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

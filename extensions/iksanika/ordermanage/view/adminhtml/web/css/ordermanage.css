@@ -1,0 +1,274 @@
+/**
+ * Copyright © 2015 Iksanika. All rights reserved.
+ * See IKS-LICENSE.txt for license details.
+ */
+
+.grid tr.multiselect, .grid tr.multiselect tr { background:#CCF0F0 !important; }
+
+.data-grid td {
+    border-top: .1rem dashed #d6d6d6;
+}
+
+@font-face
+{
+    font-family:"FontAwesome";
+//    src:url('/js/Iksanika/ordermanage/resources/css/fontawesome-webfont.eot');
+//    src:url('/js/Iksanika/ordermanage/resources/css/fontawesome-webfont.eot?#iefix') format('eot'),url('/js/Iksanika/ordermanage/resources/css/fontawesome-webfont.woff') format('woff'), url('/js/Iksanika/ordermanage/resources/css/fontawesome-webfont.ttf') format('truetype'), url('/js/Iksanika/ordermanage/resources/css/fontawesome-webfont.svg#FontAwesomeRegular') format('svg');
+    src:url('fontawesome-webfont.eot');
+    src:url('fontawesome-webfont.eot?#iefix') format('eot'),url('fontawesome-webfont.woff') format('woff'), url('fontawesome-webfont.ttf') format('truetype'), url('fontawesome-webfont.svg#FontAwesomeRegular') format('svg');
+    font-weight:normal;
+    font-style:normal;
+}
+
+fieldset { border: 0px; }
+
+.accordion .config .label {width: 200px;}
+.accordion .config .value {width: 280px;}
+.section-config {border-bottom: 0px;}
+
+
+
+
+.productItem { 
+    float: left;
+    padding: 5px 5px 5px 5px;
+    width: 165px;
+}
+
+.productItem .image {
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    border: none;
+    background: none;
+    width: inherit;
+    position: inherit;
+    float: inherit;
+    height: inherit;
+    display: inherit;
+    box-sizing: inherit;
+}
+.productItem .name {font-weight: bold;}
+.productItem .sku {}
+.productItem .productId {}
+.productItem .qty {}
+
+
+
+tbody td .trigger i 
+{
+    position: absolute;
+    display: block;
+    left: 0;
+    color: inherit;
+    text-decoration: none !important;
+    font-size:18px;
+}
+
+.icon-plus-sign:before {
+    content: "\f055";
+}
+
+.icon-minus-sign:before {
+    content: "\f056";
+}
+
+[class^="icon-"]:before, 
+[class*=" icon-"]:before {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: inherit;
+}
+
+tbody .orderProducts td {
+    font-size: 88%;
+    line-height: 1;
+}
+tbody .orderProducts td {
+    text-align: left;
+    font-weight: 400;
+}
+
+
+tbody td .trigger {
+    position: relative;
+    display: block;
+    padding: 0 0 0 18px;
+    display: block;
+}
+
+a.trigger:hover {
+    color: #2182be;
+    text-decoration: underline;
+}
+a.trigger{
+    color: #2182be;
+}
+
+
+
+
+
+.tau-btn {
+    font-family: OpenSans,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    margin: 0 2px;
+    border-radius: 3px;
+    padding: 3px 9px 5px 9px;
+/*    height: 24px; */
+    height: 31px;
+    line-height: 16px;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    color: #606c7b;
+    border: solid 1px #acb3ba;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd…B5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2czOTIpIiAvPgo8L3N2Zz4=);
+    background-image: -webkit-linear-gradient(bottom,#e8e8e8,#fff);
+    background-image: -moz-linear-gradient(bottom,#e8e8e8,#fff);
+    background-image: linear-gradient(to top,#e8e8e8,#fff);
+}
+
+
+
+.tau-btn.tau-clone:before,
+.tau-btn.tau-save-template:before,
+.tau-btn.tau-close:before,
+.tau-btn.tau-options:before,
+.tau-btn.tau-date-range-options:before,
+.tau-help:before,
+.tau-btn.tau-add:before,
+.tau-btn.tau-search:before,
+.tau-btn.tau-sort-dec:before,
+.tau-btn.tau-sort-inc:before,
+.tau-btn.tau-share:before,
+.tau-btn.tau-close.tau-btn-active-highlight:before,
+.tau-boardsettings__filter__action-clear:before {
+    background: url("http://tempp.tpondemand.com/JavaScript/tau/css.board/images/icons-general.svg?v=3.0.3.30268") no-repeat;
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tau-btn.tau-options:before {
+    width: 16px;
+    height: 16px;
+    background-position: -359px -107px;
+}
+
+.tau-btn.tau-options.tau-checked:before {
+    width: 16px;
+    height: 16px;
+    background-position: -809px -107px;
+}
+
+
+.tau-btn.tau-close, .tau-btn.tau-options, .tau-btn.tau-date-range-options, .tau-btn.tau-search, .tau-btn.tau-sort-dec, .tau-btn.tau-sort-inc, .tau-btn.tau-share {
+    padding: 0;
+    text-align: center;
+/*    width: 28px; */
+    width: 35px;
+}                    
+.tau-btn:hover:not(:disabled) {
+    background: #f2f2f2;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd…B5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2c4MDQpIiAvPgo8L3N2Zz4=);
+    background-image: -webkit-linear-gradient(bottom,#d6d6d6,#fff);
+    background-image: -moz-linear-gradient(bottom,#d6d6d6,#fff);
+    background-image: linear-gradient(to top,#d6d6d6,#fff);
+}
+
+.tau-btn.tau-checked, .tau-btn.tau-checked:hover {
+color: #fff;
+text-shadow: 0 -1px #1f2024;
+background: #1e1f23;
+background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9z…5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2czNTUpIiAvPgo8L3N2Zz4=");
+background: -moz-linear-gradient(top,#1e1f23 0,#727982 100%);
+background: -webkit-linear-gradient(top,#1e1f23 0,#727982 100%);
+background: -ms-linear-gradient(top,#1e1f23 0,#727982 100%);
+background: linear-gradient(to bottom,#1e1f23 0,#727982 100%);
+}
+
+.tau-btn.tau-checked:not(:focus) {
+border-color: #4d5258;
+}
+
+.tau-board>.tau-board-header>.tau-btn {
+    margin-top: 1.2727em;
+}
+.tau-board>.tau-board-header>.tau-board-settings-toggle {
+    float: right;
+}
+
+.iksOrderUpdaterSettings
+{
+
+    background-color: #f5f5f5;
+    background-color: #e7e7e7 \9;
+    background-image: url('https://account.skrill.com/assets/body_bg_noise.png');
+    background-image: url('https://account.skrill.com/assets/body_bg_noise.png'),-webkit-gradient(linear, left top, left bottom, from(#e7e7e7), to(#f5f5f5));
+    background-image: url('https://account.skrill.com/assets/body_bg_noise.png'),-webkit-linear-gradient(top, #e7e7e7, #f5f5f5);
+    background-image: url('https://account.skrill.com/assets/body_bg_noise.png'),-moz-linear-gradient(top, #e7e7e7, #f5f5f5);
+    background-image: url('https://account.skrill.com/assets/body_bg_noise.png'),-ms-linear-gradient(top, #e7e7e7, #f5f5f5);
+    background-image: url('https://account.skrill.com/assets/body_bg_noise.png'),-o-linear-gradient(top, #e7e7e7, #f5f5f5);
+    background-image: url('https://account.skrill.com/assets/body_bg_noise.png'),linear-gradient(top, #e7e7e7,#f5f5f5);
+    background: #e7e7e7 url('https://account.skrill.com/assets/body_bg_noise.png') repeat 0 0 \9;
+    background-repeat: repeat, repeat-x;
+    
+    
+    border: 1px solid #c4c9d0;
+    margin-bottom: 5px;
+    border-radius: 2px;    
+    
+}
+
+.iksOrderUpdaterSettings .headerLine
+{
+    background: #fff;
+    height: 2px;
+    padding: 0;
+    -webkit-box-shadow: 0 0 4px 0 rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 4px 0 rgba(0,0,0,0.5);
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.5);
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#cdcdcd,direction=0,strength=3),"U+00A0 " progid:DXImageTransform.Microsoft.Shadow(color=#cdcdcd,direction=90,strength=3),"U+00A0 " progid:DXImageTransform.Microsoft.Shadow(color=#cdcdcd,direction=180,strength=3),"U+00A0 " progid:DXImageTransform.Microsoft.Shadow(color=#cdcdcd,direction=270,strength=3) \9;
+    margin: -3px 0 0 -3px \9;
+}
+
+.current-indicator 
+{
+    background: url("https://account.skrill.com/assets/nav_arrow.png") no-repeat center bottom;
+    width: 33px;
+/*    position: absolute;*/
+    position: relative;
+/*    left: 0;
+    top: 36px;*/
+/*    height: 13px;*/
+    left: 11px;
+    height: 6px;
+    top: 1px;
+    background: url("http://tempp.tpondemand.com/JavaScript/tau/css.board/images/arrow_up-white.png?v=3.0.3.30268") no-repeat 0 0;
+}
+
+
+.iksOrderUpdaterSettings 
+{
+    display: inline-block;
+    width: 100%;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+
+.settingsBlock
+{
+    float: left;
+    padding-left: 25px;
+}
+
+
+
+
+

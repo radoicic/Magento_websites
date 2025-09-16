@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+
+    <test name="StorefrontProductLabelLabelTextColorSizeShapeCatPageTest"
+          extends="StorefrontProductLabelCreationCatPageTest">
+
+        <annotations>
+            <features value="Amasty Product Labels"/>
+            <stories value="Product Label creation and application"/>
+            <title value="Product Label creation and application checking"/>
+            <description
+                    value="Check that Product Label is applied on products on Category Page and have defined Text, Size, Color in Text Only Mode"/>
+            <severity value="MAJOR"/>
+            <testCaseId value="PRODLAB-9"/>
+            <group value="Amasty"/>
+            <group value="ProdLab"/>
+            <group value="ProdLabSmoke"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="AdminProductLabelConfigurationProdCatTabShapeActionGroup"
+                         stepKey="createProductLabelProductTab">
+                <argument name="product_label2" value="ProductLabelProdCatTabShapeDefault"/>
+                <argument name="product_label3" value="CategoryTabIdentifier"/>
+                <argument name="tab_name" value="Category Page"/>
+            </actionGroup>
+        </before>
+
+        <comment
+                userInput="Navigate to Category Page. Check that Product Label is displayed on Category Page and have defined ext, Size, Color in Text Only Mode"
+                stepKey="testActivitiesComment"/>
+
+        <see userInput="{{ProductLabelProdCatTabTextOnlyDefault.LabelTextField}}"
+             selector="{{StorefrontProductLabelSection.ProductLabelSelector(ProductTabIdentifier.Identifier,{$grabCookie})}}"
+             stepKey="seeProductLabelText"
+             after="seeProductLabels"/>
+        <seeNumberOfElements
+                selector="{{StorefrontProductLabelSection.ProductLabelSelectorPosition('top-left',{$grabCookie})}}"
+                userInput="2"
+                stepKey="checkProductLabelPosition"
+                after="seeProductLabelText"/>
+        <seeNumberOfElements
+                selector="{{StorefrontProductLabelSection.ProductLabelSelectorStyle({$grabCookie},ProductLabelProdCatTabTextOnlyDefault.AdvancedSettingsCSSField,ProductLabelProdCatTabTextOnlyDefault.TextSizeField,'rgb(16, 163, 26);')}}"
+                userInput="2"
+                stepKey="checkProductLabelStyle"
+                after="checkProductLabelPosition"/>
+        <seeNumberOfElements
+                selector="{{StorefrontProductLabelSection.ProductLabelSelectorTypeText({$grabCookie},ProductLabelProdCatTabTextOnlyDefault.LabelTypeIdentifier,ProductLabelProdCatTabTextOnlyDefault.LabelTextField)}}"
+                userInput="2"
+                stepKey="checkProductLabelTypeAndText"
+                after="checkProductLabelStyle"/>
+        <seeInPageSource html="color: rgb(16, 163, 26);"
+                         stepKey="checkProductLabelColor"
+                         after="checkProductLabelTypeAndText"/>
+        <seeNumberOfElements
+                selector="{{StorefrontProductLabelSection.ProductLabelSelectorImage({$grabCookie},ProductLabelProdCatTabShapeDefault.ShapeType2,'d60000')}}"
+                userInput="2"
+                stepKey="checkProductLabelShapeTypeAndColor"
+                after="checkProductLabelColor"/>
+        <seeNumberOfElements
+                selector="{{StorefrontProductLabelSection.ProductLabelSelectorImage3('width: 30px;','width: 31px;','width: 32px;','width: 33px;','height: 10px;','height: 11px;','height: 12px;','height: 13px;',{$grabCookie})}}"
+                userInput="2"
+                stepKey="checkProductLabelSize"
+                after="checkProductLabelShapeTypeAndColor"/>
+
+    </test>
+</tests>

@@ -1,0 +1,55 @@
+<div class="data-grid-cell-content" attr="'data-tooltip-trigger': ++ko.uid">
+    <ul data-bind="foreach: { data: $col.getSourceItemsDataCut($row()), as: '$sourceItemData' }">
+        <li class="test">
+            <strong data-bind="text: $sourceItemData.source_name"></strong>:
+            <span data-bind="text: $sourceItemData.qty"></span>
+        </li>
+    </ul>
+	<span class="tidesign-qty-details">Details</span>
+</div>
+<div tooltip="
+    trigger: '[data-tooltip-trigger=' + ko.uid + ']',
+    action: 'hover',
+    closeOnScroll: false,
+    delay: 0,
+    position: 'top',
+    step: 30,
+    track: false,
+    strict: true">
+    <div>
+        <div class="data-tooltip-title" data-bind="i18n: 'Quantity per Source:'"></div>
+        <div class="data-tooltip-content">
+            <!-- ko foreach: { data: $col.getSourceItemsData($row()), as: '$sourceItemData' } -->
+            <div><strong data-bind="text: $sourceItemData.source_name"></strong>: <span
+                    data-bind="text: $sourceItemData.qty"></span></div>
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+
+<div class="hidden">
+	<!-- <div data-bind="text: ko.toJSON($row)"></div> -->
+	<div class="table-data" data-bind="attr: { 'id': $col.getTidesignId($row()) }, text: ko.toJSON($col.getTidesignData($row()))"></div>
+	<div class="website-data" data-bind="text: ko.toJSON($col.getTidesignWebsite($row()))"></div>
+	<div class="tidesign-modal" data-rendered="0" >
+		<div class="body">
+			<div class="top row">
+				<div class="col-m-6 p-data">
+					<img class="admin__control-thumbnail" data-bind="attr: {src: $col.getTidesignProductImage($row()), alt: $col.getTidesignProductName($row())}" src="" alt="">
+					<span class="product-name" data-bind="text:$col.getTidesignProductName($row())"></span>
+				</div>
+				<div class="col-m-6 s-bar">
+					<div class="search-bar">
+						<input placeholder="Search" autofocus class="animated-search-filter">
+						<button class="clear-search">
+							<svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24"><path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path></svg>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="data-list">
+
+			</div>
+		</div>
+	</div>
+</div>

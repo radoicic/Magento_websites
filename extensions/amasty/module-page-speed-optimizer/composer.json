@@ -1,0 +1,24 @@
+{
+    "name": "amasty/module-page-speed-optimizer",
+    "description": "Google Page Speed Optimizer by Amasty",
+    "require": {
+        "php": ">=7.3",
+        "amasty/base": ">=1.14.5",
+        "amasty/module-page-speed-tools": ">=1.0.9",
+        "amasty/module-lazy-load-ui": "*",
+        "amasty/module-image-optimizer-ui": ">=1.1.2"
+    },
+    "type": "magento2-module",
+    "version": "2.2.5",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\PageSpeedOptimizer\\": ""
+        }
+    }
+}

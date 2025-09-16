@@ -1,0 +1,46 @@
+Name,Name
+Email ID,Email ID
+Inquiry for,Inquiry for
+Country,Country
+Phone Number,Phone Number
+Inquiry Details,Inquiry Details
+Call For Price Inquiries,Call For Price Inquiries
+A total of %1 record(s) have been deleted.,A total of %1 record(s) have been deleted.
+Your inquiry submitted successfully,Your inquiry submitted successfully
+We can\'t process your request,We can\'t process your request
+Global,Global
+Product specific,Product specific
+Category specific,Category specific
+Email,Email
+Inquiry Message,Inquiry Message
+Privacy Policy,Privacy Policy
+Please Refresh the Page,Please Refresh the Page
+Your inquiry submitted successfully,Your inquiry submitted successfully
+Please Enter Required Field(s),Please Enter Required Field(s)
+Something is wrong.,Something is wrong.
+The request is invalid or malformed.,The request is invalid or malformed.
+The response parameter is invalid or malformed.,The response parameter is invalid or malformed.
+The response parameter is missing.,The response parameter is missing.
+The secret parameter is invalid or malformed.,The secret parameter is invalid or malformed.
+The secret parameter is missing.,The secret parameter is missing.
+Message Send Error,Message Send Error
+The request is invalid or malformed.,The request is invalid or malformed.
+Msg91,Msg91
+Text Local,Text Local
+Twilio,Twilio
+Other,Other
+NOT LOGGED IN,NOT LOGGED IN
+Promotional,Promotional
+Transactional,Transactional
+Normal,Normal
+WhatsApp,WhatsApp
+Sms,Sms
+Button,Button
+Label,Label
+privacy,privacy
+Hi Admin,Hi Admin
+You have received a new call for price inquiry at,You have received a new call for price inquiry at
+with the following details:,with the following details:
+Thank you,Thank you
+Thank you for your interest in our,Thank you for your interest in our
+Hi,Hi

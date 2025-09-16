@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <citybeachshipping>
+                <active>1</active>
+                <allowed_methods>citybeachshipping</allowed_methods>
+                <methods>citybeachshipping</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>CityBeach\Integration\Model\Shipping\Shipping</model>
+                <name>CityBeach Shipping</name>
+                <title>CityBeach Shipping</title>
+                <handling_type>F</handling_type>
+            </citybeachshipping>
+        </carriers>
+        <payment>
+            <citybeachpayment>
+                <active>1</active>
+                <model>CityBeach\Integration\Model\Payment\PaymentMethod</model>
+                <order_status>pending</order_status>
+                <title>CityBeach Payment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <can_use_checkout>0</can_use_checkout>
+                <can_use_internal>0</can_use_internal>
+            </citybeachpayment>
+            <omnivorepayment>
+                <active>1</active>
+                <model>CityBeach\Integration\Model\Payment\OmnivorePaymentMethod</model>
+                <order_status>pending</order_status>
+                <title>Omnivore Payment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <can_use_checkout>0</can_use_checkout>
+                <can_use_internal>0</can_use_internal>
+            </omnivorepayment>
+            <traderunnerpayment>
+                <active>1</active>
+                <model>CityBeach\Integration\Model\Payment\TradeRunnerPaymentMethod</model>
+                <order_status>pending</order_status>
+                <title>Trade Runner Payment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <can_use_checkout>0</can_use_checkout>
+                <can_use_internal>0</can_use_internal>
+            </traderunnerpayment>
+            <catchfeederpayment>
+                <active>1</active>
+                <model>CityBeach\Integration\Model\Payment\CatchFeederPaymentMethod</model>
+                <order_status>pending</order_status>
+                <title>Catch Feeder Payment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <can_use_checkout>0</can_use_checkout>
+                <can_use_internal>0</can_use_internal>
+            </catchfeederpayment>
+        </payment>
+    </default>
+</config>

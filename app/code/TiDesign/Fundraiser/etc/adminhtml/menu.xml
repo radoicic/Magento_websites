@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="TiDesign_Fundraiser::fundraiser"
+             title="Fundraiser"
+             translate="title"
+             module="TiDesign_Fundraiser"
+             sortOrder="100"
+             parent="TiDesign_Core::tidesigncore"
+             dependsOnModule="Magento_Catalog"
+             resource="TiDesign_Fundraiser::fundraiser"/>
+        <add id="TiDesign_Fundraiser::theme"
+             title="Fundraiser Themes"
+             translate="title"
+             module="TiDesign_Fundraiser"
+             sortOrder="10"
+             parent="TiDesign_Fundraiser::fundraiser"
+             action="fundraiser/theme/index"
+             resource="TiDesign_Fundraiser::theme"/>
+        <add id="TiDesign_Fundraiser::theme_customer"
+             title="Fundraiser Campaigns"
+             translate="title"
+             module="TiDesign_Fundraiser"
+             sortOrder="10"
+             parent="TiDesign_Fundraiser::fundraiser"
+             action="fundraiser/theme_customer/index"
+             resource="TiDesign_Fundraiser::campaigns"/>
+    </menu>
+</config>

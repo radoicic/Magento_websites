@@ -1,0 +1,29 @@
+<?php
+namespace TiDesign\CheckoutAgreements\Block\Adminhtml\System\Config\Field;
+
+use Magento\Config\Block\System\Config\Form\Field;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+
+class Email extends Field
+{
+    protected function _getElementHtml(AbstractElement $element): string
+    {
+        $js = '<script type="text/javascript">
+            require([
+                "Magento_Ui/js/lib/view/utils/async",
+                "TiDesign_CheckoutAgreements/js/form/tag-it"
+            ], function ($) {
+                "use strict";
+
+                var input = "#' . $element->getHtmlId() . '";
+                $.async(input, (function() {
+                    $(input).tagit();
+                }));
+            });
+            </script>';
+        $element->setAfterElementJs($js);
+        $element->setData('class', 'emailbcc-input');
+
+        return parent::_getElementHtml($element);
+    }
+}

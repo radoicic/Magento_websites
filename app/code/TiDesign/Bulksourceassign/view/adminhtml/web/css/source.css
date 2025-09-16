@@ -1,0 +1,28 @@
+.sourceGreen{
+	color:#07731d !important;
+	font-weight: lighter;
+}
+.sourceRed{
+	color:#db0f0f !important;
+}
+#selectors-container {
+  display: block;
+  position: relative;
+  margin: 0 0 15px 0;
+}
+.bold{
+	font-weight:bold;
+}
+.sourceGreen.bold {
+  color: #00421d !important;
+  font-weight: bold;
+}
+
+/*
+.selectors {
+  margin: 0 10px 0 0;
+  background: #fff;
+  padding: 5px 15px;
+  border-radius: 10px;
+}
+*/

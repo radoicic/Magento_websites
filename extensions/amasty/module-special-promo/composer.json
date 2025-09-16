@@ -1,0 +1,26 @@
+{
+    "name": "amasty/module-special-promo",
+    "description": "Special Promotions by Amasty",
+    "require": {
+        "php": "*",
+        "amasty/base": ">=1.4.7",
+        "amasty/module-banners-lite": ">=1.0.2",
+        "amasty/rgrid": "*"
+    },
+    "suggest": {
+        "amasty/module-common-tests": "Install module-common-tests module to be able to run Special Promotions MFTF tests."
+    },
+    "type": "magento2-module",
+    "version": "2.7.15",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\Rules\\": ""
+        }
+    }
+}

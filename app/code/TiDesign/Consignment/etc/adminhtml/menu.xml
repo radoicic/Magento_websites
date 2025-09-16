@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+
+
+		<add
+			id="TiDesign_Consignment::ticons"
+			title="Consignment Management"
+			module="TiDesign_Consignment"
+			sortOrder="10"
+			resource="TiDesign_Consignment::consignment"
+			parent="TiDesign_Core::tidesigncore"/>
+
+			<add
+				id="TiDesign_Consignment::consignmentlist"
+				title="Consignment List"
+				module="TiDesign_Consignment"
+				sortOrder="10"
+				parent="TiDesign_Consignment::ticons"
+				action="consignment/consignmentlist"
+				resource="TiDesign_Consignment::consignment"/>
+
+			<add
+				id="TiDesign_Consignment::deletesource"
+				title="Delete Source"
+				module="TiDesign_Consignment"
+				sortOrder="20"
+				parent="TiDesign_Consignment::ticons"
+				action="consignment/deletesource"
+				resource="TiDesign_Consignment::consignment"/>
+
+			<add
+				id="TiDesign_Consignment::settings"
+				title="Module Settings"
+				module="TiDesign_Consignment"
+				sortOrder="50"
+				parent="TiDesign_Consignment::ticons"
+				action="adminhtml/system_config/edit/section/consignment"
+				resource="TiDesign_Consignment::ticons"/>
+
+
+
+    </menu>
+</config>

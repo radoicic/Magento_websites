@@ -1,0 +1,32 @@
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<div id="checkout-shipping-method-load">
+    <div class="sources" data-bind="foreach: { data: getSources(), as: '_source' }">
+        <div class="source">
+            <div class="source-info">
+                <each args="$parents[0].getRegion('source')" render="{name: getTemplate(), data: _source, as: 'source'}" />
+            </div>
+            <div class="source-shipping-methods">
+                <table class="table-checkout-shipping-method">
+                    <thead>
+                    <tr class="row">
+                        <th class="col col-method" translate="'Select Method'"></th>
+                        <th class="col col-price" translate="'Price'"></th>
+                        <th class="col col-method" translate="'Method Title'"></th>
+                        <th class="col col-carrier" translate="'Carrier Title'"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: { data: element.getSourceShippingRates(_source.source_code), as: 'method'} -->
+                        <!--ko template: { name: element.shippingMethodItemTemplate} --><!-- /ko -->
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

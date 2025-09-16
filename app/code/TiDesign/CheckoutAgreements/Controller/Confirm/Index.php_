@@ -1,0 +1,93 @@
+<?php
+namespace TiDesign\CheckoutAgreements\Controller\Confirm;
+
+use Magento\Framework\Controller\ResultFactory;
+
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+
+class Index extends \Magento\Framework\App\Action\Action
+{
+
+	protected $_dir;
+	protected $_filesystem;
+	protected $_pageFactory;
+	protected $_dataFactory;
+	protected $_logFactory;
+	protected $_remoteAddress;
+	protected $_timezoneInterface;
+	protected $_mailHelper;
+	protected $_request;
+
+	public function __construct(
+		\Magento\Framework\App\Action\Context 			$context,
+		\Magento\Framework\View\Result\PageFactory 		$pageFactory,
+		\TiDesign\CheckoutAgreements\Model\DataFactory 	$dataFactory,
+		\TiDesign\CheckoutAgreements\Model\LogFactory 	$logFactory,
+		\TiDesign\CheckoutAgreements\Helper\Mailer	 	$mailHelper,
+		\Magento\Framework\Filesystem 					$filesystem,
+		\Magento\Framework\App\Request\Http 			$request,
+		DirectoryList 									$dir,
+		RemoteAddress									$remoteAddress,
+		TimezoneInterface 								$timezoneInterface
+	){
+		$this->_pageFactory 		= $pageFactory;
+		$this->_dataFactory 		= $dataFactory;
+		$this->_logFactory 			= $logFactory;
+		$this->_dir 				= $dir;
+		$this->_filesystem 			= $filesystem;
+		$this->_request 			= $request;
+		$this->_remoteAddress 		= $remoteAddress;
+		$this->_timezoneInterface 	= $timezoneInterface;
+		$this->_mailHelper 			= $mailHelper;
+		return parent::__construct($context);
+	}
+
+    public function execute()
+    {
+/*********************************************************************************************************/
+        if (!empty($this->_request->getParams())) {
+			$resultRedirect = $this->resultRedirectFactory->create();
+			$postData = null;
+
+			if (!empty($this->_request->getParam('id'))) {
+				$postData['id']   				= $this->_request->getParam('id'); 
+				$postData['activation_code']   	= $this->_request->getParam('key'); 
+
+				$data = null; //  need to return at-least null
+				$data 		= $this->_dataFactory->create()->getCollection()->addFieldToFilter('customer_id',array('eq' => $postData['id']))->getFirstItem();
+				if($data){
+					if($data->getActivationCode() == $postData['activation_code']){
+						$saveData['id']		= $data->getId();
+						$saveData['activation_ip'] 	= $this->_remoteAddress->getRemoteAddress();
+						$saveData['activation']		= 1;
+						$model = $this->_dataFactory->create()->load($data->getId());
+						$model->setData($saveData)->save();
+						
+						// log
+						$dataLog['customer_id'] 	= $data['customer_id'];
+						$dataLog['message'] 		= "Customer confirmed contract";
+						$dataLog['creation_ip'] 	= $this->_remoteAddress->getRemoteAddress();
+						$dataLog['date'] 			= $this->_timezoneInterface->date()->format('Y-m-d H:i');
+					
+					}
+				}
+				
+					
+				$logModel = $this->_logFactory->create();
+				$logModel->setData($dataLog)->save();
+				
+				return $resultRedirect->setPath('*/*/');
+			}else{
+				
+			}		
+        }
+		
+/*********************************************************************************************************/
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
+    }
+
+}

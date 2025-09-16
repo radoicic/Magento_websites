@@ -1,0 +1,15 @@
+#edit-panel {
+    width: 300px;
+    height: 300px;
+    display: block;
+    position: absolute;
+    background: #fff;
+    right: 100%;
+}
+
+#edit-panel .button{
+    width: 45px;
+    height: 45px;
+    display: inline-block;
+    background: #1aa9e1;
+}

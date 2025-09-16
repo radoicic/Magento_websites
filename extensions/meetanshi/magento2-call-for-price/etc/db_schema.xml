@@ -1,0 +1,20 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="meetanshi_callforprice" resource="default" engine="innodb" comment="Meetanshi_Callforprice">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID" />
+        <column xsi:type="varchar" name="cname" nullable="false" length="100" comment="Customer Name" />
+        <column xsi:type="varchar" name="email" nullable="false" length="125" comment="Email" />
+        <column xsi:type="text" name="country" nullable="false" comment="Country" />
+        <column xsi:type="text" name="phone_number" nullable="false" comment="PHONE NUMBER" />
+        <column xsi:type="text" name="comment" nullable="false" comment="Comment" />
+        <column xsi:type="int" padding="10" name="productid" nullable="false" comment="ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id" />
+        </constraint>
+        <index referenceId="meetanshi_callforprice_index" indexType="fulltext">
+            <column name="cname"/>
+            <column name="email"/>
+            <column name="comment"/>
+            <column name="phone_number"/>
+        </index>
+    </table>
+</schema>

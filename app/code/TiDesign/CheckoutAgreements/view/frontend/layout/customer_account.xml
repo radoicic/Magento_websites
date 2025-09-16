@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block class="TiDesign\CheckoutAgreements\Block\Customer\Termslink" name="tidesign_terms_and_conditions_link" after="-">
+                <arguments>
+                    <argument name="label" xsi:type="string">Terms and Conditions</argument>
+                    <argument name="path" xsi:type="string">termsandconditions/contract/index</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="styles"/>
+	<body>
+		<referenceContainer name="content">
+			<block class="TiDesign\CheckoutAgreements\Block\Adminhtml\Agreementlist\Topbottom" template="TiDesign_CheckoutAgreements::editformtop.phtml"/>
+			<uiComponent name="tidesign_checkoutagreements_agreementlist_form"/>
+			<block class="TiDesign\CheckoutAgreements\Block\Adminhtml\Agreementlist\Topbottom" template="TiDesign_CheckoutAgreements::editformbottom.phtml"/>			
+		</referenceContainer>
+	</body>
+</page>

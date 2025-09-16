@@ -1,0 +1,38 @@
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<tr class="row" click="element.selectShippingMethod">
+    <td class="col col-method">
+        <input type="radio"
+               class="radio"
+               ifnot="method.error_message"
+               ko-checked="element.getSourceShippingMethod(_source.source_code)"
+               ko-value="method.carrier_code + '_' + method.method_code"
+               attr="'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + '_' + _source.source_code +  ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code + '_' + _source.source_code,
+                    'checked': element.getSourceShippingRates(_source.source_code).length == 1 || element.getSourceShippingMethod(_source.source_code)" />
+    </td>
+    <td class="col col-price">
+        <each args="element.getRegion('price')" render="" />
+    </td>
+    <td class="col col-method"
+        attr="'id': 'label_method_' + method.method_code + '_' + method.carrier_code + '_' + _source.source_code"
+        text="method.method_title" />
+    <td class="col col-carrier"
+        attr="'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code + '_' + _source.source_code"
+        text="method.carrier_title" />
+</tr>
+<tr class="row row-error"
+    if="method.error_message">
+    <td class="col col-error" colspan="4">
+        <div role="alert" class="message error">
+            <div text="method.error_message"></div>
+        </div>
+        <span class="no-display">
+            <input type="radio"
+                   attr="'value' : method.method_code, 'id': 's_method_' + _source.source_code + method.method_code" />
+        </span>
+    </td>
+</tr>

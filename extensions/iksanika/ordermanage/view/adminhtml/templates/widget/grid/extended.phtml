@@ -1,0 +1,1075 @@
+<?php
+/**
+ * Copyright © 2015 Iksanika. All rights reserved.
+ * See IKS-LICENSE.txt for license details.
+ */
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Template for \Magento\Backend\Block\Widget\Grid
+ *
+ *  getId()
+ *  getCollection()
+ *  getColumns()
+ *  getPagerVisibility()
+ *  getVarNamePage()
+ */
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+    function displayRoundedPrices($basePrice, $price, $precision=2, $strong = false, $separator = '<br />', $order = false)
+    {
+        if ($order->isCurrencyDifferent()) {
+            $res = '';
+            $res.= $order->formatBasePricePrecision($basePrice, $precision);
+            $res.= $separator;
+            $res.= $order->formatPricePrecision($price, $precision, true);
+        }
+        else {
+            $res = $order->formatPricePrecision($price, $precision);
+            if ($strong) {
+                $res = '<strong>'.$res.'</strong>';
+            }
+        }
+        return $res;
+    }
+
+    function displayPrices($basePrice, $price, $strong = false, $separator = '<br />', $order = false)
+    {
+        return displayRoundedPrices($basePrice, $price, 2, $strong, $separator, $order);
+    }
+
+    $colDataWith = array(
+        'billing_name' => false,
+        'shipping_name' => false,
+
+        'billing_full_form' => false,
+        'billing_firstname' => false,
+        'billing_middlename' => false,
+        'billing_lastname' => false,
+        'billing_company' => false,
+        'billing_street' => false,
+        'billing_city' => false,
+        'billing_region' => false,
+        'billing_postcode' => false,
+        'billing_email' => false,
+        'billing_telephone' => false,
+        'billing_country' => false,
+        'billing_fax' => false,
+
+        'shipping_full_form' => false,
+        'shipping_firstname' => false,
+        'shipping_middlename' => false,
+        'shipping_lastname' => false,
+        'shipping_company' => false,
+        'shipping_street' => false,
+        'shipping_city' => false,
+        'shipping_region' => false,
+        'shipping_postcode' => false,
+        'shipping_email' => false,
+        'shipping_telephone' => false,
+        'shipping_country' => false,
+        'shipping_fax' => false,
+
+        'shipping_tracking_number' => false,
+
+        'payment_method' => false,
+        'payment_code' => false,
+        'payment_cc_type' => false,
+
+        'special_qty_uniq_prods' => false,
+    );
+
+//    $numColumns = sizeof($this->getColumns());
+    $numColumns = sizeof($block->getColumns());
+
+
+    $_scopeConfig = $this->_helper->getScopeConfig();
+    $includeProducts = $_scopeConfig->getValue('iksanika_ordermanage/products/includeproducts');
+    $showProducts = $_scopeConfig->getValue('iksanika_ordermanage/products/showproducts');
+    $productsAttributes = $_scopeConfig->getValue('iksanika_ordermanage/products/showattr');
+
+    $hideOrderItemsByStatus = $_scopeConfig->getValue('iksanika_ordermanage/products/hideorderitems');
+    $hideOrderItemsByStatus = explode(',', $hideOrderItemsByStatus ?? '');
+
+    $hideOrderItemsByStatusAssoc = array();
+//    echo count($hideOrderItemsByStatus).'test';
+    if(count($hideOrderItemsByStatus))
+    {
+        foreach($hideOrderItemsByStatus as $k => $element)
+        {
+            $hideOrderItemsByStatusAssoc[$element] = $element;
+        }
+    }
+
+    $productsAttributes = explode(',',$productsAttributes ?? '');
+    $productsAttributes = array_flip($productsAttributes);
+
+    $productsData = array();
+    foreach(\Iksanika\Ordermanage\Model\System\Config\Source\Columns\Products::$columnsTitleProducts as $indexKey => $value)
+    {
+        $productsData[$indexKey] = (isset($productsAttributes[$indexKey])) ? true : false;
+    }
+
+
+//$numColumns = sizeof($block->getColumns());
+
+/**
+ * @var \Magento\Backend\Block\Widget\Grid\Extended $block
+ */
+?>
+<?php if ($block->getCollection()): ?>
+    <?php if ($block->canDisplayContainer()): ?>
+
+    <div id="<?php echo $block->getId() ?>" data-grid-id="<?php echo $block->getId() ?>">
+    <?php else: ?>
+        <?php echo $block->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
+    <?php endif; ?>
+    <?php $massActionAvailable = $block->getMassactionBlock() && $block->getMassactionBlock()->isAvailable() ?>
+    <?php if ($block->getPagerVisibility() || $block->getExportTypes() || $block->getFilterVisibility() || $massActionAvailable): ?>
+        <div class="admin__data-grid-header admin__data-grid-toolbar">
+            <div class="admin__data-grid-header-row">
+                <?php /*if ($massActionAvailable): ?>
+                    <?php echo $block->getMainButtonsHtml() ? '<div class="admin__filter-actions">' . $block->getMainButtonsHtml() . '</div>' : ''; ?>
+                <?php endif; */ ?>
+                <?php if ($massActionAvailable): ?>
+                    <?php echo $block->getMainButtonsHtml() ? '<div class="admin__filter-actions">' . $block->getMainButtonsHtml() . '</div>' : ''; ?>
+                <?php endif; ?>
+
+
+
+            <?php if ($block->getExportTypes()): ?>
+                <div class="admin__data-grid-export">
+                    <label
+                        class="admin__control-support-text"
+                        for="<?php echo $block->getId() ?>_export"><?php echo __('Export to:') ?></label>
+                    <select name="<?php echo $block->getId() ?>_export" id="<?php echo $block->getId() ?>_export"
+                            class="admin__control-select">
+                        <?php foreach ($block->getExportTypes() as $_type): ?>
+                            <option value="<?php echo $_type->getUrl() ?>"><?php echo $_type->getLabel() ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php echo $block->getExportButtonHtml() ?>
+                </div>
+            <?php endif; ?>
+            </div>
+
+            <div class="admin__data-grid-header-row <?php echo $massActionAvailable ? '_massaction' : '';?>">
+                <div style="width: 35px;float: left;">
+                    <div><button role="action-toggle-editor" class="tau-btn tau-options tau-board-settings-toggle tau-extension-board-tooltip " <?php //tau-checked?> data-collapsed-selector=".tau-checked" data-title="Show&nbsp;board&nbsp;setup" data-title-collapsed="Hide&nbsp;board&nbsp;setup" type="button"></button></div>
+                </div>
+<?php /*
+                <script type="text/javascript">
+                    $('.tau-btn').click(function(){
+                        if($('.tau-btn').hasClass('tau-checked'))
+                        {
+                            $('.tau-btn').removeClass('tau-checked');
+                            $('.settigsArea').hide();
+                        }else
+                        {
+                            $('.tau-btn').addClass('tau-checked');
+                            $('.settigsArea').show();
+                        }
+                    });
+                </script>
+ */ ?>
+                <?php if ($massActionAvailable): ?>
+                    <?php echo $block->getMassactionBlockHtml() ?>
+                <?php else: ?>
+                    <?php echo $block->getMainButtonsHtml() ? '<div class="admin__filter-actions">' . $block->getMainButtonsHtml() . '</div>' : ''; ?>
+                <?php endif; ?>
+                <?php $countRecords = $block->getCollection()->getSize(); ?>
+                <div class="admin__control-support-text">
+                        <span id="<?php echo $block->getHtmlId() ?>-total-count" <?php echo $block->getUiId('total-count') ?>>
+                            <?php echo $countRecords ?>
+                        </span>
+                    <?php echo __('records found') ?>
+                    <span id="<?php echo $block->getHtmlId() ?>_massaction-count"
+                          class="mass-select-info _empty"><strong data-role="counter">0</strong> <span><?php echo __('selected') ?></span></span>
+                </div>
+            <?php if ($block->getPagerVisibility()): ?>
+                <div class="admin__data-grid-pager-wrap">
+                    <select name="<?php echo $block->getVarNameLimit() ?>"
+                            id="<?php echo $block->getHtmlId()?>_page-limit"
+                            onchange="<?php echo $block->getJsObjectName() ?>.loadByElement(this)"
+                            class="admin__control-select">
+                        <option value="20"<?php if ($block->getCollection()->getPageSize() == 20): ?>
+                            selected="selected"<?php endif; ?>>20
+                        </option>
+                        <option value="30"<?php if ($block->getCollection()->getPageSize() == 30): ?>
+                            selected="selected"<?php endif; ?>>30
+                        </option>
+                        <option value="50"<?php if ($block->getCollection()->getPageSize() == 50): ?>
+                            selected="selected"<?php endif; ?>>50
+                        </option>
+                        <option value="100"<?php if ($block->getCollection()->getPageSize() == 100): ?>
+                            selected="selected"<?php endif; ?>>100
+                        </option>
+                        <option value="200"<?php if ($block->getCollection()->getPageSize() == 200): ?>
+                            selected="selected"<?php endif; ?>>200
+                        </option>
+                    </select>
+                    <label for="<?php echo $block->getHtmlId()?><?php echo $block->getHtmlId()?>_page-limit"
+                        class="admin__control-support-text"><?php echo __('per page') ?></label>
+
+                    <div class="admin__data-grid-pager">
+                        <?php $_curPage = $block->getCollection()->getCurPage() ?>
+                        <?php $_lastPage = $block->getCollection()->getLastPageNumber() ?>
+                        <?php if ($_curPage > 1): ?>
+                            <button class="action-previous"
+                                    type="button"
+                                    onclick="<?php echo $block->getJsObjectName() ?>.setPage('<?php echo($_curPage - 1) ?>');return false;">
+                                <span><?php echo __('Previous page') ?></span>
+                            </button>
+                        <?php else: ?>
+                            <button type="button" class="action-previous disabled"><span><?php echo __('Previous page') ?></span></button>
+                        <?php endif; ?>
+                        <input type="text"
+                               id="<?php echo $block->getHtmlId()?>_page-current"
+                               name="<?php echo $block->getVarNamePage() ?>"
+                               value="<?php echo $_curPage ?>"
+                               class="admin__control-text"
+                               onkeypress="<?php echo $block->getJsObjectName() ?>.inputPage(event, '<?php echo $_lastPage ?>')" <?php echo $block->getUiId('current-page') ?> />
+                        <label class="admin__control-support-text" for="<?php echo $block->getHtmlId()?>_page-current">
+                            <?php echo __('of %1', '<span>' . $block->getCollection()->getLastPageNumber() . '</span>') ?>
+                        </label>
+                        <?php if ($_curPage < $_lastPage): ?>
+                            <button type="button"
+                                    title="<?php echo __('Next page') ?>"
+                                    class="action-next"
+                                    onclick="<?php echo $block->getJsObjectName() ?>.setPage('<?php echo($_curPage + 1) ?>');return false;">
+                                <span><?php echo __('Next page') ?></span>
+                            </button>
+                        <?php else: ?>
+                        <button type="button" class="action-next disabled"><span><?php echo __('Next page') ?></span></button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endif ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="settigsArea" style="display: none;">
+        <div style="height: 6px;">
+            <div class="current-indhicator"></div>
+        </div>
+        <div class="iksOrderUpdaterSettings "> <!--  style="height: 350px;"  -->
+
+
+
+            <div class="settingsBlock">
+                <div class="section-config active accordion">
+                    <fieldset class="config collapseable" id="ordermanage_columns">
+                        <table cellspacing="0" class="form-list">
+                            <colgroup class="label"></colgroup>
+                            <colgroup class="value"></colgroup>
+                            <colgroup class="scope-label"></colgroup>
+                            <colgroup class=""></colgroup>
+                            <tbody>
+<?php /* TEMPORARY DISABLED IN V2.0.1 - WILL BE RELEASED IN V2.0.2
+                                <tr id="row_ordermanage_columns_mode">
+                                    <td class="label">
+                                        <label for="ordermanage_columns_mode"> <?php echo __('Order grid mode')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <?php
+                                            $modeLables =   array();
+                                            $attributes =   new \Iksanika\Ordermanage\Model\System\Config\Source\Columns\Mode();
+                                            foreach($attributes->toOptionArray() as $attribute)
+                                            {
+                                                $modeLables[$attribute['value']] = $attribute['label'];
+                                            }
+                                        ?>
+                                        <select id="ordermanage_columns_mode" name="settings[columns][mode]" class=" select">
+                                            <option value="<?php echo \Iksanika\Ordermanage\Model\System\Config\Source\Columns\Mode::MODE_STANDARD;?>" <?php echo ($_scopeConfig->getValue('iksanika_ordermanage/columns/mode') == \Iksanika\Ordermanage\Model\System\Config\Source\Columns\Mode::MODE_STANDARD ? 'selected="selected"' : '')?>><?php echo $modeLables[\Iksanika\Ordermanage\Model\System\Config\Source\Columns\Mode::MODE_STANDARD];?></option>
+                                            <option value="<?php echo \Iksanika\Ordermanage\Model\System\Config\Source\Columns\Mode::MODE_ORDER_ITEMS;?>" <?php echo ($_scopeConfig->getValue('iksanika_ordermanage/columns/mode') == \Iksanika\Ordermanage\Model\System\Config\Source\Columns\Mode::MODE_ORDER_ITEMS ? 'selected="selected"' : '')?>><?php echo $modeLables[\Iksanika\Ordermanage\Model\System\Config\Source\Columns\Mode::MODE_ORDER_ITEMS];?></option>
+                                        </select>
+                                        <p class="note"><span>(<?php echo __('If Yes - images will be resized into Width+Height space, if No - proportionaly to defined value of Width or Height')?>)</span></p>
+                                    </td>
+                                    <td class="scope-label"></td>
+                                    <td class=""></td>
+                                </tr>
+ */ ?>
+                                <tr id="row_ordermanage_columns_showcolumns">
+                                    <td class="label">
+                                        <label for="ordermanage_columns_showcolumns"><span data-config-scope="[STORE VIEW]"><?php echo __('Show Columns')?></span></label>
+                                    </td>
+                                    <td class="value">
+                                            <?php
+                                                $columnSettings = $this->_helper->getColumnSettings();
+                                                $attributes = $this->_objectManager->create('\Iksanika\Ordermanage\Model\System\Config\Source\Columns\Show');
+                                            ?>
+                                        <select id="ordermanage_columns_showcolumns" name="settings[columns][showcolumns]" class=" select multiselect admin__control-multiselect" size="10" multiple="multiple">
+                                            <?php
+                                                $columnSettings = $this->_helper->getColumnSettings();
+                                                $attributes = $this->_objectManager->create('\Iksanika\Ordermanage\Model\System\Config\Source\Columns\Show');
+                                                foreach($attributes->toOptionArray() as $attribute)
+                                                {
+                                                    echo '<option value="'.$attribute['value'].'" '.(isset($columnSettings[$attribute['value']]) ? 'selected="selected"': '').'>'.$attribute['label'].'</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                    </td>
+                                    <td class=""></td>
+                                </tr>
+                                <tr id="row_ordermanage_columns_hide_status">
+                                    <td class="label">
+                                        <label for="ordermanage_columns_hide_status"> <?php echo __('Hide orders with statuses')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <select id="ordermanage_columns_hide_status" name="settings[columns][hide_status]" class=" select multiselect admin__control-multiselect" size="10" multiple="multiple">
+                                            <?php
+                                                $excludeStatuses        =   array();
+                                                $excludeStatusesInitial =   explode(',', $_scopeConfig->getValue('iksanika_ordermanage/columns/hide_status') ?? '');
+                                                foreach($excludeStatusesInitial as $key => $value)
+                                                {
+                                                    $excludeStatuses[$value] = true;
+                                                }
+
+                                                $attributes = $this->_objectManager->create('\Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusesOrder');
+                                                foreach($attributes->toOptionArray() as $attribute)
+                                                {
+                                                    echo '<option value="'.$attribute['value'].'" '.(isset($excludeStatuses[$attribute['value']]) ? 'selected="selected"': '').'>'.$attribute['label'].'</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                        <p class="note">
+                                            <span>(<?php echo __('Use CTRL+click to select statuses which will be not shown in orders grid.')?>)</span>
+                                        </p>
+                                    </td>
+                                    <td class=""></td>
+                                </tr>
+                                <tr id="row_ordermanage_images_width">
+                                    <td class="label">
+                                        <label for="ordermanage_images_width"> <?php echo __('Image Width')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <input id="ordermanage_images_width" name="settings[images][width]" value="<?php echo $_scopeConfig->getValue('iksanika_ordermanage/images/width')?>" class=" input-text" type="text">
+                                    </td>
+                                    <td class=""></td>
+                                </tr>
+                                <tr id="row_ordermanage_images_height">
+                                    <td class="label">
+                                        <label for="ordermanage_images_height"> <?php echo __('Image Height')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <input id="ordermanage_images_height" name="settings[images][height]" value="<?php echo $_scopeConfig->getValue('iksanika_ordermanage/images/height')?>" class=" input-text" type="text">
+                                    </td>
+                                    <td class=""></td>
+                                </tr>
+                                <tr id="row_ordermanage_images_scale">
+                                    <td class="label">
+                                        <label for="ordermanage_images_scale"> <?php echo __('Image Scale')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <select id="ordermanage_images_scale" name="settings[images][scale]" class="select admin__control-select">
+                                            <option value="1" <?php echo ($_scopeConfig->getValue('iksanika_ordermanage/images/scale') ? 'selected="selected"' : '')?>>Yes</option>
+                                            <option value="0" <?php echo (!$_scopeConfig->getValue('iksanika_ordermanage/images/scale') ? 'selected="selected"' : '')?>>No</option>
+                                        </select>
+                                        <p class="note"><span>(<?php echo __('If Yes - images will be resized into Width+Height space, if No - proportionaly to defined value of Width or Height')?>)</span></p>
+                                    </td>
+                                    <td class=""></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="settingsBlock">
+                <div class="section-config active accordion">
+                    <fieldset class="config collapseable" id="ordermanage_images">
+                        <table cellspacing="0" class="form-list">
+                            <colgroup class="label"></colgroup>
+                            <colgroup class="value"></colgroup>
+                            <colgroup class="scope-label"></colgroup>
+                            <colgroup class=""></colgroup>
+                            <tbody>
+                                <tr id="row_ordermanage_products_showattr">
+                                    <td class="label">
+                                        <label for="ordermanage_products_showattr"> <?php echo __('Show Products Data')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <select id="ordermanage_products_showattr" name="settings[products][showattr]" class=" select multiselect admin__control-multiselect" size="10" multiple="multiple">
+                                            <?php
+                                                $excludeStatuses        =   array();
+                                                $excludeStatusesInitial =   explode(',', $_scopeConfig->getValue('iksanika_ordermanage/products/showattr') ?? '');
+                                                foreach($excludeStatusesInitial as $key => $value)
+                                                {
+                                                    $excludeStatuses[$value] = true;
+                                                }
+
+//                                                $attributes = new \Iksanika\Ordermanage\Model\System\Config\Source\Columns\Products();
+                                                $attributes = $this->_objectManager->create('\Iksanika\Ordermanage\Model\System\Config\Source\Columns\Products');
+                                                foreach($attributes->toOptionArray() as $attribute)
+                                                {
+                                                    echo '<option value="'.$attribute['value'].'" '.(isset($excludeStatuses[$attribute['value']]) ? 'selected="selected"': '').'>'.$attribute['label'].'</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                    </td>
+                                    <td class="scope-label"></td>
+                                    <td class=""></td>
+                                </tr>
+                                <tr id="row_ordermanage_products_hideorderitems">
+                                    <td class="label">
+                                        <label for="ordermanage_products_hideorderitems"> <?php echo __('Hide Order Items with status')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <select id="ordermanage_products_showcolumns" name="settings[products][hideorderitems]" class=" select multiselect admin__control-multiselect" size="10" multiple="multiple">
+                                            <?php
+                                                $excludeStatuses        =   array();
+                                                $excludeStatusesInitial =   explode(',', $_scopeConfig->getValue('iksanika_ordermanage/products/hideorderitems') ?? '');
+                                                foreach($excludeStatusesInitial as $key => $value)
+                                                {
+                                                    $excludeStatuses[$value] = true;
+                                                }
+
+//                                                $attributes = new \Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusesOrderItem();
+                                                $attributes = $this->_objectManager->create('\Iksanika\Ordermanage\Model\System\Config\Source\Columns\StatusesOrderItem');
+                                                foreach($attributes->toOptionArray() as $attribute)
+                                                {
+                                                    echo '<option value="'.$attribute['value'].'" '.(isset($excludeStatuses[$attribute['value']]) ? 'selected="selected"': '').'>'.$attribute['label'].'</option>';
+                                                }
+                                            ?>
+                                        </select>
+
+                                        <p class="note">
+                                            <span>(<?php echo __('Orders items with selected statuses will be hidden from grid for order with status \'Processing\'')?>)</span>
+                                        </p>
+                                    </td>
+                                    <td class="scope-label"></td>
+                                    <td class=""></td>
+                                </tr>
+                                <tr id="row_ordermanage_products_includeproducts">
+                                    <td class="label">
+                                        <label for="ordermanage_products_includeproducts"> <?php echo __('Enable Products Info in Order Grid')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <select id="ordermanage_products_includeproducts" name="settings[products][includeproducts]" class="select admin__control-select">
+                                            <option value="1" <?php echo ($_scopeConfig->getValue('iksanika_ordermanage/products/includeproducts') ? 'selected="selected"' : '')?>>Yes</option>
+                                            <option value="0" <?php echo (!$_scopeConfig->getValue('iksanika_ordermanage/products/includeproducts') ? 'selected="selected"' : '')?>>No</option>
+                                        </select>
+                                        <p class="note"><span>(<?php echo __('In case of Enable you will able to show/hide order products details right in the Order Grid')?>)</span></p>
+                                    </td>
+                                    <td class="scope-label"></td>
+                                    <td class=""></td>
+                                </tr>
+                                <tr id="row_ordermanage_products_showproducts">
+                                    <td class="label">
+                                        <label for="ordermanage_products_showproducts"> <?php echo __('Expand Order Grid with Products')?></label>
+                                    </td>
+                                    <td class="value">
+                                        <select id="ordermanage_products_showproducts" name="settings[products][showproducts]" class="select admin__control-select">
+                                            <option value="1" <?php echo ($_scopeConfig->getValue('iksanika_ordermanage/products/showproducts') ? 'selected="selected"' : '')?>>Yes</option>
+                                            <option value="0" <?php echo (!$_scopeConfig->getValue('iksanika_ordermanage/products/showproducts') ? 'selected="selected"' : '')?>>No</option>
+                                        </select>
+                                        <p class="note"><span>(<?php echo __('If enable the Order Grid will be expanded by default with Products, otherwise will collabsed - only generate order information inline')?>)</span></p>
+                                    </td>
+                                    <td class="scope-label"></td>
+                                    <td class=""></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+            <div style="clear: both;margin: 0 auto;width: 100%;text-align: center;padding-top:25px;">
+                <?php echo $this->getSaveConfigButtonHtml();?>&nbsp;&nbsp;&nbsp;<a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section'=> 'iksanika_ordermanage'));?>" target="_blank"><?php echo __('See all extension settings')?> ..</a>
+            </div>
+
+
+        </div>
+<!--
+        <div class="" style="height: 1px;background-color: #FFFFFF;"></div>
+        <div class="headerLine" style="height: 2px;background-color: #FFFFFF;"></div>
+-->
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="admin__data-grid-wrap" id="editData">
+        <table class="data-grid" id="<?php echo $block->getId() ?>_table">
+            <?php
+            $colCount = count($this->getColumns());
+            /* This part is commented to remove all <col> tags from the code. */
+            /* foreach ($block->getColumns() as $_column): ?>
+            <col <?php echo $_column->getHtmlProperty() ?> />
+            <?php endforeach; */
+            ?>
+            <?php if ($block->getHeadersVisibility() || $block->getFilterVisibility()): ?>
+                <thead>
+
+
+
+                <?php if ($block->getHeadersVisibility()): ?>
+                    <tr>
+                        <?php /* order manage injection - start */ ?>
+                        <?php if($includeProducts) :?>
+                        <th width="20"></th>
+                        <?php endif; ?>
+                        <?php /*order injection - end */?>
+                        <?php foreach ($block->getColumns() as $_column): ?>
+
+                            <?php /* extensoins injection:start */ ?>
+                            <?php
+                                foreach($colDataWith as $indexKey => $value)
+                                {
+                                    if($_column->getIndex() == $indexKey)
+                                    {
+                                        $colDataWith[$indexKey] = true;
+                                    }
+                                }
+                            ?>
+                            <?php /* extensoins injection: end */ ?>
+
+                            <?php if ($_column->getHeaderHtml() == '&nbsp;'):?>
+                                <th class="data-grid-th" data-column="<?php echo $_column->getId() ?>"
+                                    <?php echo $_column->getHeaderHtmlProperty() ?>>&nbsp;</th>
+                            <?php else: ?>
+                                <?php echo $_column->getHeaderHtml()?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($block->getFilterVisibility()): ?>
+                    <tr class="data-grid-filters" data-role="filter-form">
+
+                        <?php /* order manage injection */ ?>
+                        <?php if($includeProducts) :?>
+                        <td>
+                            <div class="text cellexpander parbase">
+                                <a href="#" class="triggerAll"><i class="icon-plus-sign"></i></a>
+                                <a href="#" class="triggerAll"><i class="icon-minus-sign"></i></a>
+                            </div>
+                        </td>
+                        <?php endif; ?>
+
+
+                        <?php $i = 0;
+                        foreach ($block->getColumns() as $_column): ?>
+                            <td data-column="<?php echo $_column->getId() ?>" <?php echo $_column->getHeaderHtmlProperty() ?>>
+                                <?php echo $_column->getFilterHtml() ?>
+                            </td>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endif ?>
+                </thead>
+            <?php endif; ?>
+            <?php if ($block->getCountTotals()): ?>
+                <tfoot>
+                <tr class="totals">
+                    <?php foreach ($block->getColumns() as $_column): ?>
+                        <th class="<?php echo $_column->getCssProperty() ?>">
+                            <?php echo($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($_column->getGrid()->getTotals()) ?>
+                        </th>
+                    <?php endforeach; ?>
+                </tr>
+                </tfoot>
+            <?php endif; ?>
+
+            <tbody>
+            <?php if (($block->getCollection()->getSize() > 0) && (!$block->getIsCollapsed())): ?>
+                <?php foreach ($block->getCollection() as $_index => $_item): ?>
+
+
+            <?php
+                foreach($colDataWith as $indexKey => $value)
+                {
+                    if($colDataWith[$indexKey])
+                    {
+                        if($indexKey == 'billing_full_form')
+                            $_item->setData('billing_full_form',  $block->addressRenderer->format($_item->getBillingAddress(), 'text'));
+
+                        if($indexKey == 'billing_name')
+                            $_item->setData('billing_name', $_item->getBillingAddress()->getName());
+
+                        if($indexKey == 'billing_street')
+                        {
+                            $streets = $_item->getBillingAddress()->getStreet();
+                            $_item->setData('billing_street', ($streets && isset($streets[0])) ? $streets[0] : '');
+                        }
+                        if($indexKey == 'billing_region')
+                            $_item->setData('billing_region', $_item->getBillingAddress()->getRegion());
+                        if($indexKey == 'billing_country')
+                            $_item->setData('billing_country', $_item->getBillingAddress()->getCountry());
+
+                        if($indexKey == 'shipping_full_form' && $_item->getShippingAddress() != null)
+                            $_item->setData('shipping_full_form',  $block->addressRenderer->format($_item->getShippingAddress(), 'text'));
+
+                        if($indexKey == 'shipping_name' && $_item->getShippingAddress())
+                            $_item->setData('shipping_name', $_item->getShippingAddress()->getName());
+
+                        if($indexKey == 'shipping_street')
+                        {
+                            $streets = $_item->getShippingAddress()->getStreet();
+                            $_item->setData('shipping_street', ($streets && isset($streets[0])) ? $streets[0] : '');
+                        }
+                        if($indexKey == 'shipping_region')
+                            $_item->setData('shipping_region', $_item->getShippingAddress()->getRegion());
+                        if($indexKey == 'shipping_country')
+                            $_item->setData('shipping_country', $_item->getShippingAddress()->getCountry());
+
+                        if($indexKey == 'shipping_tracking_number')
+                        {
+                            $trackingNumbers = $_item->getTracksCollection();
+                            if(count($trackingNumbers))
+                            {
+                                $trackNumber = '';
+                                foreach($trackingNumbers as $track)
+                                {
+//                                    $trackNumber .= '<strong>'.(!Mage::getStoreConfig("carriers/".$track['carrier_code']) ? 'Custom' : Mage::getStoreConfig("carriers/".$track['carrier_code']."/title")).'</strong><br/>';
+                                    $trackNumber .= '<strong>'.(!$_scopeConfig->getValue("carriers/".$track['carrier_code']) ? 'Custom' : $_scopeConfig->getValue("carriers/".$track['carrier_code']."/title")).'</strong><br/>';
+                                    $trackNumber .= $track['track_number'];
+                                }
+                                $_item->setData('shipping_tracking_number', $trackNumber);
+                            }else
+                            {
+                                //$_item->setData('shipping_tracking_number', '[NOT SPECIFIED]');
+                            }
+
+                        }
+
+                        if($indexKey == 'payment_method')
+                            $_item->setData('payment_method', $_item->getPayment()->getMethodInstance()->getTitle());
+                        if($indexKey == 'payment_code')
+                            $_item->setData('payment_code', $_item->getPayment()->getMethodInstance()->getCode());
+                        if($indexKey == 'payment_cc_type')
+                            $_item->setData('payment_cc_type', $_item->getPayment()->getData('cc_type') == null ? '[NO CC TYPE]' : $_item->getPayment()->getData('cc_type'));
+
+                        if($indexKey == 'special_qty_uniq_prods')
+                            $_item->setData('special_qty_uniq_prods', count($_item->getAllItems()));
+
+                    }
+                }
+           ?>
+
+                    <tr title="<?php echo $block->getRowUrl($_item) ?>" id="order<?php echo $_item->getId();?>" <?php if ($_class = $block->getRowClass($_item)): ?>
+                         class="orderExpanded <?php echo $_class; ?>"<?php endif; ?> >
+
+                            <?php /* order manage injection */ ?>
+                            <?php if($includeProducts) :?>
+                            <td class="a-center">
+                                <div class="text cellexpander parbase">
+                                    <a href="#" class="trigger"><i class="<?php if($showProducts):?>icon-minus-sign<?php else:?>icon-plus-sign<?php endif;?>"></i></a>
+                                </div>
+                            </td>
+                            <?php endif;?>
+
+                            <?php
+                        $i = 0;
+                        foreach ($block->getColumns() as $_column):
+                            if ($block->shouldRenderCell($_item, $_column)):
+                                $_rowspan = $block->getRowspan($_item, $_column);
+                                ?>
+                            <td <?php echo($_rowspan ? 'rowspan="' . $_rowspan . '" ' : '') ?>
+                                class="<?php echo $_column->getCssProperty() ?>
+                                        <?php echo $_column->getId() == 'massaction' ? 'data-grid-checkbox-cell': ''?>">
+                                <?php echo(($_html = $_column->getRowField($_item)) != '' ? $_html : '&nbsp;') ?>
+                                </td><?php
+                                if ($block->shouldRenderEmptyCell($_item, $_column)):
+                                    ?>
+                                    <td colspan="<?php echo $block->getEmptyCellColspan($_item) ?>"
+                                        class="last"><?php echo $block->getEmptyCellLabel() ?></td><?php
+                                endif;
+                            endif;
+                        endforeach; ?>
+                    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <?php // injection of products row - start ?>
+            <?php /* order manage injection */ ?>
+            <?php if($includeProducts) :?>
+
+            <?php
+            $orderItems = $_item->getAllItems();
+            $count = count($orderItems);
+            if($count):
+            ?>
+
+            <tr id="order<?php echo $_item->getId();?>Products" class="orderProducts" <?php if(!$showProducts) : ?>style="display: none;"<?php endif; ?>>
+                <td></td>
+                <td></td>
+                <td colspan="<?php echo ($colCount-1); ?>">
+
+                    <?php foreach($orderItems as $orderItem) : ?>
+
+                    <?php if($orderItem->getParentItem()) continue; ?>
+
+                    <?php if(($_item->getStatus() == \Magento\Sales\Model\Order::STATE_PROCESSING) && in_array(strval($orderItem->getStatusId()), $hideOrderItemsByStatusAssoc)) continue; ?>
+
+                    <div class="productItem">
+
+                        <?php if($productsData['small_image']) :?>
+                            <?php
+                            $orderItemsWImage = $orderItem;
+                            if($orderItem->getHasChildren())
+                            {
+                                if(!($orderItemsWImage = current($orderItem->getChildrenItems())))
+                                {
+                                   $orderItemsWImage = $orderItem;
+                                }
+                            }
+                            ?>
+
+                        <div class="image"><?php echo $block->_helper->getImage($orderItemsWImage);?></div>
+                        <?php endif;?>
+
+                        <?php if($productsData['name']) :?>
+                        <div class="name"><span title="<?php echo $orderItem->getName();?>" alt="<?php echo $orderItem->getName();?>"><?php echo $orderItem->getName();?></span></div>
+                        <?php endif;?>
+
+                        <?php if($productsData['options']) :?>
+                        <div class="name"><?php
+                            $productOptions = $this->_helper->getOrderedItemOptions($orderItem);
+                            if($productOptions)
+                            {
+                                foreach($productOptions as $optionId => $option)
+                                {
+                                    echo $option['label'].': '.$option['value'].'<br/>';
+                                }
+                            }
+                            ?></div>
+                        <?php endif;?>
+
+                        <?php if($productsData['sku']) :?>
+                        <div class="sku">[SKU]: <?php echo $orderItem->getSku();?></div>
+                        <?php endif;?>
+
+                        <?php if($productsData['qty_ordered']) :?>
+                        <div class="qty">[QTY]: <?php echo $orderItem->getQtyOrdered();//getData('qty_ordered');//getQtyToInvoice(); ?></div>
+                        <?php endif;?>
+
+                        <?php if($productsData['product_id']) :?>
+                        <div class="productId">[PID]: <?php echo $orderItem->getProductId(); ?></div>
+                        <?php endif;?>
+
+                        <?php if($productsData['status']) :?>
+                        <div class="status">[Status]: <?php echo $orderItem->getStatus(); ?></div>
+                        <?php endif;?>
+
+                        <?php if($productsData['original_price']) :?>
+                        <div class="original_price">[Original Price]:
+                            <?php
+                                $orderOriginalPrice = $objectManager->create('Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer')->setItem($orderItem)->setData('order', $_item)->setPriceDataObject($orderItem);
+                                echo $orderOriginalPrice->displayPriceAttribute('original_price');
+                                //echo $block->_dirCurrency->format($orderItem->getOriginalPrice(), array('display' => $_item->getBaseCurrencyCode()), false);
+                            ?>
+                        </div>
+                        <?php endif;?>
+
+                        <?php if($productsData['price']) :?>
+                        <div class="price">[Price]:
+                            <?php
+                                $orderItemPrice = $objectManager->create('Magento\Weee\Block\Adminhtml\Items\Price\Renderer')->setItem($orderItem);
+                                echo $orderItemPrice->displayPrices($orderItem->getBasePrice(), $orderItem->getPrice());
+                            ?>
+                        </div>
+                        <?php endif;?>
+
+                        <?php if($productsData['subtotal']) :?>
+                        <div class="subtotal">[Subtotal]:
+                            <?php
+                                $orderItemPrice = $objectManager->create('Magento\Weee\Block\Adminhtml\Items\Price\Renderer')->setItem($orderItem);
+                                echo $orderItemPrice->displayPrices($orderItem->getBaseRowTotal(), $orderItem->getRowTotal());
+                            ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if($productsData['tax_amount']) :?>
+                        <div class="tax_amount">
+                            [Tax Amount]:
+                            <?php
+                                $orderOriginalPrice = $objectManager->create('Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer')->setItem($orderItem)->setData('order', $_item)->setPriceDataObject($orderItem);
+                                echo $orderOriginalPrice->displayPriceAttribute('tax_amount');
+                                //echo $block->_dirCurrency->format($orderItem->getTaxAmount(), array('display'=>$_item->getBaseCurrencyCode()), false);
+                            ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if($productsData['tax_percent']) :?>
+                        <div class="tax_percent">
+                            [Tax Percent]:
+                            <?php
+                                $orderOriginalPrice = $objectManager->create('Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer')->setItem($orderItem)->setData('order', $_item)->setPriceDataObject($orderItem);
+                                echo $orderOriginalPrice->displayTaxPercent($orderItem);
+                                //echo $orderItem->getTaxPercent() ? sprintf('%s%%', $orderItem->getTaxPercent() + 0) : '0%';
+                            ?>
+                        </div>
+                        <?php endif; ?>
+
+
+                        <?php if($productsData['discount_amount']) :?>
+                        <div class="discount_amount">
+                            [Discount Amount]:
+                            <?php
+                                $orderOriginalPrice = $objectManager->create('Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer')->setItem($orderItem)->setData('order', $_item)->setPriceDataObject($orderItem);
+                                echo $orderOriginalPrice->displayPriceAttribute('discount_amount');
+                                //echo $block->_dirCurrency->format($orderItem->getDiscountAmount(), array('display'=>$_item->getBaseCurrencyCode()), false);
+                            ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if($productsData['row_total']) :?>
+                        <div class="row_total">
+                            [Row Total]:
+                                <?php
+                                $orderItemPrice = $objectManager->create('Magento\Weee\Block\Adminhtml\Items\Price\Renderer')->setItem($orderItem);
+                                echo $orderItemPrice->displayPrices($orderItemPrice->getBaseTotalAmount($orderItem), $orderItemPrice->getTotalAmount($orderItem));
+                                /* echo displayRoundedPrices(
+                                $orderItem->getBaseRowTotal() + $orderItem->getBaseTaxAmount() + $orderItem->getBaseHiddenTaxAmount() + $orderItem->getBaseWeeeTaxAppliedRowAmount() - $orderItem->getBaseDiscountAmount(),
+                                $orderItem->getRowTotal() + $orderItem->getTaxAmount() + $orderItem->getHiddenTaxAmount() + $orderItem->getWeeeTaxAppliedRowAmount() - $orderItem->getDiscountAmount(),
+                                2,
+                                false,
+                                '&nbsp;&nbsp;',
+                                $_item
+                            );  */
+                            ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if($productsData['be_link']) :?>
+                        <div class="be_link">
+                            <a href="<?php echo $this->_backendHelper->getUrl('catalog/product/edit', array('id' => $orderItem->getProductId()));?>" target="_blank">Edit Product</a><br/>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if($productsData['fe_link']) :?>
+                        <div class="fe_link">
+                            <?php
+                                $product = $objectManager->create('Magento\Catalog\Model\Product')->load($orderItem->getProductId());
+                            ?>
+                            <a href="<?php echo $product->getProductUrl();?>" target="_blank">View Product</a><br/>
+                        </div>
+                        <?php endif; ?>
+
+                    </div>
+                    <?php endforeach;?>
+
+                </td>
+            </tr>
+
+            <?php endif; ?>
+
+            <?php endif; ?>
+
+            <?php // injection of products row - end ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <?php if ($_multipleRows = $block->getMultipleRows($_item)): ?>
+                        <?php foreach ($_multipleRows as $_i): ?>
+                            <tr>
+                                <?php $i = 0;
+                                foreach ($block->getMultipleRowColumns($_i) as $_column): ?>
+                                    <td class="<?php echo $_column->getCssProperty() ?>
+                                        <?php echo $_column->getId() == 'massaction' ? 'data-grid-checkbox-cell': ''?>">
+                                        <?php echo(($_html = $_column->getRowField($_i)) != '' ? $_html : '&nbsp;') ?>
+                                    </td>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                    <?php if ($block->shouldRenderSubTotal($_item)): ?>
+                        <tr class="subtotals">
+                            <?php $i = 0;
+                            foreach ($block->getSubTotalColumns() as $_column): ?>
+                                <td class="<?php echo $_column->getCssProperty() ?>
+                                           <?php echo $_column->getId() == 'massaction' ? 'data-grid-checkbox-cell': ''?>">
+                                    <?php echo($_column->hasSubtotalsLabel() ? $_column->getSubtotalsLabel() :
+                                        $_column->getRowField($block->getSubTotalItem($_item))
+                                    );
+                                    ?>
+                                </td>
+                            <?php endforeach; ?>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php elseif ($block->getEmptyText()): ?>
+                <tr class="data-grid-tr-no-data">
+                    <td class="<?php echo $block->getEmptyTextClass() ?>"
+                        colspan="<?php echo $numColumns ?>"><?php echo $block->getEmptyText() ?></td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+
+
+
+    </div>
+    <?php if ($block->canDisplayContainer()): ?>
+</div>
+<script>
+    var deps = ['Iksanika_Ordermanage/sales/ordermanage_grid'];
+
+    <?php if (strpos($block->getRowClickCallback(), 'order.') !== false): ?>
+    deps.push('Magento_Sales/order/create/form')
+    <?php endif; ?>
+
+    require(deps, function(){
+        <?php //TODO: getJsObjectName and getRowClickCallback has unexpected behavior. Should be removed ?>
+
+        //<![CDATA[
+
+    <?php echo $block->getJsObjectName() ?> = new varienGrid('<?php echo $block->getId() ?>', '<?php echo $block->getGridUrl() ?>', '<?php echo $block->getVarNamePage() ?>', '<?php echo $block->getVarNameSort() ?>', '<?php echo $block->getVarNameDir() ?>', '<?php echo $block->getVarNameFilter() ?>');
+    <?php echo $block->getJsObjectName() ?>.useAjax = '<?php echo $block->getUseAjax() ?>';
+    <?php if ($block->getRowClickCallback()): ?>
+    <?php echo $block->getJsObjectName() ?>.rowClickCallback = <?php echo $block->getRowClickCallback() ?>;
+    <?php endif; ?>
+    <?php if ($block->getCheckboxCheckCallback()): ?>
+    <?php echo $block->getJsObjectName() ?>.checkboxCheckCallback = <?php echo $block->getCheckboxCheckCallback() ?>;
+    <?php endif; ?>
+    <?php if ($block->getRowInitCallback()): ?>
+    <?php echo $block->getJsObjectName() ?>.initRowCallback = <?php echo $block->getRowInitCallback() ?>;
+    <?php echo $block->getJsObjectName() ?>.initGridRows();
+    <?php endif; ?>
+    <?php if ($block->getMassactionBlock() && $block->getMassactionBlock()->isAvailable()): ?>
+    <?php echo $block->getMassactionBlock()->getJavaScript() ?>
+    <?php endif ?>
+    <?php echo $block->getAdditionalJavaScript(); ?>
+    //]]>
+});
+</script>
+<?php endif; ?>
+
+<script>
+require([
+    'jquery'
+], function (jQuery) {
+        $j = jQuery;
+
+        $j('.tau-btn').click(function()
+        {
+            if($j('.tau-btn').hasClass('tau-checked'))
+            {
+                $j('.tau-btn').removeClass('tau-checked');
+                $j('.settigsArea').hide();
+            }else
+            {
+                $j('.tau-btn').addClass('tau-checked');
+                $j('.settigsArea').show();
+            }
+        });
+        $j('.trigger').click(function()
+        {
+
+            if($j('#'+$j(this).parent().parent().parent().attr('id')+'Products').css('display') == 'none')
+            {
+                $j(this).parent().parent().parent().addClass('orderExpanded');
+
+                $j(this).find('i').removeClass('icon-plus-sign');
+                $j(this).find('i').addClass('icon-minus-sign');
+                $j('#'+$j(this).parent().parent().parent().attr('id')+'Products').show();
+                console.debug($j(this).parent().parent().parent().attr('id')+' show');
+            }else
+            {
+                $j(this).parent().parent().parent().removeClass('orderExpanded');
+
+                $j(this).find('i').removeClass('icon-minus-sign');
+                $j(this).find('i').addClass('icon-plus-sign');
+                $j('#'+$j(this).parent().parent().parent().attr('id')+'Products').hide();
+                console.debug($j(this).parent().parent().parent().attr('id')+' hide');
+            }
+            return false;
+        });
+
+        $j('.triggerAll').click(function()
+        {
+            if($j(this).find('i').hasClass('icon-plus-sign'))
+            {
+                $j('.trigger').parent().parent().parent().addClass('orderExpanded');
+
+                $j('.trigger').find('i').removeClass('icon-plus-sign');
+                $j('.trigger').find('i').addClass('icon-minus-sign');
+                $j('.orderProducts').show();
+            }
+            if($j(this).find('i').hasClass('icon-minus-sign'))
+            {
+                $j('.trigger').parent().parent().parent().removeClass('orderExpanded');
+
+                $j('.trigger').find('i').removeClass('icon-minus-sign');
+                $j('.trigger').find('i').addClass('icon-plus-sign');
+                $j('.orderProducts').hide();
+            }
+            return false;
+        });
+
+});
+</script>
+
+<?php endif ?>

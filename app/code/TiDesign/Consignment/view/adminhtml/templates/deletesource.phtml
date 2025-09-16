@@ -1,0 +1,73 @@
+<?php
+set_time_limit(0);
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+
+$sources 	= $block->getSources();
+
+?>
+<form id="forms" autocomplete="off">
+	<input name="form_key" type="hidden" value="<?php echo $block->escapeHtml($block->getFormKey()) ?>" />
+				
+	<div id="source_select_option" class="source_type_selector option_type_selector field_flex ">
+		<select id="source" name="td_source" class="select2">
+			<option></option>
+			<?php
+				foreach($sources as $source){
+					echo "<option value='".$source["value"]."'";
+					echo ">".$source["label"]."</option>";
+				}
+			?>
+			
+		</select>	
+		<button id="delete" type="button" class="action_button">
+			<i class="fa fa-trash" aria-hidden="true"></i>
+			<span>Delete Source</span>
+		</button>
+	</div>
+</form>
+
+<script type="text/javascript">
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert', 
+	'Magento_Ui/js/modal/modal', 
+	'jquery/ui', 
+	'select2',
+	'loader'
+	], function ($, alert, modal) {
+	'use strict';
+
+	$(document).ready(function() {
+		
+		$('select.select2').select2({
+			placeholder: 'Select Source',
+			allowClear: false,
+			width: '250px'
+		});
+
+		$("button#delete").click(function(){
+			if($('#source').val() != ""){
+				alert({
+					content: $.mage.__('Are you sure you want to delete record?<br>Consignment <b class="txt-red">"' + $('#source  option:selected').text() + '"</b> will be deleted!!!'),
+					buttons: [{
+						text: $.mage.__('Cancel'),
+						class: 'action-secondary action-dismiss',
+						click: function (event) {
+							this.closeModal(event);
+						}
+					}, {
+						text: $.mage.__('Delete'),
+						class: 'action-primary action-accept',
+						click: function (event) {
+							$("#forms").attr("method","POST").attr('action','<?php echo $this->getUrl("consignment/deletesource/delete");?>').submit();
+						}
+					}]
+				});
+			
+			}
+		});
+		
+	});
+});
+</script>	

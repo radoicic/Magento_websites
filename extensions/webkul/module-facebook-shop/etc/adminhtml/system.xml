@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_FacebookShop
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="webkul" translate="label" sortOrder="10">
+            <label>Webkul</label>
+        </tab>
+        <section  id="facebookshop" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1" >
+            <label>Facebook Shop</label>
+            <!-- Assign section to tab -->
+            <tab>webkul</tab>
+            <resource>Webkul_FacebookShop::config_facebookshop</resource>
+            <!-- create group for fields in section -->
+            <group id="facebook_shop_configuration" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Facebook Shop Configurations</label>
+                <field id="allow_periodic_csv_generation" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Periodic CSV Generation</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="frequency" translate="label" sortOrder="2" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cron Frequency</label>
+                        <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                        <backend_model>Webkul\FacebookShop\Model\Config\Source\CronConfig</backend_model>
+                    <depends>
+                        <field id="allow_periodic_csv_generation">1</field>
+                    </depends>
+                </field>
+                <field id="time" translate="label" type="time" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="3">
+                    <label>Opening Time</label>
+                     <depends>
+                        <field id="allow_periodic_csv_generation">1</field>
+                    </depends>
+                </field>
+                 <field id="generate_manual_csv" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Generate Csv Manually</label>
+                    <frontend_model>Webkul\FacebookShop\Block\System\Config\Form\GenerateCsv</frontend_model>
+                </field>
+              
+            </group>
+            <group id="facebook_shop_product_configuration" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Products Configurations</label>
+                 <field id="sku_prefix" translate="label comment" sortOrder="0" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for Fb Products</label>
+                    <comment>For e.g youshopname_ (On facebook shop the products will appear with id xyz_1)</comment>
+                </field>
+                <field id="stock_products" translate="label comment" sortOrder="0" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Out of Stock products to appear on Facebook Shop</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="default_gpc" translate="label comment" sortOrder="0" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Google Product Category for products</label>
+                    <validate>required-entry</validate>
+                    <comment>For e.g "Apparel and Accessories" or numeric value like "166". For more details please visit
+                        below link
+                    </comment>
+                </field>
+                <field id="default_brand" translate="label comment" sortOrder="0" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Google Product brand for products</label>
+                    <validate>required-entry</validate>
+                    <comment>For e.g "Mark and Spencer".
+                    </comment>
+                </field>
+                <field id="sheet_link" translate="label comment" sortOrder="0" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Click here to see the google taxonomy sheet</label>
+                    <frontend_model>Webkul\FacebookShop\Block\Adminhtml\System\Config\Form\Field\Link</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

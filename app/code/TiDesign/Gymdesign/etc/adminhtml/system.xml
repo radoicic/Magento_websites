@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<section id="gymdesign" translate="label" type="text" sortOrder="900" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Gym Design</label>
+			<tab>tidesign</tab>
+			<resource>TiDesign_Gymdesign::configuration</resource>
+			<group id="gymdesign_setings" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Module Settings</label>
+				<field id="enable_frontend" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>																																		 
+				<field id="container_category_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Container Category Id</label>
+					 <validate>integer no-whitespace</validate>
+					 <comment>Category Id. No space, only numbers</comment>
+				</field>
+
+			</group>
+		</section>
+	</system>
+</config>

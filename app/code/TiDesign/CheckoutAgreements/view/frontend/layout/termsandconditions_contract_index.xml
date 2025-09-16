@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+	<head>
+		<title> Terms and Conditions</title>
+		<css src="TiDesign_CheckoutAgreements::css/css.css"/>
+	</head>
+    <body>
+        <referenceContainer name="content">
+            <block 
+				cacheable="false" 
+				class="TiDesign\CheckoutAgreements\Block\Frontend\Contract" 
+				name="tidesign_checkoutagreements_terms_form" 
+				template="TiDesign_CheckoutAgreements::terms_and_conditions_form.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

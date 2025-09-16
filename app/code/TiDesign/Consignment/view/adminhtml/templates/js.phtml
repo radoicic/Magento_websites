@@ -1,0 +1,61 @@
+<script type="text/javascript">
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert',
+	'Magento_Ui/js/modal/modal',
+	'uiRegistry',
+	'jquery/ui',
+	'select2',
+	'passwordRequirements',
+	'loader'
+	], function ($, alert, modal, registry) {
+	'use strict';
+	$(document).ready(function() {
+		function show_loader(){$("body").loader("show");}
+		function hide_loader(){$("body").loader("hide");}
+		var ajaxUrl = "<?php echo $this->getUrl('consignment/ajax');?>";
+
+		$("button#add").after('<button id="assignall" title="Assign All Products" type="button" class="action- scalable action- scalable delete assing_button"><span>Assign All Products</span></button>');
+
+		$('body').on('click', "button#assignall" , function(event){
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			event.stopPropagation();
+			show_loader();
+
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST',
+				dataType: 'json',
+				async: false,
+				data: {
+					assign:'all'
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					alert({content: result.message});
+
+
+					var grid = 'tidesign_consignmentlist_index.tidesign_consignment_grid_data_source';
+					if(grid) {
+						var params = [];
+						var target = registry.get(grid);
+						if (target && typeof target === 'object') {
+							target.set('params.t ', Date.now());
+						}
+					}
+					return false;
+
+
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+			return false;
+		});
+
+	});
+});
+</script>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Layout">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Depersonalize" sortOrder="1" />
+    </type>
+    <type name="Magento\Tax\Model\Config">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Tax" sortOrder="100" />
+    </type>
+    <type name="Magento\Framework\Pricing\Render\Amount">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Amount" sortOrder="100" />
+    </type>
+    <type name="Magento\Framework\App\PageCache\Identifier">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Framework\App\PageCache\Identifier" sortOrder="100" />
+    </type>
+    <type name="Magento\Framework\App\Http\Context">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Framework\App\Http\Context" />
+    </type>
+    <type name="Magento\Weee\Block\Item\Price\Renderer">
+    	<plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Weee" sortOrder="1" />
+    </type>
+    <type name="Magento\CatalogWidget\Block\Product\ProductsList">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\ProductsList" />
+    </type>
+    <type name="Amasty\ShopbyBrand\Block\Catalog\Product\ProductList\MoreFrom">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Amasty\MoreFrom" />
+    </type>
+    <type name="Hyva\Theme\ViewModel\ProductListItem">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\ProductListItem" />
+    </type>
+    <type name="Magento\Tax\Model\Calculation">
+        <plugin name="taxswitch" type="Anowave\TaxSwitch\Plugin\Calculation"/>
+    </type>
+</config>

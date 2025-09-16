@@ -1,0 +1,347 @@
+<?php
+set_time_limit(0);
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+
+$data 	= $block->getFormData();
+$subcat = $block->getCategories();
+?>
+<input type="hidden" name="td_id" value="<?php echo $data->getTdId()?>"/>
+
+<div class="page-main-actions">
+	<div class="page-actions-placeholder"></div>
+	<div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+		<div class="page-actions-inner" data-title="New Product">
+			<div class="page-actions-buttons">
+				<div title="Save" class="actions save primary">
+					<button id="save-button" title="Save" class="action-default primary" data-ui-id="save-button">
+						<span>Save</span>
+					</button>
+				</div>
+
+				<button id="back" title="Back" type="button" class="action- scalable back" onclick="javascript:location.href='<?php echo $block->escapeUrl($block->getUrl('consignment/consignmentlist/index', ['_current' => true, '_use_rewrite' => true]));?>'">
+					<span>Back</span>
+				</button>
+				<?php if($data->getTdId()): ?>
+				<button id="delete" title="Delete" type="button" class="action- scalable delete" >
+					<span>Delete</span>
+				</button>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="page:main-container" class="page-columns">
+	<div class="admin__old">
+		<div id="container" class="main-col">
+			<div>
+				<div data-role="spinner" class="admin__form-loading-mask">
+					<div class="spinner">
+						<span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+					</div>
+				</div>
+				
+				<form autocomplete="off">
+				
+				<fieldset class="admin__fieldset">
+				
+					<div class="admin__field">
+						<div class="admin__field-label">
+							<label for="td_status">
+								<span>Active</span>
+							</label>
+						</div>
+						<div class="admin__field-control" >
+							<div class="admin__actions-switch">
+								<input type="checkbox" class="admin__actions-switch-checkbox" id="td_status" name="td_status" value="1" >
+								<label class="admin__actions-switch-label"for="td_status">
+									<span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+					
+					<div id="name_container" class="admin__field _required" >
+						<div class="admin__field-label" >
+							<label for="td_name">
+								<span>Name</span>
+							</label>
+						</div>
+						<div class="admin__field-control ">
+							<input class="admin__control-text mr15 mw250" type="text" id="td_name" name="td_name" maxlength="255" value="<?php echo $data->getTdName();?>">
+							<button id="name_check" type="button" class="action_button"><span>Check</span></button>
+						</div>
+					</div>			
+
+					
+					<div id="category_container" class="admin__field _required" >
+						<div class="admin__field-label" >
+							<label for="td_category">
+								<span>Category</span>
+							</label>
+						</div>
+						<div class="admin__field-control">
+							<div>
+								<input name="category_type_selector" id="cat_select1" type="radio" value="category_add_option" checked>
+								<label for="cat_select1">Add new category</label>
+							</div>
+							<div>
+								<input name="category_type_selector" id="cat_select2" type="radio" value="category_new_option" <?php echo $data->getTdCategory()? "checked" : "";?>>
+								<label for="cat_select2">Select existing category</label>
+							</div>
+							<div id="category_add_option" class="category_type_selector <?php echo $data->getTdCategory()? "hide" : "";?>">
+								<input class="admin__control-text mr15 mw250" type="text" id="new_category" name="new_category" maxlength="255" value="">
+								<button id="category_add_new" type="button" class="action_button"><span>Add New</span></button>
+							</div>
+							<div id="category_new_option" class="category_type_selector <?php echo $data->getTdCategory()? "" : "hide";?> field_flex ">
+								<select name="td_category" class="select2">
+									<option></option>
+									<?php
+										foreach($subcat as $subcategory){
+											echo "<option value='".$subcategory->getId()."'";
+											echo ($subcategory->getId() == $data->getTdCategory())? " selected ":"";
+											echo ">".$subcategory->getName()."</option>";
+										}
+									?>
+									
+								</select>					
+							</div>
+						
+						
+
+							
+						</div>
+					</div>	
+					
+					
+					<button id="xigen-open-modal"
+							class="action-primary"
+							type="button"
+							title="<?= $block->escapeHtmlAttr(__('Trigger Modal')) ?>">
+						<?= $block->escapeHtml(__('Trigger Modal')) ?>
+					</button>
+
+					<div id="xigen-admin-modal">
+						Deneme 123
+					</div>
+					
+				</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+require([
+	'jquery',
+	'Magento_Ui/js/modal/alert', 
+	'Magento_Ui/js/modal/modal', 
+	'jquery/ui', 
+	'select2',
+	'loader'
+	], function ($, alert, modal) {
+	'use strict';
+
+	$(document).ready(function() {
+		function show_loader(){$("body").loader("show");}
+		function hide_loader(){$("body").loader("hide");}
+		
+		
+		<?php if($data->getTdStatus()==1):?>
+		$('#td_status').prop('checked', true);
+		<?php endif ?>
+		
+		
+		$('select.select2').select2({
+			placeholder: 'Select category',
+			allowClear: true,
+			width: '250px'
+		});
+		
+		setTimeout(function(){
+				$('select.select2').each(function(){
+				  $(this).trigger('change');
+				});	
+		}, 3000);		
+		
+		var ajaxUrl = "<?php echo $this->getUrl('consignment/ajax');?>"; 
+		
+		$(".admin__form-loading-mask").hide();
+/*	********************* popup *******************************/
+		var options = {
+			type: 'popup',
+			// responsive: true,
+			innerScroll: true,
+			title: false,
+			modalClass:'modal-pricepopup',
+			buttons: [{
+				text: $.mage.__('Close'),
+				class: '',
+				click: function () {
+					this.closeModal();
+				}
+			}]
+		};
+		var popup = modal(options, $('#xigen-admin-modal'));
+		$('#xigen-open-modal').on('click', function(){
+			$('#xigen-admin-modal').modal('openModal');
+		});
+/*	**********************************************************/
+
+/*	********************* name_check *******************************/
+		$("#name_check").click(function(){
+			show_loader();
+			$("#name_check_message").remove();
+			$("#name_container").removeClass("_error");
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					bak:'name',
+					name: $("#td_name").val(),
+					id: <?php echo $data->getTdId() ?? 0 ;?>
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					if(result.status != 1){
+						$("#name_container").addClass("_error");
+					}
+					$("#name_check").after(result.message);
+					$("#name_check_message").delay(5000).slideUp();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+		});
+/*	**********************************************************/		
+
+
+/*	********************* category_add_new *******************************/
+		$("#category_add_new").click(function(){
+			show_loader();
+			$("#category_check_message").remove();
+			$("#category_container").removeClass("_error");
+			$.ajax({
+				url: ajaxUrl,
+				type: 'POST', 
+				dataType: 'json',
+				async: false,
+				data: {
+					bak:'category',
+					category: $("#new_category").val(),
+				},
+				success: function(result){
+					hide_loader();
+					console.log(result);
+					if(result.status != 1){
+						$("#category_container").addClass("_error");
+					}else{
+						$("select.select2").append("<option value='"+result.cat_id+"' selected>"+$("#new_category").val()+"</option>");
+						$('select.select2').trigger('change'); 
+						$("#cat_select2").click();
+					}
+					$("#category_new_option").append(result.message);
+					$("#category_check_message").delay(5000).slideUp();
+				},
+				error: function (xhr, status, errorThrown) {
+					hide_loader();
+				}
+			});
+		});
+/*	**********************************************************/		
+
+/*	********************* delete *******************************/
+		$("button#delete").click(function(){
+			alert({
+				content: $.mage.__('Are you sure you want to delete record?'),
+				buttons: [{
+					text: $.mage.__('Cancel'),
+					class: 'action-secondary action-dismiss',
+					click: function (event) {
+						this.closeModal(event);
+					}
+				}, {
+					text: $.mage.__('OK'),
+					class: 'action-primary action-accept',
+					click: function (event) {
+						window.location.href="<?php echo $this->getUrl('*/*/delete',['_current' => true, '_use_rewrite' => true, 'id' => $data->getTdId()]);?>";
+					}
+				}]
+			});
+			
+		});	
+/*	**********************************************************/	
+
+
+		
+
+/*	********************* category depend *******************************/
+		$("input[name='category_type_selector']").on("change", function(){
+			$(".category_type_selector").hide(),
+			$("#"+$(this).val()).show();
+		})
+
+/*	**********************************************************/
+	});
+	
+	
+
+
+
+
+
+/*
+
+        requirejs(['jquery', 'underscore', 'weltpixel_searchautocomplete'],
+            function ($, _, searchAutoComplete) {
+                $(document).ready(function () {
+                    var isEnablePopularSuggestions = '0',
+                        isEnableCategorySearch = '1',
+                        isEnableAutoComplete = '1',
+                        previousSearch = '';
+                    window.minNumberOfCharacters = '3';
+                    window.baseURL = 'https://www.miba-deluxe.de/';
+                    $('html').on('click', function(event){
+                        var targetClass = $(event.target).attr('class'),
+                            searchClass = 'searchautocomplete';
+                        if(targetClass != searchClass)
+                            $('#' + searchClass).hide();
+                    })
+                    if (isEnableAutoComplete || isEnablePopularSuggestions || isEnableCategorySearch) {
+                        $('.search-autocomplete').remove();
+
+                        $('#search').on('keyup', _.debounce(function () {
+                            var value = $(this).val();
+                            if (value == previousSearch && $('#search_autocomplete').is(':visible')) {
+                                return;
+                            }
+                            previousSearch = value;
+                            if (isEnableAutoComplete && value.length >= window.minNumberOfCharacters) {
+                                //Start processing, show the Progress!
+                                $(".search .control").addClass("loader-ajax");
+                                searchAutoComplete.ajaxSearch();
+                            }else{
+                                $('#searchautocomplete').hide();
+                            }
+                        }, 750));
+                    }
+                });
+            });
+*/    
+
+
+
+
+
+
+
+
+	
+});
+</script>		

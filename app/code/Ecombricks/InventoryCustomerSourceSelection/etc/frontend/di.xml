@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ecombricks\InventoryCustomerSourceSelection\Model\Catalog\Product\Checkout\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="default" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\Catalog\Product\Checkout\DefaultConfigProvider</item>
+                <item name="tax" xsi:type="object">Ecombricks\InventoryCustomerSourceSelection\Model\Tax\Product\Checkout\TaxConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

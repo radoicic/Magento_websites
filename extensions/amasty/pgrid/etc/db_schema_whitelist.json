@@ -1,0 +1,11 @@
+{
+    "amasty_pgrid_qty_sold": {
+        "column": {
+            "product_id": true,
+            "qty_sold": true
+        },
+        "constraint": {
+            "AMASTY_PGRID_QTY_SOLD_PRODUCT_ID": true
+        }
+    }
+}

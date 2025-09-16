@@ -1,0 +1,7 @@
+<integrations>
+    <integration name="CityBeach">
+        <resources>
+            <resource name="Magento_Log::online" />
+        </resources>
+    </integration>
+</integrations>

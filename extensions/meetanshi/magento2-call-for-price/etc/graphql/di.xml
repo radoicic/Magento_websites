@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\StoreGraphQl\Model\Resolver\Store\StoreConfigDataProvider">
+        <arguments>
+            <argument name="extendedConfigData">
+                <item name="callforprice_general_active" xsi:type="string">callforprice/general/active</item>
+                <item name="callforprice_general_notification_type" xsi:type="string">callforprice/general/notification_type</item>
+                <item name="callforprice_general_enablefor" xsi:type="string">callforprice/general/enablefor</item>
+                <item name="callforprice_general_display_categories" xsi:type="string">callforprice/general/display_categories</item>
+                <item name="callforprice_general_typeas" xsi:type="string">callforprice/general/typeas</item>
+                <item name="callforprice_general_displayed_text" xsi:type="string">callforprice/general/displayed_text</item>
+                <item name="callforprice_general_displayed_text_label" xsi:type="string">callforprice/general/displayed_text_label</item>
+                <item name="callforprice_general_label_color" xsi:type="string">callforprice/general/label_color</item>
+                <item name="callforprice_general_allow_customer_group" xsi:type="string">callforprice/general/allow_customer_group</item>
+                <item name="callforprice_general_display_customer_group" xsi:type="string">callforprice/general/display_customer_group</item>
+                <item name="callforprice_general_header_text" xsi:type="string">callforprice/general/header_text</item>
+                <item name="callforprice_privacy_setting_privacy_enable" xsi:type="string">callforprice/privacy_setting/privacy_enable</item>
+                <item name="callforprice_privacy_setting_privacy_text" xsi:type="string">callforprice/privacy_setting/privacy_text</item>
+                <item name="callforprice_privacy_setting_show_privacy_policy" xsi:type="string">callforprice/privacy_setting/show_privacy_policy</item>
+                <item name="callforprice_recaptcha_setting_recaptcha_enable" xsi:type="string">callforprice/recaptcha_setting/recaptcha_enable</item>
+                <item name="callforprice_recaptcha_setting_sitekey" xsi:type="string">callforprice/recaptcha_setting/sitekey</item>
+                <item name="callforprice_recaptcha_setting_secret_key" xsi:type="string">callforprice/recaptcha_setting/secret_key</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

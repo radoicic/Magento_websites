@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+
+	
+		<add 
+			id="TiDesign_Domainmanager::domainmenu" 
+			title="Domain Manager" 
+			module="TiDesign_Domainmanager" 
+			sortOrder="10" 
+			resource="TiDesign_Domainmanager::domainmanager" 
+			parent="TiDesign_Core::tidesigncore"/>
+			
+			<add 
+				id="TiDesign_Domainmanager::domainlist" 
+				title="Domain List" 
+				module="TiDesign_Domainmanager" 
+				sortOrder="10" 
+				parent="TiDesign_Domainmanager::domainmenu" 
+				action="domainmanager/domainlist" 
+				resource="TiDesign_Domainmanager::domainmanager"/>
+				
+			<add 
+				id="TiDesign_Domainmanager::settings" 
+				title="Module Settings" 
+				module="TiDesign_Domainmanager" 
+				sortOrder="20" 
+				parent="TiDesign_Domainmanager::domainmenu" 
+				action="adminhtml/system_config/edit/section/domainmanager" 
+				resource="TiDesign_Domainmanager::domainmenu"/>
+
+	
+
+    </menu>
+</config>

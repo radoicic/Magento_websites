@@ -1,0 +1,29 @@
+{
+    "fundraiser_theme": {
+        "column": {
+            "id": true,
+            "theme_id": true,
+            "category_id": true,
+            "config_data": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FUNDRAISER_THEME_CATEGORY_ID_CATALOG_CATEGORY_ENTITY_ENTITY_ID": true
+        }
+    },
+    "fundraiser_theme_customer": {
+        "column": {
+            "id": true,
+            "theme_id": true,
+            "customer_id": true,
+            "category_id": true,
+            "status": true,
+            "config_data": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FUNDRAISER_THEME_CUSTOMER_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true,
+            "FUNDRAISER_THEME_CSTR_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID": true
+        }
+    }
+}

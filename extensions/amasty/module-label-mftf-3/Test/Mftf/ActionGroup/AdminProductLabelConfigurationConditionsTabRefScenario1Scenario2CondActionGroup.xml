@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminProductLabelConfigurationConditionsTabRefScenario1Scenario2CondActionGroup">
+        <conditionalClick selector="{{AdminProductLabelProfileSection.OptionsTab('Product Conditions')}}"
+                          dependentSelector="{{AdminNewCatalogPriceRuleConditions.newCondition}}"
+                          visible="false"
+                          stepKey="clickOnConditionsTab"/>
+        <click selector="{{AdminNewCatalogPriceRuleConditions.newCondition}}"
+               stepKey="addNewCondition"/>
+        <selectOption selector="{{AdminNewCatalogPriceRuleConditions.conditionSelect('1')}}"
+                      userInput="$createConfigProductAttribute.default_frontend_label$"
+                      stepKey="selectTypeCondition"/>
+        <click selector="{{AdminNewCatalogPriceRuleConditions.targetEllipsis('1')}}"
+               stepKey="clickEllipsis"/>
+        <selectOption selector="{{AdminNewCatalogPriceRuleConditions.targetEllipsisSelect('1','1')}}"
+                      userInput="$getConfigAttributeOption2.value$"
+                      stepKey="selectAttributeOption"/>
+        <click selector="{{AdminNewCatalogPriceRule.saveAndContinue}}" stepKey="clickSave3"/>
+        <magentoCLI command="indexer:reindex" stepKey="reindex3"/>
+        <magentoCLI command="cache:clean" stepKey="cleanCache3"/>
+    </actionGroup>
+
+</actionGroups>

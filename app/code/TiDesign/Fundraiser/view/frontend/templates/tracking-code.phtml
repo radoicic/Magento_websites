@@ -1,0 +1,52 @@
+<?php
+/**
+ * @var \TiDesign\Fundraiser\Block\TrackingCode $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+$trackingCodeParam = $block->getTrackingCodeParam();
+?>
+<?php /** Handle tracking code param by javascript to cover the FULL PAGE CACHE circumstance */ ?>
+<?php if ($trackingCodeParam) : ?>
+    <?php $cookieName = $escaper->escapeHtml($block->getTrackingCodeCookieName()); ?>
+    <?php $cookiePeriod = $block->getTrackingCodeCookiePeriod(); ?>
+    <script type="text/javascript">
+        (() => {
+            const cN = "<?= $cookieName ?>";
+            const u = new URL(window.location.href);
+            const tC = u.searchParams.get(cN);
+            if (tC) {
+                const d = new Date();
+                d.setTime(d.getTime() + <?= $cookiePeriod ?> * 86400000);
+                const cB = [[cN, tC], ["expires", d.toUTCString()], ["path", "/"]];
+                document.cookie = cB.map(i => i.join("=")).join("; ");
+            }
+
+            const hTCK = () => {
+                const c = document.cookie;
+                if (!c.length) {
+                    return null;
+                }
+                const k = cN + '=';
+                const cs = c.split(';');
+                const cL = cs.length;
+                let cI = 0;
+                while (cI < cL) {
+                    const i = cs[cI].charAt(0) === ' ' ? ' ' + k : k;
+                    if (cs[cI].startsWith(i) && cs[cI].length > i.length) {
+                        return true;
+                    }
+                    cI++;
+                }
+                return false;
+            }
+
+            if (hTCK()) {
+                const fE = document.createElement('div');
+                fE.style.display = 'none';
+                fE.classList.add('global-fundraiser-tracking-code-flag');
+                document.body.prepend(fE);
+            }
+        })();
+    </script>
+<?php endif; ?>

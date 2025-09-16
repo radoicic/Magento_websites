@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © eComBricks. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="ad1db5d4c4676d0aeb974880b511ab82" type="Ecombricks\InventoryNzboxer\Plugin\Model\Sales\Order" sortOrder="90"/>
+    </type>
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="swissup_save_delivery_date_in_quote" disabled="true"/>
+        <plugin name="62e3fa2063f05a5a77f802b64a194981" type="Ecombricks\InventoryNzboxer\Plugin\Model\Checkout\ShippingInformationManagement"/>
+    </type>
+    <type name="Swissup\Firecheckout\Model\ShippingAddressManagement">
+        <plugin name="9cce875816e292ac1400078494182819" type="Ecombricks\InventoryNzboxer\Plugin\Model\Firecheckout\ShippingAddressManagement"/>
+    </type>
+    <type name="Zip\ZipPayment\Helper\Payload">
+        <plugin name="9cce875816e292ac1400078494182819" type="Ecombricks\InventoryNzboxer\Plugin\Helper\ZipPayment\Payload"/>
+    </type>
+</config>

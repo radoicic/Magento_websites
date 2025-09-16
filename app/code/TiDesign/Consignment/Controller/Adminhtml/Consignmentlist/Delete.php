@@ -1,0 +1,104 @@
+<?php
+namespace TiDesign\Consignment\Controller\Adminhtml\Consignmentlist;
+
+class Delete extends \Magento\Backend\App\Action
+{
+
+    protected $categoryRepository;
+    protected $customerRepository;
+	protected $_resource;
+
+    public function __construct(
+		\Magento\Backend\App\Action\Context $context,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
+		\Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
+		\Magento\Framework\App\ResourceConnection $resource
+    ) {
+        $this->categoryRepository 	= $categoryRepository;
+        $this->customerRepository 	= $customerRepository;
+		$this->_resource 			= $resource;
+		parent::__construct($context);
+    }
+	
+	/**
+     * Delete action
+     *
+     * @return \Magento\Backend\Model\View\Result\Redirect
+     */
+    public function execute()
+    {
+		$resultRedirect = $this->resultRedirectFactory->create();
+//		print_r( $this->getRequest()->getParams());die();
+
+        $id = $this->getRequest()->getParam('id');
+
+		$postData = $this->getRequest()->getParams();
+		extract($postData);
+		if($dcut){
+			$this->removeCategorie($cat);
+		}
+		if($dcus){
+			$this->removeCustomer($cus);
+		}
+		if($dsou){
+			$this->removeSource($sou);
+		}
+
+
+        if ($id) {
+            $title = "";
+            try {
+                // init model and delete
+                $model = $this->_objectManager->create(\TiDesign\Consignment\Model\Consignmentlist::class);
+                $model->load($id);
+                $title = $model->getTitle();
+                $model->delete();
+                // display success message
+                $this->messageManager->addSuccess(__('The record has been deleted.'));
+                // go to grid
+                $this->_eventManager->dispatch(
+                    'adminhtml_consignment_on_delete',
+                    ['title' => $title, 'status' => 'success']
+                );
+                return $resultRedirect->setPath('*/*/');
+            } catch (\Exception $e) {
+                $this->_eventManager->dispatch(
+                    'adminhtml_consignment_on_delete',
+                    ['title' => $title, 'status' => 'fail']
+                );
+                // display error message
+                $this->messageManager->addError($e->getMessage());
+                // go back to edit form
+                return $resultRedirect->setPath('*/*/edit', ['id' => $id]);
+            }
+        }
+        // display error message
+        $this->messageManager->addError(__('We can\'t find a record to delete.'));
+        // go to grid
+        return $resultRedirect->setPath('*/*/');
+    }
+    /**
+     * Remove categories tree
+     *
+     * @return void
+     */
+    protected function removeCategorie($categoryId)
+    {
+        $category = $this->categoryRepository->get($categoryId);
+		$this->categoryRepository->delete($category);
+
+    }
+    protected function removeCustomer($customerId)
+    {
+        $this->customerRepository->deleteById($customerId);
+    }
+	protected function removeSource($sourceCode)
+	{
+		$connection = $this->_resource->getConnection();
+		$tableName 	= $connection->getTableName('inventory_source');
+		$whereConditions = [
+			$connection->quoteInto('source_code = ?', $sourceCode),
+		];
+		$deleteRows = $connection->delete($tableName, $whereConditions);		
+	}
+}

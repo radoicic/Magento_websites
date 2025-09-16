@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="amasty_pgrid_qty_sold" resource="default" engine="innodb" comment="Amasty Pgrid Qty Sold table">
+    <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Product Id"/>
+    <column xsi:type="smallint" name="qty_sold" padding="5" unsigned="true" nullable="false" identity="false" comment="Qty Sold"/>
+    <constraint xsi:type="unique" referenceId="AMASTY_PGRID_QTY_SOLD_PRODUCT_ID">
+      <column name="product_id"/>
+    </constraint>
+  </table>
+</schema>

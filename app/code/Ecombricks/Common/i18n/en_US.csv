@@ -1,0 +1,8 @@
+"Class argument is not found for %1 factory.","Class argument is not found for %1 factory."
+"Method %1 is not found for %2 class.","Method %1 is not found for %2 class."
+"Object is undefined for %1 wrapper.","Object is undefined for %1 wrapper."
+"Parent class %1 is not found.","Parent class %1 is not found."
+"Parent is undefined for %1 plugin.","Parent is undefined for %1 plugin."
+"Property %1 is not found for %2 class.","Property %1 is not found for %2 class."
+"Subject is undefined for %1 plugin.","Subject is undefined for %1 plugin."
+"Unique constraint violation found","Unique constraint violation found"

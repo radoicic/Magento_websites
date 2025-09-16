@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+
+		<add 
+			id="TiDesign_BundleProduct::tidesign_bundleproduct" 
+			title="Custom Bundle Display" 
+			module="TiDesign_BundleProduct" 
+			sortOrder="30" 
+			resource="TiDesign_BundleProduct::tidesign_bundleproduct" 
+			parent="TiDesign_Core::tidesigncore"/>
+						
+			<add 
+				id="TiDesign_BundleProduct::settings" 
+				title="Module Settings" 
+				module="TiDesign_BundleProduct" 
+				sortOrder="100" 
+				parent="TiDesign_BundleProduct::tidesign_bundleproduct" 
+				action="adminhtml/system_config/edit/section/custombundledisplay" 
+				resource="TiDesign_BundleProduct::tidesign_bundleproduct"/>
+				
+    </menu>
+</config>
